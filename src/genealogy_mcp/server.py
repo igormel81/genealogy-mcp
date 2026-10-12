@@ -8,7 +8,7 @@ from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
-from . import __version__, audit, calendars, dates, dna, evidence, guides, kinship, letters, names, numerals, places, plan, soundex, sources
+from . import __version__, audit, calendars, dates, dna, evidence, guides, kinship, letters, names, numerals, online, places, plan, soundex, sources
 from . import project as proj
 
 INSTRUCTIONS = """You help people research their family history. Work like a careful genealogist:
@@ -139,6 +139,36 @@ def where_are_records(
            "Find the fond number in the archive's guide (guides.rusarchives.ru, archives.gov.ua, archives.gov.by) or in the "
            "FamilySearch catalogue by place: parish registers are in the consistory's fond, revision lists in the treasury chamber's.")
     return {"matches": out, "tip": tip}
+
+
+NET = ToolAnnotations(readOnlyHint=True, openWorldHint=True)
+
+
+@server.tool(annotations=NET)
+def search_online(
+    source: Annotated[Literal["internet_archive", "chronicling_america", "wikitree", "open_archives", "open_list"],
+                      Field(description="; ".join(f"{k}: {v[1]}" for k, v in online.SOURCES.items()))],
+    surname: str = "",
+    given: str = "",
+    year_from: int | None = None,
+    year_to: int | None = None,
+    place: str = "",
+    query: Annotated[str, Field(description="Free text instead of the name fields (e.g. a phrase for the full-text search)")] = "",
+) -> dict[str, Any]:
+    """Search an open database live and get the matching records back (title, date, place, link, snippet).
+    Sends the query to that one site only. Run it for each name form from name_variants; for FamilySearch, Geneteka,
+    Find a Grave and other sites without an open API use search_links."""
+    return online.search(source, surname=surname, given=given, year_from=year_from, year_to=year_to, place=place, query=query)
+
+
+@server.tool(annotations=NET)
+def place_history(name: Annotated[str, Field(description="A village, town or district, as precise as possible: «Сынково Тульская область»")], lang: Lang = "ru") -> dict[str, Any]:
+    """Look a place up in Wikidata: what administrative units it was part of (with years where known), coordinates and the
+    Wikipedia article — a first step to the uezd, province and parish of a village. Sends the name to Wikidata."""
+    try:
+        return online.place_history(name, lang)
+    except Exception as e:   # noqa: BLE001 — network or format problems become a message for the assistant
+        return {"error": f"Wikidata did not answer: {e}"}
 
 
 @server.tool(annotations=RO)

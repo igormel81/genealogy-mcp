@@ -1,0 +1,197 @@
+"""Live search in open databases that offer a public API. Called only when the assistant uses search_online or
+place_history: then the query (names, years, place) goes to that one site and nowhere else.
+
+FamilySearch, MyHeritage, Ancestry, Geneteka, Find a Grave and JewishGen have no open API for this (or forbid automated
+access): for them the server builds links (search_links) and the user searches in the browser.
+"""
+import json
+import re
+import urllib.error
+import urllib.parse
+import urllib.request
+
+from . import __version__
+
+UA = f"genealogy-mcp/{__version__} (+https://github.com/igormel81/genealogy-mcp)"
+TIMEOUT = 25
+
+
+def _get(url, params=None, data=None):
+    if params:
+        url += ("&" if "?" in url else "?") + urllib.parse.urlencode({k: v for k, v in params.items() if v not in (None, "")}, doseq=True)
+    body = urllib.parse.urlencode(data).encode() if data else None
+    req = urllib.request.Request(url, data=body, headers={"User-Agent": UA, "Accept": "application/json"})
+    with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+        return json.loads(r.read().decode("utf-8", errors="replace"))
+
+
+def _q(*parts):
+    return " ".join(str(p) for p in parts if p)
+
+
+# ---------------------------------------------------------------- sources
+
+def internet_archive(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15):
+    """Full text of digitised books (memorial books, directories, regimental histories, newspapers)."""
+    q = query or _q(f'"{_q(given, surname)}"' if surname else "", place)
+    hits = []
+    try:   # full-text search service
+        d = _get("https://archive.org/services/search/beta/page_production/", {
+            "user_query": q, "service_backend": "fts", "hits_per_page": limit, "page_type": "collection_details",
+            "page_target": "", "aggregations": "false"})
+        for h in (((d.get("response") or {}).get("body") or {}).get("hits") or {}).get("hits", []):
+            f = h.get("fields") or {}
+            ident = f.get("identifier")
+            snippet = " … ".join(((h.get("highlight") or {}).get("text") or [])[:2])
+            hits.append({"title": f.get("title"), "date": f.get("date") or f.get("year"), "url": f"https://archive.org/details/{ident}",
+                         "snippet": re.sub(r"</?mark>", "**", snippet)[:400]})
+    except (urllib.error.URLError, ValueError, TimeoutError, OSError):
+        pass
+    if not hits:   # metadata search as a fallback
+        d = _get("https://archive.org/advancedsearch.php", {"q": q, "fl[]": ["identifier", "title", "date"], "rows": limit, "output": "json"})
+        for doc in d.get("response", {}).get("docs", []):
+            hits.append({"title": doc.get("title"), "date": doc.get("date"), "url": f"https://archive.org/details/{doc['identifier']}"})
+    return hits
+
+
+def chronicling_america(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15):
+    """US newspapers 1756–1963 (Library of Congress): obituaries, arrivals, naturalisations, local news."""
+    q = query or _q(given, surname, place)
+    params = {"q": q, "fo": "json", "c": limit}
+    if year_from or year_to:
+        params["dates"] = f"{year_from or 1756}/{year_to or 1963}"
+    d = _get("https://www.loc.gov/collections/chronicling-america/", params)
+    out = []
+    for r in d.get("results", [])[:limit]:
+        out.append({"title": r.get("title"), "date": r.get("date"), "place": ", ".join(r.get("location_state") or r.get("location") or [])[:120],
+                    "url": r.get("url") or r.get("id"), "snippet": " ".join(r.get("description") or [])[:300]})
+    return out
+
+
+def wikitree(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15):
+    """The WikiTree single collaborative tree (free; profiles cite their sources)."""
+    if not surname:
+        raise ValueError("WikiTree search needs a surname")
+    data = {"action": "searchPerson", "LastName": surname, "FirstName": given, "BirthLocation": place, "limit": limit,
+            "fields": "Name,FirstName,LastNameAtBirth,LastNameCurrent,BirthDate,DeathDate,BirthLocation,DeathLocation"}
+    if year_from or year_to:
+        data["BirthDate"] = str(year_from or year_to)
+        data["dateInclude"] = "both"
+    d = _get("https://api.wikitree.com/api.php", data=data)
+    matches = (d[0] if isinstance(d, list) and d else d).get("matches", [])
+    out = []
+    for m in matches[:limit]:
+        out.append({"title": _q(m.get("FirstName"), m.get("LastNameAtBirth"), f"({m.get('LastNameCurrent')})" if m.get("LastNameCurrent") not in (None, m.get("LastNameAtBirth")) else ""),
+                    "date": f"{m.get('BirthDate', '')} – {m.get('DeathDate', '')}", "place": m.get("BirthLocation"),
+                    "url": f"https://www.wikitree.com/wiki/{m.get('Name')}"})
+    return out
+
+
+def open_archives(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15):
+    """Open Archives (openarchieven.nl): civil and church records from Dutch and Belgian archives, some German and others."""
+    name = query or _q(given, surname)
+    params = {"name": name, "lang": "en", "number_show": limit, "eventplace": place}
+    if year_from or year_to:
+        params["period"] = f"{year_from or 1500}-{year_to or 2000}"
+    d = _get("https://api.openarch.nl/1.1/records/search.json", params)
+    out = []
+    for r in (d.get("response") or {}).get("docs", [])[:limit]:
+        ed = r.get("eventdate") or {}
+        date = "-".join(str(ed.get(k)) for k in ("year", "month", "day") if ed.get(k))
+        out.append({"title": f"{r.get('personname')} — {r.get('relationtype', '')}, {r.get('eventtype', '')}",
+                    "date": date, "place": r.get("eventplace") if isinstance(r.get("eventplace"), str) else ", ".join(r.get("eventplace") or []),
+                    "archive": r.get("archive"), "url": r.get("url")})
+    return out
+
+
+def open_list(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15):
+    """Open List (ru.openlist.wiki): victims of Soviet political repression."""
+    q = query or _q(surname, given)
+    d = _get("https://ru.openlist.wiki/api.php", {"action": "query", "list": "search", "srsearch": q, "srlimit": limit,
+                                                 "format": "json", "srprop": "snippet"})
+    out = []
+    for r in (d.get("query") or {}).get("search", [])[:limit]:
+        title = r.get("title", "")
+        out.append({"title": title, "url": "https://ru.openlist.wiki/" + urllib.parse.quote(title.replace(" ", "_")),
+                    "snippet": re.sub(r"<[^>]+>", "", r.get("snippet", ""))[:300]})
+    return out
+
+
+SOURCES = {
+    "internet_archive": (internet_archive, "Internet Archive — full text of digitised books, worldwide"),
+    "chronicling_america": (chronicling_america, "Chronicling America — US newspapers 1756–1963"),
+    "wikitree": (wikitree, "WikiTree — collaborative world tree"),
+    "open_archives": (open_archives, "Open Archives — Dutch, Belgian and other civil and church records"),
+    "open_list": (open_list, "Открытый список — жертвы политических репрессий в СССР"),
+}
+
+
+def search(source, **kw):
+    fn = SOURCES[source][0]
+    try:
+        hits = fn(**kw)
+        return {"source": source, "count": len(hits), "results": hits,
+                "note": "Index entries and snippets point to a record: open it and cite the original."}
+    except urllib.error.HTTPError as e:
+        return {"source": source, "error": f"the site answered {e.code}"}
+    except (urllib.error.URLError, TimeoutError, OSError) as e:
+        return {"source": source, "error": f"the site did not answer: {getattr(e, 'reason', e)}"}
+    except (ValueError, KeyError, IndexError, AttributeError) as e:
+        return {"source": source, "error": f"unexpected answer: {e}"}
+
+
+# ---------------------------------------------------------------- places (Wikidata)
+
+def _wd_entities(ids, lang):
+    d = _get("https://www.wikidata.org/w/api.php", {"action": "wbgetentities", "ids": "|".join(ids), "format": "json",
+                                                    "props": "labels|claims|descriptions|sitelinks", "languages": f"{lang}|en|ru"})
+    return d.get("entities", {})
+
+
+def _label(e, lang):
+    labels = e.get("labels", {})
+    for l_ in (lang, "ru", "en"):
+        if l_ in labels:
+            return labels[l_]["value"]
+    return e.get("id")
+
+
+def _time(q):
+    v = (((q or [{}])[0].get("datavalue") or {}).get("value") or {}).get("time", "")
+    m = re.match(r"[+-](\d{4})", v)
+    return int(m[1]) if m else None
+
+
+def place_history(name, lang="ru", limit=5):
+    """What a settlement belonged to over time (Wikidata P131 with start and end dates), its coordinates and
+    Wikipedia article — to find the uezd, province and parish of a village."""
+    found = _get("https://www.wikidata.org/w/api.php", {"action": "wbsearchentities", "search": name, "language": lang,
+                                                        "uselang": lang, "type": "item", "limit": limit, "format": "json"})
+    ids = [x["id"] for x in found.get("search", [])]
+    if not ids:
+        return {"query": name, "places": []}
+    ents = _wd_entities(ids, lang)
+    parents = set()
+    for e in ents.values():
+        for c in e.get("claims", {}).get("P131", []):
+            v = ((c.get("mainsnak") or {}).get("datavalue") or {}).get("value") or {}
+            if v.get("id"):
+                parents.add(v["id"])
+    plabels = {k: _label(v, lang) for k, v in _wd_entities(sorted(parents)[:50], lang).items()} if parents else {}
+    out = []
+    for qid in ids:
+        e = ents.get(qid, {})
+        within = []
+        for c in e.get("claims", {}).get("P131", []):
+            v = ((c.get("mainsnak") or {}).get("datavalue") or {}).get("value") or {}
+            quals = c.get("qualifiers", {})
+            within.append({"unit": plabels.get(v.get("id"), v.get("id")), "from": _time(quals.get("P580")), "to": _time(quals.get("P582"))})
+        coord = (((e.get("claims", {}).get("P625") or [{}])[0].get("mainsnak") or {}).get("datavalue") or {}).get("value") or {}
+        wiki = (e.get("sitelinks") or {}).get(f"{lang}wiki") or (e.get("sitelinks") or {}).get("ruwiki") or (e.get("sitelinks") or {}).get("enwiki")
+        out.append({"wikidata": f"https://www.wikidata.org/wiki/{qid}", "name": _label(e, lang),
+                    "description": ((e.get("descriptions") or {}).get(lang) or (e.get("descriptions") or {}).get("en") or {}).get("value"),
+                    "located_in": within, "coordinates": [coord.get("latitude"), coord.get("longitude")] if coord else None,
+                    "wikipedia": f"https://{wiki['site'].replace('wiki', '')}.wikipedia.org/wiki/{urllib.parse.quote(wiki['title'].replace(' ', '_'))}" if wiki else None})
+    return {"query": name, "places": out,
+            "tip": "Wikidata often lists only today's district; for 1700–1917 check the Wikipedia article and «Списки населённых мест». "
+                   "Then where_are_records with the province."}
