@@ -439,8 +439,8 @@ add("archivo_nacional_cl", "National Archive of Chile", "https://www.archivonaci
 add("verlustlisten", "Casualty lists of WWI (Verlustlisten 1. Weltkrieg)", "https://des.genealogy.net", "DE AT PL", (1914, 1919), "military", "free",
     "Indexed Prussian, Bavarian, Saxon and Württemberg casualty lists of the First World War, about 8.5 million entries.",
     "Указатель прусских, баварских, саксонских и вюртембергских списков потерь Первой мировой, около 8,5 млн записей.",
-    "Search by surname and place of birth: an entry gives the regiment, place of origin and fate (killed, wounded, captured).",
-    "Ищите по фамилии и месту рождения: запись даёт полк, место происхождения и судьбу (убит, ранен, в плену).")
+    "Search by surname and place of birth: entries give origin and fate (killed, wounded, captured). Unit details were omitted from late 1916 until late 1918, so not every entry identifies a regiment.",
+    "Ищите по фамилии и месту рождения: в записи — происхождение и судьба (убит, ранен, в плену). С конца 1916 до конца 1918 г. часть не указывали: не каждая запись даёт полк.")
 add("gedbas", "GEDBAS (genealogy.net)", "https://gedbas.genealogy.net", "DE PL AT CH", (1500, 1950), "trees", "free",
     "Family trees uploaded by German genealogists, searchable by name and place.",
     "Родословные, загруженные немецкими генеалогами, поиск по имени и месту.",
@@ -451,46 +451,46 @@ add("online_ofb", "Online local family books (Online-OFB)", "https://www.online-
     "Ortsfamilienbücher: все семьи прихода, восстановленные по его книгам, по населённым пунктам.",
     "If your village has an OFB, it often goes back to the 1600s; cite the parish register it names, not the book.",
     "Если для вашей деревни есть OFB, он часто уходит в XVII век; ссылайтесь на названную в нём метрику, а не на книгу.")
-add("ddb", "German Digital Library (Deutsche Digitale Bibliothek)", "https://www.deutsche-digitale-bibliothek.de", "DE", (1500, 2000), "books newspapers directories catalogs", "free",
+add("ddb", "German Digital Library (Deutsche Digitale Bibliothek)", "https://www.deutsche-digitale-bibliothek.de", "DE", (1490, 2000), "books newspapers directories catalogs", "free",
     "One search over German libraries, archives and museums: address books, newspapers, archive finding aids.",
     "Единый поиск по библиотекам, архивам и музеям Германии: адресные книги, газеты, описи архивов.",
     "Use the newspaper portal (Deutsches Zeitungsportal) for notices, and finding aids to locate files in state archives.",
     "Газетный портал (Deutsches Zeitungsportal) — для объявлений; описи — чтобы найти дела в земельных архивах.",
     "https://www.deutsche-digitale-bibliothek.de/searchresults?query={q}")
-add("bundesarchiv", "Federal Archives of Germany (Bundesarchiv)", "https://www.bundesarchiv.de", "DE", (1867, 1990), "military catalogs", "request",
+add("bundesarchiv", "Federal Archives of Germany (Bundesarchiv)", "https://www.bundesarchiv.de", "DE", (1495, 1990), "military catalogs", "request",
     "German federal records: Wehrmacht personnel (former WASt / Deutsche Dienststelle), GDR records, the 1939 minority census.",
     "Федеральный архив Германии: личные дела вермахта (бывшая WASt), документы ГДР, перепись меньшинств 1939 г.",
-    "Wehrmacht soldiers and Soviet POWs registered by Germany: request from the department PA (formerly WASt) in Berlin.",
-    "Солдаты вермахта и советские военнопленные в немецком учёте: запрос в отдел PA (бывшая WASt) в Берлине.")
-add("bbld", "Baltic Biographical Lexicon (BBLD)", "https://bbld.de", "EE LV LT", (1500, 1950), "nobility clergy directories", "free",
+    "Wehrmacht soldiers and Soviet POWs registered by Germany: request from the department Deutsches Reich in Berlin-Tegel (responsible since September 2025; former PA/WASt holdings).",
+    "Солдаты вермахта и советские военнопленные в немецком учёте: запрос в отдел Deutsches Reich в Берлине-Тегеле (с сентября 2025 г.; документы бывшего отдела PA/WASt).")
+add("bbld", "Baltic Biographical Lexicon (BBLD)", "https://bbld.de", "EE LV LT", (1500, 2025), "nobility clergy directories", "free",
     "Biographies of Baltic Germans: nobility, clergy, scholars, officials of Estland, Livland and Courland.",
     "Биографии прибалтийских немцев: дворяне, пасторы, учёные, чиновники Эстляндии, Лифляндии и Курляндии.",
     "Each entry cites its sources — follow them to church books and university registers.",
     "Каждая статья ссылается на источники — по ним выходите на церковные книги и университетские матрикулы.")
-add("odessa3", "Odessa3 — Black Sea Germans", "https://www.odessa3.org", "UA MD RU", (1800, 1940), "church census emigration", "free",
+add("odessa3", "Odessa3 — Black Sea Germans", "https://www.odessa3.org", "UA MD RU", (1795, 1940), "church census emigration", "free",
     "Transcribed records of German colonists in the Black Sea region and Bessarabia: church books, censuses, emigration lists.",
     "Расшифровки документов немецких колонистов Причерноморья и Бессарабии: церковные книги, переписи, списки эмигрантов.",
     "Browse by colony; many transcriptions come from the St Petersburg Lutheran consistory duplicates.",
     "Смотрите по колонии; многое расшифровано из дубликатов Санкт-Петербургской лютеранской консистории.")
 # ---------- Jewish genealogy
-add("jri_poland", "JRI-Poland (Jewish Records Indexing)", "https://www.jri-poland.org", "PL UA BY LT", (1808, 1918), "church vital", "free",
+add("jri_poland", "JRI-Poland (Jewish Records Indexing)", "https://www.jri-poland.org", "PL UA BY LT", (1808, 1940), "church vital", "free_account",
     "Index of Jewish births, marriages and deaths from Polish archives — over 6 million records.",
     "Указатель еврейских рождений, браков и смертей из польских архивов — более 6 млн записей.",
-    "Search with Daitch–Mokotoff 'sounds like'; the index gives the archive, year and act number to order the scan.",
-    "Ищите с фонетикой Daitch–Mokotoff; указатель даёт архив, год и номер акта, чтобы заказать скан.")
-add("gesher_galicia", "Gesher Galicia", "https://www.geshergalicia.org", "PL UA", (1772, 1939), "vital census maps", "free",
+    "Search uses Beider–Morse phonetic matching; sign in to a free researcher account to see full results; the index gives the archive, year and act number to order the scan.",
+    "Поиск использует фонетику Beider–Morse; для полных результатов нужен бесплатный аккаунт; указатель даёт архив, год и номер акта, чтобы заказать скан.")
+add("gesher_galicia", "Gesher Galicia", "https://www.geshergalicia.org", "PL UA", (1772, 1941), "vital census maps", "mixed",
     "Jewish and general records of Galicia: vital records indexes, cadastral maps, school and tax lists.",
     "Документы Галиции, еврейские и общие: указатели метрик, кадастровые карты, школьные и налоговые списки.",
-    "The All Galicia Database searches all indexed sets at once; the cadastral maps show house numbers from the records.",
-    "All Galicia Database ищет по всем указателям сразу; кадастровые карты показывают номера домов из записей.")
+    "The All Galicia Database is free; some other content requires membership. Vital-record projects include 1940–1941. Cadastral maps show house numbers.",
+    "All Galicia Database бесплатна; часть других материалов доступна членам общества. Есть проект метрик 1940–1941 гг. На кадастровых картах — номера домов.")
 add("litvaksig", "LitvakSIG", "https://www.litvaksig.org", "LT BY LV", (1795, 1940), "revision census vital", "mixed",
     "Lithuanian Jewish records: revision lists, family lists, box tax, vital records, internal passports.",
     "Еврейские документы Литвы: ревизские сказки, посемейные списки, коробочный сбор, метрики, паспорта.",
     "Indexes appear on JewishGen; the newest translations are for donors first, then free.",
     "Указатели выходят на JewishGen; новейшие переводы сначала для жертвователей, потом бесплатно.")
-add("stevemorse", "Steve Morse One-Step tools", "https://stevemorse.org", "US * RU PL", (1820, 1960), "emigration census vital", "free",
-    "Better search forms for Ellis Island, Castle Garden, US censuses, plus calendar and alphabet converters.",
-    "Удобные формы поиска по Эллис-Айленду, Касл-Гардену, переписям США, конвертеры календарей и алфавитов.",
+add("stevemorse", "Steve Morse One-Step tools", "https://stevemorse.org", "US * RU PL", (1790, 1963), "emigration census vital", "free",
+    "Search forms for Ellis Island, Castle Garden, US censuses (1790–1950) and other ports (Philadelphia manifests 1800–1963), plus calendar and alphabet converters. The forms are free; linked databases may require a paid subscription.",
+    "Формы поиска по Эллис-Айленду, Касл-Гардену, переписям США (1790–1950), другим портам (Филадельфия 1800–1963), конвертеры календарей и алфавитов. Формы бесплатны; внешние базы могут требовать платную подписку.",
     "Use 'sounds like' (Daitch–Mokotoff) and search by town or ship when the name is mangled.",
     "Используйте «звучит как» (Daitch–Mokotoff) и ищите по городу или судну, если имя искажено.")
 # ---------- British Isles
@@ -500,8 +500,8 @@ add("freecen", "FreeCEN", "https://www.freecen.org.uk", "GB", (1841, 1911), "cen
     "Check the coverage page first; fill gaps with FamilySearch indexes.",
     "Сначала проверьте страницу охвата; пробелы закрывайте указателями FamilySearch.")
 add("freereg", "FreeREG", "https://www.freereg.org.uk", "GB", (1538, 1900), "church", "free",
-    "Volunteer transcriptions of English and Welsh parish registers: baptisms, marriages, burials.",
-    "Расшифровки приходских книг Англии и Уэльса: крещения, браки, погребения.",
+    "Volunteer transcriptions of English, Welsh and Scottish parish registers: baptisms, marriages, burials.",
+    "Расшифровки приходских книг Англии, Уэльса и Шотландии: крещения, браки, погребения.",
     "Before 1837 parish registers are the main source in England; check the original in the county record office.",
     "До 1837 г. церковные книги — главный источник в Англии; подлинник смотрите в архиве графства.")
 add("tna_discovery", "The National Archives (UK) — Discovery", "https://discovery.nationalarchives.gov.uk", "GB IE", (1086, 2000), "military catalogs emigration", "mixed",
@@ -513,8 +513,8 @@ add("tna_discovery", "The National Archives (UK) — Discovery", "https://discov
 add("gro", "General Register Office (England and Wales)", "https://www.gro.gov.uk", "GB", (1837, 2025), "vital", "free_account",
     "Indexes of births (with mother's maiden name) and deaths (with age) from 1837; certificates and cheap PDF copies.",
     "Указатели рождений (с девичьей фамилией матери) и смертей (с возрастом) с 1837 г.; свидетельства и недорогие PDF-копии.",
-    "The GRO birth index gives the mother's maiden name for every year — a key to the parents.",
-    "Указатель рождений GRO даёт девичью фамилию матери за все годы — ключ к родителям.")
+    "Online indexes have gaps: births 1837–1934 and from 1984; deaths 1837–1957 and from 1984 (recent indexes end two years ago). Use FreeBMD or other indexes for gaps; certificate/PDF/image orders cost money.",
+    "В онлайн-указателях есть пробелы: рождения 1837–1934 и с 1984 г., смерти 1837–1957 и с 1984 г. (новые данные — до двух лет назад). Пробелы ищите в FreeBMD и других указателях; свидетельства, PDF и снимки платные.")
 add("welsh_newspapers", "Welsh Newspapers (National Library of Wales)", "https://newspapers.library.wales", "GB", (1804, 1919), "newspapers", "free",
     "Over a million pages of Welsh newspapers with full-text search.",
     "Более миллиона страниц валлийских газет с полнотекстовым поиском.",
@@ -532,31 +532,31 @@ add("banq", "BAnQ — National Library and Archives of Quebec", "https://www.ban
     "Церковные книги Квебека (гражданские копии), нотариальные акты, газеты и судебные архивы.",
     "Quebec Catholic registers are among the most complete in the world; marriages name both sets of parents.",
     "Католические книги Квебека — одни из самых полных в мире; записи о браке называют родителей обоих супругов.")
-add("pier21", "Canadian Museum of Immigration at Pier 21", "https://pier21.ca", "CA", (1865, 1971), "emigration", "free",
+add("pier21", "Canadian Museum of Immigration at Pier 21", "https://pier21.ca", "CA", (1865, 1971), "emigration", "mixed",
     "Help with ship arrivals to Halifax and other Canadian ports; research guides and family-history service.",
     "Помощь по прибытию судов в Галифакс и другие порты Канады; руководства и служба семейной истории.",
-    "Arrivals before 1935 are in LAC passenger lists; after 1935 ask the museum or IRCC.",
-    "Прибытия до 1935 г. — в списках LAC; после 1935 г. — запрос в музей или в IRCC.")
-add("trove", "Trove (National Library of Australia)", "https://trove.nla.gov.au", "AU", (1803, 1955), "newspapers books directories", "free",
+    "Canadian arrival records for 1865–1935 are at LAC. The museum cannot access Canadian immigration records after 1935: request IRCC. Some later overseas departure lists are available. Research requests and record copies may incur fees.",
+    "Канадские списки прибытия 1865–1935 гг. — в LAC. Музей не имеет доступа к канадским иммиграционным делам после 1935 г.: обращайтесь в IRCC. Есть отдельные поздние зарубежные списки отправления. За запросы и копии возможна плата.")
+add("trove", "Trove (National Library of Australia)", "https://trove.nla.gov.au", "AU", (1803, 1995), "newspapers books directories", "free",
     "Millions of pages of Australian newspapers with full-text search, gazettes, books and directories.",
     "Миллионы страниц австралийских газет с полнотекстовым поиском, ведомости, книги, справочники.",
-    "Search with the name in quotes and narrow by state and decade; correct the OCR text you read — it helps others.",
-    "Ищите имя в кавычках, сужайте по штату и десятилетию; исправляйте распознанный текст — это помогает другим.",
+    "Most digitised newspapers end in 1954; exceptions include The Canberra Times through 1995. Search in quotes by state and decade; correct OCR text to help others.",
+    "Большинство оцифрованных газет заканчивается 1954 г.; исключение — The Canberra Times до 1995 г. Ищите в кавычках по штату и десятилетию; исправляйте OCR.",
     "https://trove.nla.gov.au/search/category/newspapers?keyword={q}")
-add("naa", "National Archives of Australia", "https://www.naa.gov.au", "AU", (1901, 2000), "military emigration census", "free",
-    "WWI and WWII service records (WWI digitised in full), immigration and naturalisation files, alien registration.",
-    "Послужные дела Первой и Второй мировых (Первая — оцифрована полностью), иммиграция, натурализация, учёт иностранцев.",
+add("naa", "National Archives of Australia", "https://www.naa.gov.au", "AU", (1860, 2000), "military emigration", "free",
+    "WWI and WWII service records (WWI digitised in full), immigration and naturalisation files, alien registration. Identifiable census forms before 2001 were destroyed after statistical processing.",
+    "Послужные дела Первой и Второй мировых (Первая — оцифрована полностью), иммиграция, натурализация, учёт иностранцев. Именные переписные листы до 2001 г. уничтожались после статистической обработки.",
     "Many Russian-Empire migrants came via Harbin and Shanghai: search alien registration and naturalisation files.",
     "Многие выходцы из Российской империи приезжали через Харбин и Шанхай: ищите учёт иностранцев и натурализацию.")
-add("paperspast", "Papers Past (New Zealand)", "https://paperspast.natlib.govt.nz", "NZ", (1839, 1989), "newspapers", "free",
+add("paperspast", "Papers Past (New Zealand)", "https://paperspast.natlib.govt.nz", "NZ", (1839, 2010), "newspapers", "free",
     "New Zealand newspapers, magazines and parliamentary papers with full-text search.",
     "Газеты, журналы и парламентские документы Новой Зеландии с полнотекстовым поиском.",
     "Shipping columns list arriving passengers; search the ship's name as well as the person's.",
     "В морской хронике — списки прибывших; ищите и по названию судна, и по имени.",
     "https://paperspast.natlib.govt.nz/newspapers?query={q}")
 add("nz_bdm", "New Zealand BDM historical records", "https://www.bdmhistoricalrecords.dia.govt.nz", "NZ", (1840, 2000), "vital", "free",
-    "Indexes of New Zealand births (over 100 years), deaths (50 years or born 80 years ago) and marriages (80 years).",
-    "Указатели рождений Новой Зеландии (старше 100 лет), смертей (50 лет или рождённых 80 лет назад) и браков (80 лет).",
+    "New Zealand historical indexes: births of living people at least 100 years ago; births of deceased people if born at least 80 years ago or dead at least 50; stillbirths at least 50; deaths at least 50 or born at least 80 years ago; marriages at least 75 years ago.",
+    "Исторические указатели Новой Зеландии: рождения живых — не менее 100 лет назад; умерших — при рождении не менее 80 лет или смерти не менее 50 лет назад; мертворождения — 50 лет; смерти — 50 лет либо рождение не менее 80 лет назад; браки — 75 лет.",
     "Order printouts cheaply: they name parents, which certificates of other countries often omit.",
     "Распечатки заказываются недорого и называют родителей, чего часто нет в документах других стран.")
 add("usgenweb", "USGenWeb", "https://usgenweb.org", "US", (1620, 1950), "places vital census graves", "free",
@@ -570,9 +570,9 @@ add("actapublica", "Acta Publica (Moravia, Czechia)", "https://www.actapublica.e
     "Сканы приходских и гражданских книг Моравского земского архива в Брно и других архивов Чехии.",
     "Czech registers are not indexed: find the parish (Farnost) of the village first, then browse by year; other regional archives run their own viewers.",
     "Чешские книги не индексированы: найдите приход (farnost) деревни и листайте по годам; другие областные архивы имеют свои просмотрщики.")
-add("narc_fi", "National Archives of Finland — Digital Archive", "https://digi.narc.fi", "FI", (1600, 1950), "church census", "free",
-    "Digitised Finnish church books (communion books, births, marriages, deaths) and other records.",
-    "Оцифрованные церковные книги Финляндии (причастные книги, рождения, браки, смерти) и другие документы.",
+add("narc_fi", "National Archives of Finland — Astia", "https://astia.narc.fi/uusiastia", "FI", (1600, 1950), "church census", "free",
+    "Astia provides access to digitised Finnish church books (communion books, births, marriages, deaths) and other records; it replaced the former Digital Archive.",
+    "Astia: оцифрованные церковные книги Финляндии (причастные книги, рождения, браки, смерти) и другие документы; сервис заменил прежний Digital Archive.",
     "Communion books (rippikirjat) follow families house by house like Russian confession lists; HisKi gives the index.",
     "Причастные книги (rippikirjat) идут по домам, как исповедные ведомости; указатель — в HisKi.")
 add("bg_archives", "State Archives of Bulgaria", "https://archives.government.bg", "BG", (1800, 1990), "catalogs church vital", "mixed",
@@ -595,11 +595,31 @@ add("georgia_archives", "National Archives of Georgia", "https://archive.gov.ge"
     "Метрические книги православных, армянских, католических и лютеранских церквей Грузии, документы Тифлисской губернии.",
     "Request by church and year; German colonies of the Caucasus are in the Lutheran registers.",
     "Запрос по церкви и году; немецкие колонии Кавказа — в лютеранских книгах.")
-add("central_asia_archives", "Central state archives of Kazakhstan, Uzbekistan, Kyrgyzstan, Tajikistan, Turkmenistan", "", "KZ UZ KG TJ TM", (1850, 1991), "church vital catalogs deportation", "request",
-    "Records of the Steppe and Turkestan governorates, Orthodox parishes of settlers, Soviet deportation and special-settlement files.",
-    "Документы Степного и Туркестанского генерал-губернаторств, приходы переселенцев, советские дела о депортации и спецпоселении.",
-    "Settlers' parishes are often on FamilySearch; deported peoples (Germans, Koreans, Chechens…) — request the regional archive and the Interior Ministry archive.",
-    "Приходы переселенцев часто есть на FamilySearch; депортированные народы (немцы, корейцы, чеченцы…) — запрос в областной архив и архив МВД.")
+add("kazakhstan_archives", "Central State Archive of Kazakhstan", "https://www.cga.kz", "KZ", (1700, 1991), "church vital catalogs deportation", "request",
+    "Central State Archive in Almaty: records of imperial and Soviet Kazakhstan, including documents from the early 18th century.",
+    "Центральный государственный архив в Алматы: документы дореволюционного и советского Казахстана, в том числе с начала XVIII века.",
+    "Identify the province, parish and years in the fond guide; also check regional archives. For deportation and special-settlement files, ask which archive or Interior Ministry office holds the file.",
+    "Найдите губернию/область, приход и годы в путеводителе фондов; проверьте и областные архивы. Для дел о депортации и спецпоселении уточняйте держателя дела в архиве или МВД.")
+add("uzbekistan_archives", "National Archive of Uzbekistan / Uzarchive", "https://gov.uz/ru/archive", "UZ", (1850, 1991), "church vital catalogs deportation", "request",
+    "Uzarchive agency and the National Archive of Uzbekistan (formerly the Central State Archive): a route to Turkestan and Soviet archival fonds.",
+    "Агентство «Узархив» и Национальный архив Узбекистана (бывший Центральный государственный архив): поиск фондов Туркестана и советского периода.",
+    "Use the agency's archive directory and services to identify the custodian, fond and years before requesting a file; not all records are at the national archive.",
+    "По справочникам и услугам агентства сначала уточните держателя, фонд и годы, затем запрашивайте дело; не все документы находятся в национальном архиве.")
+add("kyrgyzstan_archives", "Central State Archive of the Kyrgyz Republic", "https://www.archive.kg", "KG", (1850, 2015), "church vital catalogs deportation", "request",
+    "Central State Archive in Bishkek; its published fond guide covers 1850–2015, including imperial and Soviet records.",
+    "Центральный государственный архив в Бишкеке; опубликованный путеводитель фондов охватывает 1850–2015 гг., включая дореволюционные и советские документы.",
+    "Start with the official Central State Archive fond guide; search the historical district and institution as well as the modern village name, and check regional archives.",
+    "Начните с официального путеводителя ЦГА; ищите по историческому уезду и учреждению, а не только современному селу; проверяйте областные архивы.")
+add("tajikistan_archives", "Main Archival Administration of Tajikistan", "https://archive.tj", "TJ", (1850, 1991), "church vital catalogs deportation", "request",
+    "Official archival administration of Tajikistan: a route to central and regional state archives.",
+    "Официальное Главное архивное управление Таджикистана: выход на центральный и областные государственные архивы.",
+    "Ask the administration which archive holds records for the place, institution and years. Confirm availability and access before requesting parish, civil or special-settlement files.",
+    "Уточните в управлении архив — держатель документов нужного места, учреждения и лет. Наличие и доступ к метрикам, актам и делам спецпоселенцев подтверждайте до заказа.")
+add("turkmenistan_archives", "Main Archival Administration of Turkmenistan", "https://www.archive.gov.tm/ru", "TM", (1850, 1991), "church catalogs deportation", "request",
+    "Official directory of the Central State Archive and regional archives of Turkmenistan. Civil-registration records are not deposited with this administration or its subordinate archives.",
+    "Официальный справочник Центрального государственного и региональных архивов Туркменистана. Акты гражданского состояния в управление и подведомственные архивы не поступают.",
+    "Identify the custodian through the official archive directory; ask about historical holdings and access. Request civil-registration records from the civil registry, not these archives.",
+    "По официальному справочнику уточните держателя, состав исторических фондов и доступ. За актами гражданского состояния обращайтесь в ЗАГС, а не в эти архивы.")
 
 out = Path(__file__).resolve().parent.parent / "src" / "genealogy_mcp" / "data" / "sources.json"
 ids = [s["id"] for s in S]

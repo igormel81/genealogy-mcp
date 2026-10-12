@@ -8,7 +8,7 @@ lugar de nacimiento de ambos contrayentes, muchas veces en España, Italia o Por
 en otros países más tarde y de forma desigual: los libros parroquiales siguen siendo la fuente principal hasta el siglo XX.
 
 **Inmigración:** Argentina — CEMLA (llegadas desde 1882, búsqueda de pago), Hotel de Inmigrantes; Brasil — Museu da
-Imigração (São Paulo, gratuito, registros de la hospedería, década de 1880–1978), Arquivo Nacional (listas de barcos de
+Imigração (São Paulo, gratuito, libros digitalizados de la hospedería, 1882–1958), Arquivo Nacional (listas de barcos de
 Río); Chile — Archivo Nacional; México — Archivo General de la Nación (tarjetas migratorias 1926–1951).
 
 **Trampas:** los nombres hispanos llevan dos apellidos (paterno + materno): «Juan Pérez García» es hijo de un Pérez y de
@@ -25,9 +25,9 @@ el pueblo de origen de los padres.
 
 **Trampas:** «Russia» en una lista significa el Imperio: polacos, lituanos, judíos, alemanes, ucranianos. Los nombres
 no se cambiaban en Ellis Island; se cambiaban después, al naturalizarse."""),
-    "civil_registration_europe": ("Registro civil en Europa", """**Desde cuándo:** Francia 1792, Bélgica y Países Bajos 1796–1811 (dominio francés), Italia 1809–1815 y 1866–1871,
-Alemania 1874–1876 (Prusia 1874), Inglaterra y Gales 1837, Escocia 1855, Irlanda 1864, España 1870, Portugal 1911,
-Hungría 1895, Austria 1938 (antes los libros parroquiales hacían de registro civil), Polonia — registros civiles-religiosos
+    "civil_registration_europe": ("Registro civil en Europa", """**Desde cuándo:** Francia 1792, Bélgica y Países Bajos 1796–1811 (dominio francés), Italia en algunas zonas desde 1797 (p. ej. Cremona), en general desde 1866–1871 (Trentino/Tirol del Sur desde 1918),
+Alemania 1874–1876 (Prusia 1874), Inglaterra y Gales 1837, Escocia 1855, Irlanda 1864, España 1871, Portugal 1911,
+Hungría 1895, Austria 1938–1939 (Burgenland desde 1895; antes los libros parroquiales hacían de registro civil), Polonia — registros civiles-religiosos
 desde 1808/1826, Rumanía 1865, la URSS (ZAGS) 1918–1920.
 
 **Dónde:** archivos municipales y estatales; mucho en línea: Antenati (Italia, imágenes gratuitas), FranceArchives y

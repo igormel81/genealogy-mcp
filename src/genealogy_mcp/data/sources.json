@@ -1783,8 +1783,8 @@
   "access": "free",
   "about": "Indexed Prussian, Bavarian, Saxon and Württemberg casualty lists of the First World War, about 8.5 million entries.",
   "about_ru": "Указатель прусских, баварских, саксонских и вюртембергских списков потерь Первой мировой, около 8,5 млн записей.",
-  "how": "Search by surname and place of birth: an entry gives the regiment, place of origin and fate (killed, wounded, captured).",
-  "how_ru": "Ищите по фамилии и месту рождения: запись даёт полк, место происхождения и судьбу (убит, ранен, в плену)."
+  "how": "Search by surname and place of birth: entries give origin and fate (killed, wounded, captured). Unit details were omitted from late 1916 until late 1918, so not every entry identifies a regiment.",
+  "how_ru": "Ищите по фамилии и месту рождения: в записи — происхождение и судьба (убит, ранен, в плену). С конца 1916 до конца 1918 г. часть не указывали: не каждая запись даёт полк."
  },
  {
   "id": "gedbas",
@@ -1840,7 +1840,7 @@
    "DE"
   ],
   "years": [
-   1500,
+   1490,
    2000
   ],
   "records": [
@@ -1864,7 +1864,7 @@
    "DE"
   ],
   "years": [
-   1867,
+   1495,
    1990
   ],
   "records": [
@@ -1874,8 +1874,8 @@
   "access": "request",
   "about": "German federal records: Wehrmacht personnel (former WASt / Deutsche Dienststelle), GDR records, the 1939 minority census.",
   "about_ru": "Федеральный архив Германии: личные дела вермахта (бывшая WASt), документы ГДР, перепись меньшинств 1939 г.",
-  "how": "Wehrmacht soldiers and Soviet POWs registered by Germany: request from the department PA (formerly WASt) in Berlin.",
-  "how_ru": "Солдаты вермахта и советские военнопленные в немецком учёте: запрос в отдел PA (бывшая WASt) в Берлине."
+  "how": "Wehrmacht soldiers and Soviet POWs registered by Germany: request from the department Deutsches Reich in Berlin-Tegel (responsible since September 2025; former PA/WASt holdings).",
+  "how_ru": "Солдаты вермахта и советские военнопленные в немецком учёте: запрос в отдел Deutsches Reich в Берлине-Тегеле (с сентября 2025 г.; документы бывшего отдела PA/WASt)."
  },
  {
   "id": "bbld",
@@ -1888,7 +1888,7 @@
   ],
   "years": [
    1500,
-   1950
+   2025
   ],
   "records": [
    "nobility",
@@ -1911,7 +1911,7 @@
    "RU"
   ],
   "years": [
-   1800,
+   1795,
    1940
   ],
   "records": [
@@ -1937,17 +1937,17 @@
   ],
   "years": [
    1808,
-   1918
+   1940
   ],
   "records": [
    "church",
    "vital"
   ],
-  "access": "free",
+  "access": "free_account",
   "about": "Index of Jewish births, marriages and deaths from Polish archives — over 6 million records.",
   "about_ru": "Указатель еврейских рождений, браков и смертей из польских архивов — более 6 млн записей.",
-  "how": "Search with Daitch–Mokotoff 'sounds like'; the index gives the archive, year and act number to order the scan.",
-  "how_ru": "Ищите с фонетикой Daitch–Mokotoff; указатель даёт архив, год и номер акта, чтобы заказать скан."
+  "how": "Search uses Beider–Morse phonetic matching; sign in to a free researcher account to see full results; the index gives the archive, year and act number to order the scan.",
+  "how_ru": "Поиск использует фонетику Beider–Morse; для полных результатов нужен бесплатный аккаунт; указатель даёт архив, год и номер акта, чтобы заказать скан."
  },
  {
   "id": "gesher_galicia",
@@ -1959,18 +1959,18 @@
   ],
   "years": [
    1772,
-   1939
+   1941
   ],
   "records": [
    "vital",
    "census",
    "maps"
   ],
-  "access": "free",
+  "access": "mixed",
   "about": "Jewish and general records of Galicia: vital records indexes, cadastral maps, school and tax lists.",
   "about_ru": "Документы Галиции, еврейские и общие: указатели метрик, кадастровые карты, школьные и налоговые списки.",
-  "how": "The All Galicia Database searches all indexed sets at once; the cadastral maps show house numbers from the records.",
-  "how_ru": "All Galicia Database ищет по всем указателям сразу; кадастровые карты показывают номера домов из записей."
+  "how": "The All Galicia Database is free; some other content requires membership. Vital-record projects include 1940–1941. Cadastral maps show house numbers.",
+  "how_ru": "All Galicia Database бесплатна; часть других материалов доступна членам общества. Есть проект метрик 1940–1941 гг. На кадастровых картах — номера домов."
  },
  {
   "id": "litvaksig",
@@ -2007,8 +2007,8 @@
    "PL"
   ],
   "years": [
-   1820,
-   1960
+   1790,
+   1963
   ],
   "records": [
    "emigration",
@@ -2016,8 +2016,8 @@
    "vital"
   ],
   "access": "free",
-  "about": "Better search forms for Ellis Island, Castle Garden, US censuses, plus calendar and alphabet converters.",
-  "about_ru": "Удобные формы поиска по Эллис-Айленду, Касл-Гардену, переписям США, конвертеры календарей и алфавитов.",
+  "about": "Search forms for Ellis Island, Castle Garden, US censuses (1790–1950) and other ports (Philadelphia manifests 1800–1963), plus calendar and alphabet converters. The forms are free; linked databases may require a paid subscription.",
+  "about_ru": "Формы поиска по Эллис-Айленду, Касл-Гардену, переписям США (1790–1950), другим портам (Филадельфия 1800–1963), конвертеры календарей и алфавитов. Формы бесплатны; внешние базы могут требовать платную подписку.",
   "how": "Use 'sounds like' (Daitch–Mokotoff) and search by town or ship when the name is mangled.",
   "how_ru": "Используйте «звучит как» (Daitch–Mokotoff) и ищите по городу или судну, если имя искажено."
  },
@@ -2056,8 +2056,8 @@
    "church"
   ],
   "access": "free",
-  "about": "Volunteer transcriptions of English and Welsh parish registers: baptisms, marriages, burials.",
-  "about_ru": "Расшифровки приходских книг Англии и Уэльса: крещения, браки, погребения.",
+  "about": "Volunteer transcriptions of English, Welsh and Scottish parish registers: baptisms, marriages, burials.",
+  "about_ru": "Расшифровки приходских книг Англии, Уэльса и Шотландии: крещения, браки, погребения.",
   "how": "Before 1837 parish registers are the main source in England; check the original in the county record office.",
   "how_ru": "До 1837 г. церковные книги — главный источник в Англии; подлинник смотрите в архиве графства."
  },
@@ -2102,8 +2102,8 @@
   "access": "free_account",
   "about": "Indexes of births (with mother's maiden name) and deaths (with age) from 1837; certificates and cheap PDF copies.",
   "about_ru": "Указатели рождений (с девичьей фамилией матери) и смертей (с возрастом) с 1837 г.; свидетельства и недорогие PDF-копии.",
-  "how": "The GRO birth index gives the mother's maiden name for every year — a key to the parents.",
-  "how_ru": "Указатель рождений GRO даёт девичью фамилию матери за все годы — ключ к родителям."
+  "how": "Online indexes have gaps: births 1837–1934 and from 1984; deaths 1837–1957 and from 1984 (recent indexes end two years ago). Use FreeBMD or other indexes for gaps; certificate/PDF/image orders cost money.",
+  "how_ru": "В онлайн-указателях есть пробелы: рождения 1837–1934 и с 1984 г., смерти 1837–1957 и с 1984 г. (новые данные — до двух лет назад). Пробелы ищите в FreeBMD и других указателях; свидетельства, PDF и снимки платные."
  },
  {
   "id": "welsh_newspapers",
@@ -2185,11 +2185,11 @@
   "records": [
    "emigration"
   ],
-  "access": "free",
+  "access": "mixed",
   "about": "Help with ship arrivals to Halifax and other Canadian ports; research guides and family-history service.",
   "about_ru": "Помощь по прибытию судов в Галифакс и другие порты Канады; руководства и служба семейной истории.",
-  "how": "Arrivals before 1935 are in LAC passenger lists; after 1935 ask the museum or IRCC.",
-  "how_ru": "Прибытия до 1935 г. — в списках LAC; после 1935 г. — запрос в музей или в IRCC."
+  "how": "Canadian arrival records for 1865–1935 are at LAC. The museum cannot access Canadian immigration records after 1935: request IRCC. Some later overseas departure lists are available. Research requests and record copies may incur fees.",
+  "how_ru": "Канадские списки прибытия 1865–1935 гг. — в LAC. Музей не имеет доступа к канадским иммиграционным делам после 1935 г.: обращайтесь в IRCC. Есть отдельные поздние зарубежные списки отправления. За запросы и копии возможна плата."
  },
  {
   "id": "trove",
@@ -2200,7 +2200,7 @@
   ],
   "years": [
    1803,
-   1955
+   1995
   ],
   "records": [
    "newspapers",
@@ -2210,8 +2210,8 @@
   "access": "free",
   "about": "Millions of pages of Australian newspapers with full-text search, gazettes, books and directories.",
   "about_ru": "Миллионы страниц австралийских газет с полнотекстовым поиском, ведомости, книги, справочники.",
-  "how": "Search with the name in quotes and narrow by state and decade; correct the OCR text you read — it helps others.",
-  "how_ru": "Ищите имя в кавычках, сужайте по штату и десятилетию; исправляйте распознанный текст — это помогает другим.",
+  "how": "Most digitised newspapers end in 1954; exceptions include The Canberra Times through 1995. Search in quotes by state and decade; correct OCR text to help others.",
+  "how_ru": "Большинство оцифрованных газет заканчивается 1954 г.; исключение — The Canberra Times до 1995 г. Ищите в кавычках по штату и десятилетию; исправляйте OCR.",
   "search": "https://trove.nla.gov.au/search/category/newspapers?keyword={q}"
  },
  {
@@ -2222,17 +2222,16 @@
    "AU"
   ],
   "years": [
-   1901,
+   1860,
    2000
   ],
   "records": [
    "military",
-   "emigration",
-   "census"
+   "emigration"
   ],
   "access": "free",
-  "about": "WWI and WWII service records (WWI digitised in full), immigration and naturalisation files, alien registration.",
-  "about_ru": "Послужные дела Первой и Второй мировых (Первая — оцифрована полностью), иммиграция, натурализация, учёт иностранцев.",
+  "about": "WWI and WWII service records (WWI digitised in full), immigration and naturalisation files, alien registration. Identifiable census forms before 2001 were destroyed after statistical processing.",
+  "about_ru": "Послужные дела Первой и Второй мировых (Первая — оцифрована полностью), иммиграция, натурализация, учёт иностранцев. Именные переписные листы до 2001 г. уничтожались после статистической обработки.",
   "how": "Many Russian-Empire migrants came via Harbin and Shanghai: search alien registration and naturalisation files.",
   "how_ru": "Многие выходцы из Российской империи приезжали через Харбин и Шанхай: ищите учёт иностранцев и натурализацию."
  },
@@ -2245,7 +2244,7 @@
   ],
   "years": [
    1839,
-   1989
+   2010
   ],
   "records": [
    "newspapers"
@@ -2272,8 +2271,8 @@
    "vital"
   ],
   "access": "free",
-  "about": "Indexes of New Zealand births (over 100 years), deaths (50 years or born 80 years ago) and marriages (80 years).",
-  "about_ru": "Указатели рождений Новой Зеландии (старше 100 лет), смертей (50 лет или рождённых 80 лет назад) и браков (80 лет).",
+  "about": "New Zealand historical indexes: births of living people at least 100 years ago; births of deceased people if born at least 80 years ago or dead at least 50; stillbirths at least 50; deaths at least 50 or born at least 80 years ago; marriages at least 75 years ago.",
+  "about_ru": "Исторические указатели Новой Зеландии: рождения живых — не менее 100 лет назад; умерших — при рождении не менее 80 лет или смерти не менее 50 лет назад; мертворождения — 50 лет; смерти — 50 лет либо рождение не менее 80 лет назад; браки — 75 лет.",
   "how": "Order printouts cheaply: they name parents, which certificates of other countries often omit.",
   "how_ru": "Распечатки заказываются недорого и называют родителей, чего часто нет в документах других стран."
  },
@@ -2323,8 +2322,8 @@
  },
  {
   "id": "narc_fi",
-  "name": "National Archives of Finland — Digital Archive",
-  "url": "https://digi.narc.fi",
+  "name": "National Archives of Finland — Astia",
+  "url": "https://astia.narc.fi/uusiastia",
   "countries": [
    "FI"
   ],
@@ -2337,8 +2336,8 @@
    "census"
   ],
   "access": "free",
-  "about": "Digitised Finnish church books (communion books, births, marriages, deaths) and other records.",
-  "about_ru": "Оцифрованные церковные книги Финляндии (причастные книги, рождения, браки, смерти) и другие документы.",
+  "about": "Astia provides access to digitised Finnish church books (communion books, births, marriages, deaths) and other records; it replaced the former Digital Archive.",
+  "about_ru": "Astia: оцифрованные церковные книги Финляндии (причастные книги, рождения, браки, смерти) и другие документы; сервис заменил прежний Digital Archive.",
   "how": "Communion books (rippikirjat) follow families house by house like Russian confession lists; HisKi gives the index.",
   "how_ru": "Причастные книги (rippikirjat) идут по домам, как исповедные ведомости; указатель — в HisKi."
  },
@@ -2433,15 +2432,34 @@
   "how_ru": "Запрос по церкви и году; немецкие колонии Кавказа — в лютеранских книгах."
  },
  {
-  "id": "central_asia_archives",
-  "name": "Central state archives of Kazakhstan, Uzbekistan, Kyrgyzstan, Tajikistan, Turkmenistan",
-  "url": "",
+  "id": "kazakhstan_archives",
+  "name": "Central State Archive of Kazakhstan",
+  "url": "https://www.cga.kz",
   "countries": [
-   "KZ",
-   "UZ",
-   "KG",
-   "TJ",
-   "TM"
+   "KZ"
+  ],
+  "years": [
+   1700,
+   1991
+  ],
+  "records": [
+   "church",
+   "vital",
+   "catalogs",
+   "deportation"
+  ],
+  "access": "request",
+  "about": "Central State Archive in Almaty: records of imperial and Soviet Kazakhstan, including documents from the early 18th century.",
+  "about_ru": "Центральный государственный архив в Алматы: документы дореволюционного и советского Казахстана, в том числе с начала XVIII века.",
+  "how": "Identify the province, parish and years in the fond guide; also check regional archives. For deportation and special-settlement files, ask which archive or Interior Ministry office holds the file.",
+  "how_ru": "Найдите губернию/область, приход и годы в путеводителе фондов; проверьте и областные архивы. Для дел о депортации и спецпоселении уточняйте держателя дела в архиве или МВД."
+ },
+ {
+  "id": "uzbekistan_archives",
+  "name": "National Archive of Uzbekistan / Uzarchive",
+  "url": "https://gov.uz/ru/archive",
+  "countries": [
+   "UZ"
   ],
   "years": [
    1850,
@@ -2454,9 +2472,77 @@
    "deportation"
   ],
   "access": "request",
-  "about": "Records of the Steppe and Turkestan governorates, Orthodox parishes of settlers, Soviet deportation and special-settlement files.",
-  "about_ru": "Документы Степного и Туркестанского генерал-губернаторств, приходы переселенцев, советские дела о депортации и спецпоселении.",
-  "how": "Settlers' parishes are often on FamilySearch; deported peoples (Germans, Koreans, Chechens…) — request the regional archive and the Interior Ministry archive.",
-  "how_ru": "Приходы переселенцев часто есть на FamilySearch; депортированные народы (немцы, корейцы, чеченцы…) — запрос в областной архив и архив МВД."
+  "about": "Uzarchive agency and the National Archive of Uzbekistan (formerly the Central State Archive): a route to Turkestan and Soviet archival fonds.",
+  "about_ru": "Агентство «Узархив» и Национальный архив Узбекистана (бывший Центральный государственный архив): поиск фондов Туркестана и советского периода.",
+  "how": "Use the agency's archive directory and services to identify the custodian, fond and years before requesting a file; not all records are at the national archive.",
+  "how_ru": "По справочникам и услугам агентства сначала уточните держателя, фонд и годы, затем запрашивайте дело; не все документы находятся в национальном архиве."
+ },
+ {
+  "id": "kyrgyzstan_archives",
+  "name": "Central State Archive of the Kyrgyz Republic",
+  "url": "https://www.archive.kg",
+  "countries": [
+   "KG"
+  ],
+  "years": [
+   1850,
+   2015
+  ],
+  "records": [
+   "church",
+   "vital",
+   "catalogs",
+   "deportation"
+  ],
+  "access": "request",
+  "about": "Central State Archive in Bishkek; its published fond guide covers 1850–2015, including imperial and Soviet records.",
+  "about_ru": "Центральный государственный архив в Бишкеке; опубликованный путеводитель фондов охватывает 1850–2015 гг., включая дореволюционные и советские документы.",
+  "how": "Start with the official Central State Archive fond guide; search the historical district and institution as well as the modern village name, and check regional archives.",
+  "how_ru": "Начните с официального путеводителя ЦГА; ищите по историческому уезду и учреждению, а не только современному селу; проверяйте областные архивы."
+ },
+ {
+  "id": "tajikistan_archives",
+  "name": "Main Archival Administration of Tajikistan",
+  "url": "https://archive.tj",
+  "countries": [
+   "TJ"
+  ],
+  "years": [
+   1850,
+   1991
+  ],
+  "records": [
+   "church",
+   "vital",
+   "catalogs",
+   "deportation"
+  ],
+  "access": "request",
+  "about": "Official archival administration of Tajikistan: a route to central and regional state archives.",
+  "about_ru": "Официальное Главное архивное управление Таджикистана: выход на центральный и областные государственные архивы.",
+  "how": "Ask the administration which archive holds records for the place, institution and years. Confirm availability and access before requesting parish, civil or special-settlement files.",
+  "how_ru": "Уточните в управлении архив — держатель документов нужного места, учреждения и лет. Наличие и доступ к метрикам, актам и делам спецпоселенцев подтверждайте до заказа."
+ },
+ {
+  "id": "turkmenistan_archives",
+  "name": "Main Archival Administration of Turkmenistan",
+  "url": "https://www.archive.gov.tm/ru",
+  "countries": [
+   "TM"
+  ],
+  "years": [
+   1850,
+   1991
+  ],
+  "records": [
+   "church",
+   "catalogs",
+   "deportation"
+  ],
+  "access": "request",
+  "about": "Official directory of the Central State Archive and regional archives of Turkmenistan. Civil-registration records are not deposited with this administration or its subordinate archives.",
+  "about_ru": "Официальный справочник Центрального государственного и региональных архивов Туркменистана. Акты гражданского состояния в управление и подведомственные архивы не поступают.",
+  "how": "Identify the custodian through the official archive directory; ask about historical holdings and access. Request civil-registration records from the civil registry, not these archives.",
+  "how_ru": "По официальному справочнику уточните держателя, состав исторических фондов и доступ. За актами гражданского состояния обращайтесь в ЗАГС, а не в эти архивы."
  }
 ]

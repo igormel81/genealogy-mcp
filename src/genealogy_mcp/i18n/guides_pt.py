@@ -8,7 +8,7 @@ da origem europeia.
 **Registro civil:** Brasil 1889 (certidões em cartórios), México 1859, Argentina década de 1880, Chile 1885, Uruguai 1879.
 Peça a «certidão de inteiro teor»: copia o registro completo, com pais e avós.
 
-**Imigração:** Brasil — Museu da Imigração (São Paulo, registros da hospedaria, década de 1880–1978, gratuito), Arquivo
+**Imigração:** Brasil — Museu da Imigração (São Paulo, registros digitalizados da hospedaria, 1882–1958, gratuito), Arquivo
 Nacional (listas de navios do Rio); Argentina — CEMLA (chegadas desde 1882, busca paga).
 
 **Armadilhas:** em português a ordem é sobrenome da mãe + do pai; em espanhol, do pai + da mãe. Sobrenomes italianos,
@@ -31,8 +31,8 @@ eram mudados na chegada; mudavam depois, na naturalização."""),
 5. **Guarde as contradições:** registre as duas versões com as fontes; não tire a média.
 6. **Resultados negativos contam:** «batismos da paróquia 1880–1890 revistos, não aparece».
 7. **Marque o duvidoso como duvidoso:** «provavelmente», uma pista, nunca um vínculo silencioso na árvore."""),
-    "civil_registration_europe": ("Registro civil na Europa", """**Desde quando:** França 1792, Bélgica e Países Baixos 1796–1811, Itália 1809–1815 e 1866–1871, Alemanha 1874–1876,
-Inglaterra e País de Gales 1837, Escócia 1855, Irlanda 1864, Espanha 1870, Portugal 1911, Hungria 1895, Áustria 1938,
+    "civil_registration_europe": ("Registro civil na Europa", """**Desde quando:** França 1792, Bélgica e Países Baixos 1796–1811, Itália em algumas regiões desde 1797 (por exemplo, Cremona), em geral desde 1866–1871 (Trentino/Tirol do Sul desde 1918), Alemanha 1874–1876,
+Inglaterra e País de Gales 1837, Escócia 1855, Irlanda 1864, Espanha 1871, Portugal 1911, Hungria 1895, Áustria 1938–1939 (Burgenland desde 1895),
 Polônia — registros civis-religiosos desde 1808/1826, Romênia 1865, URSS 1918–1920.
 
 **Onde:** arquivos municipais e estatais; em linha: Digitarq (Portugal: registros paroquiais dos arquivos distritais),

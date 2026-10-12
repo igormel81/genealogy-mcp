@@ -1,8 +1,8 @@
 """Record guides in German."""
 GUIDES = {
-    "civil_registration_europe": ("Standesamtliche Register in Europa", """**Seit wann:** Frankreich 1792, Belgien und Niederlande 1796–1811, Italien 1809–1815 und 1866–1871, Deutschland 1874–1876
-(Preußen 1. Oktober 1874, Reich 1. Januar 1876), England und Wales 1837, Schottland 1855, Irland 1864, Spanien 1870,
-Ungarn 1895, Österreich 1938 (vorher hatten die Kirchenbücher amtliche Kraft), Kongresspolen — zivil-kirchliche Register
+    "civil_registration_europe": ("Standesamtliche Register in Europa", """**Seit wann:** Frankreich 1792, Belgien und Niederlande 1796–1811, Italien regional seit 1797 (z. B. Cremona), allgemein seit 1866–1871 (Trentino/Südtirol seit 1918), Deutschland 1874–1876
+(Preußen 1. Oktober 1874, Reich 1. Januar 1876), England und Wales 1837, Schottland 1855, Irland 1864, Spanien 1871,
+Ungarn 1895, Österreich 1938–1939 (Burgenland seit 1895; vorher hatten die Kirchenbücher amtliche Kraft), Kongresspolen — zivil-kirchliche Register
 ab 1808/1826, Rumänien 1865, Sowjetunion (ZAGS) 1918–1920.
 
 **Wo:** Standesämter (Register jünger als 110/80/30 Jahre für Geburten/Ehen/Sterbefälle), danach Stadt- und

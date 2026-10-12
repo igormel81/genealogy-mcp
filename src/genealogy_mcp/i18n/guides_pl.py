@@ -21,9 +21,8 @@ Polskim ich nie prowadzono (tam są spisy ludności i księgi ludności stałej)
 **Gdzie:** archiwa w Wilnie (LVIA), Mińsku (NIAB), Grodnie, Kijowie (CDIAK); FamilySearch, kolekcja 2432393.
 
 **Jak:** trzeba znać właściciela wsi w danym roku — księgi ułożone są według właścicieli, nie wsi."""),
-    "civil_registration_europe": ("Stan cywilny w Europie", """**Od kiedy:** Francja 1792, Belgia i Holandia 1796–1811, Włochy 1809–1815 i 1866–1871, Niemcy 1874–1876 (Prusy 1874 —
-dotyczy Wielkopolski, Pomorza, Śląska), Anglia 1837, Hiszpania 1870, Węgry 1895, Austria 1938 (w Galicji do tego czasu
-księgi parafialne miały moc urzędową), Królestwo Polskie — akta cywilno-religijne od 1808/1826, Rumunia 1865,
+    "civil_registration_europe": ("Stan cywilny w Europie", """**Od kiedy:** Francja 1792, Belgia i Holandia 1796–1811, Włochy regionalnie od 1797 (np. Cremona), ogólnie od 1866–1871 (Trydent/Tyrol Południowy od 1918), Niemcy 1874–1876 (Prusy 1874 —
+dotyczy Wielkopolski, Pomorza, Śląska), Anglia 1837, Hiszpania 1871, Węgry 1895, Austria 1938–1939 (Burgenland od 1895; wcześniej księgi parafialne miały moc urzędową w Austrii), Królestwo Polskie — akta cywilno-religijne od 1808/1826, Rumunia 1865,
 ZSRR 1918–1920.
 
 **Gdzie:** archiwa państwowe i urzędy stanu cywilnego (akta powyżej 100 lat są w archiwach); online: Geneteka,

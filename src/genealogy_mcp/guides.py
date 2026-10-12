@@ -69,9 +69,10 @@ a move. Ages are approximate.
     },
     "revision_list": {
         "title": ("Revision lists of the Russian Empire (ревизские сказки), 1719–1858", "Ревизские сказки (1719–1858)"),
-        "en": """**What:** ten tax censuses (revisions): 1719, 1744, 1763, 1782, 1795, 1811, 1816, 1834, 1850, 1858. Each lists the
+        "en": """**What:** ten tax censuses (revisions): 1719, 1744–1747, 1762–1763, 1782, 1795, 1811, 1815–1816, 1833–1834, 1850, 1857–1858. Each lists the
 taxable population of a village household by household: men with ages «at the last revision» and now, who died or left
-and when; women are recorded from the 3rd revision (1763), irregularly.
+and when; women are recorded from the 3rd revision (1762–1763), except the 6th (1811).
+These are commonly cited dates; individual books and supplementary returns can have later dates.
 
 **Why it matters:** the only source that links a family across a century: «Иван Петров, 40, at the last revision 32;
 his son Семен, 12». With revisions you can go from the 1858 village back to the 1700s.
@@ -84,9 +85,10 @@ for Bogoroditsk district, Tula).
 by owner, not by village. Landlord villages often changed owners; memorial books and «Списки населённых мест» help.
 
 **Traps:** ages are given «at the last revision», so subtract the right interval. Surnames of serfs are rare before 1858.""",
-        "ru": """**Что это:** десять податных переписей (ревизий): 1719, 1744, 1763, 1782, 1795, 1811, 1816, 1834, 1850, 1858 гг.
+        "ru": """**Что это:** десять податных переписей (ревизий): 1719, 1744–1747, 1762–1763, 1782, 1795, 1811, 1815–1816, 1833–1834, 1850, 1857–1858 гг.
 Население деревни по дворам: мужчины с возрастом «по прошлой ревизии» и теперь, кто и когда умер или выбыл; женщины —
-с 3-й ревизии (1763), не везде.
+с 3-й ревизии (1762–1763), кроме 6-й (1811).
+Здесь приведены основные даты; отдельные книги и дополнительные сказки могут быть датированы позже.
 
 **Зачем:** единственный источник, связывающий семью через столетие: «Иван Петров, 40, по прошлой ревизии 32; у него сын
 Семен, 12». По ревизиям можно пройти от деревни 1858 г. до XVIII века.
@@ -158,23 +160,28 @@ spellings — check every one, they add details. Soviet POW cards (from German r
     "repression": {
         "title": ("Victims of political repression (USSR): investigation files", "Репрессии в СССР: следственные дела"),
         "en": """**What:** investigation files (arrest, interrogations, verdict, rehabilitation), «dekulakisation» and deportation
-files, special settler registers. The files are kept by the FSB/SBU/KGB archives or passed to state archives; access
-for relatives (a birth certificate chain proves the relation), others after 75 years.
+files, special settler registers. The files are kept by the FSB/SBU/KGB archives or passed to state archives; access depends on the country.
+In Russia, relatives can request access with proof of kinship; personal/family privacy restrictions normally last
+75 years from document creation, but expiry does not automatically lift other restrictions. In Ukraine, the 2015 law
+opens the archives of repressive bodies of 1917–1991 to everyone, without proof of kinship (subject to the law’s exceptions).
 
 **Online:** «Открытый список» (ru.openlist.wiki), «Жертвы политического террора» (lists.memo.ru, Memorial),
 «Возвращённые имена», «Бессмертный барак», regional Books of Memory; Ukraine — SBU archive (HDA SBU) catalogues.
 
 **How:** find the name in the online lists (they give the date of arrest, article, verdict and archive), then write to
-the archive named there with copies of documents proving kinship. Ask for the whole file, including photos.""",
+the archive named there; attach proof of kinship where the country’s access rules require it. Ask for the whole file, including photos.""",
         "ru": """**Что это:** следственные дела (арест, допросы, приговор, реабилитация), дела о раскулачивании и выселении, учёт
-спецпоселенцев. Хранятся в архивах ФСБ/СБУ/КГБ или переданы в госархивы; родственникам доступны (цепочка свидетельств
-о рождении доказывает родство), остальным — через 75 лет.
+спецпоселенцев. Хранятся в архивах ФСБ/СБУ/КГБ или переданы в госархивы; доступ зависит от страны.
+В России родственники запрашивают доступ с подтверждением родства; ограничение по личной и семейной тайне обычно
+действует 75 лет со дня создания документа, но истечение срока не снимает автоматически другие ограничения.
+В Украине закон 2015 г. открывает архивы репрессивных органов 1917–1991 гг. всем, без подтверждения родства
+(с предусмотренными законом исключениями).
 
 **В сети:** «Открытый список» (ru.openlist.wiki), «Жертвы политического террора» (lists.memo.ru, «Мемориал»),
 «Возвращённые имена», «Бессмертный барак», региональные Книги памяти; Украина — архив СБУ (ГДА СБУ).
 
 **Как:** найдите имя в базах (там дата ареста, статья, приговор и архив), затем напишите в указанный архив с копиями
-документов о родстве. Просите дело целиком, включая фотографии.""",
+документов о родстве там, где этого требуют правила страны. Просите дело целиком, включая фотографии.""",
     },
     "passenger_list": {
         "title": ("Passenger lists and emigration (USA, Canada, Argentina, Brazil)", "Списки пассажиров и эмиграция"),
@@ -221,9 +228,9 @@ search of parish and civil registers.""",
     },
     "civil_registration_europe": {
         "title": ("Civil registration in Europe", "Гражданская регистрация в Европе"),
-        "en": """**When it began:** France 1792, Belgium and the Netherlands 1796–1811 (French rule), Italy 1809–1815 and 1866–1871,
+        "en": """**When it began:** France 1792, Belgium and the Netherlands 1796–1811 (French rule), Italy regionally from 1797 (e.g. Cremona), generally from 1866–1871 (Trentino/South Tyrol from 1918),
 Germany 1874–1876 (Prussia 1874), England and Wales 1837, Scotland 1855, Ireland 1864 (non-Catholic marriages 1845),
-Spain 1870, Portugal 1911, Hungary 1895, Austria 1938 (before that parish registers served as civil records), Poland — civil-religious registers from 1808/1826 (the parish
+Spain 1871, Portugal 1911, Hungary 1895, Austria 1938–1939 (Burgenland from 1895; civil marriage from 1938; births and deaths from 1939; earlier parish registers served as civil records), Poland — civil-religious registers from 1808/1826 (the parish
 priest was the registrar), Romania 1865, the USSR (ZAGS) 1918–1920.
 
 **Where:** municipal and state archives; many online: Antenati (Italy, free images), FranceArchives and departmental
@@ -233,9 +240,9 @@ Geneteka (Poland index) and Szukajwarchiwach (scans), ScotlandsPeople (paid), Fr
 **Traps:** before civil registration you need parish registers (often in diocesan archives, Matricula for
 Austria/Germany/Poland/Slovenia). Napoleon-era registers in occupied territories use the French Republican calendar
 (an II, etc.).""",
-        "ru": """**С какого года:** Франция 1792, Бельгия и Нидерланды 1796–1811 (при французах), Италия 1809–1815 и 1866–1871, Германия
-1874–1876 (Пруссия 1874), Англия и Уэльс 1837, Шотландия 1855, Ирландия 1864 (некатолические браки — 1845), Испания 1870,
-Португалия 1911, Венгрия 1895, Австрия 1938 (до того церковные книги имели силу гражданских), Польша — гражданско-церковные книги с 1808/1826 (ксёндз был регистратором),
+        "ru": """**С какого года:** Франция 1792, Бельгия и Нидерланды 1796–1811 (при французах), Италия местами с 1797 г. (например, Кремона), в целом с 1866–1871 гг. (Трентино/Южный Тироль с 1918 г.), Германия
+1874–1876 (Пруссия 1874), Англия и Уэльс 1837, Шотландия 1855, Ирландия 1864 (некатолические браки — 1845), Испания 1871,
+Португалия 1911, Венгрия 1895, Австрия 1938–1939 (Бургенланд с 1895 г.; гражданские браки с 1938 г., рождения и смерти с 1939 г.; ранее церковные книги имели силу гражданских), Польша — гражданско-церковные книги с 1808/1826 (ксёндз был регистратором),
 Румыния 1865, СССР (ЗАГС) 1918–1920.
 
 **Где:** муниципальные и государственные архивы; многое в сети: Antenati (Италия, бесплатные сканы), FranceArchives и
@@ -257,7 +264,7 @@ in Spain, Italy or Portugal — the key to the European origin.
 elsewhere later and unevenly — parish registers stay the main source into the 20th century. Records are in civil registries; FamilySearch holds large sets.
 
 **Immigration:** Argentina — CEMLA (arrivals from 1882, paid search), Hotel de Inmigrantes; Brazil — Museu da Imigração
-(São Paulo, free records of the immigrant hostel, 1880s–1978), Arquivo Nacional (ship lists for Rio); Chile — Archivo Nacional;
+(São Paulo, free digitised hostel registers, 1882–1958), Arquivo Nacional (ship lists for Rio); Chile — Archivo Nacional;
 Mexico — Archivo General de la Nación (migration cards 1926–1951).
 
 **Traps:** Hispanic names carry two surnames (father's + mother's): «Juan Pérez García» is the son of a Pérez and a
@@ -271,7 +278,7 @@ mother's + father's. Italian, German and Slavic surnames were Hispanicised (Kowa
 в других странах позже и неравномерно — церковные книги остаются главным источником и в XX веке. Записи в органах регистрации; крупные массивы на FamilySearch.
 
 **Иммиграция:** Аргентина — CEMLA (прибытия с 1882 г., платный поиск), Hotel de Inmigrantes; Бразилия — Museu da
-Imigração (Сан-Паулу, бесплатно, записи иммигрантского приюта 1880-х — 1978 гг.), Arquivo Nacional (судовые списки Рио); Чили — Archivo
+Imigração (Сан-Паулу, бесплатные оцифрованные книги приюта 1882–1958 гг.), Arquivo Nacional (судовые списки Рио); Чили — Archivo
 Nacional; Мексика — Archivo General de la Nación (миграционные карточки 1926–1951).
 
 **Ловушки:** у испаноязычных две фамилии (отца + матери): «Хуан Перес Гарсия» — сын Переса и Гарсии; женщины сохраняют
