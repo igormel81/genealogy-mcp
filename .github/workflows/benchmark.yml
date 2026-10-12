@@ -1,0 +1,31 @@
+name: Benchmark
+# The model half of the benchmark (evals/run.py): costs API money, so it runs only by hand.
+# Needs the repository secret ANTHROPIC_API_KEY.
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Claude model
+        default: claude-opus-5-5
+      effort:
+        description: low | medium | high | xhigh | max
+        default: medium
+      only:
+        description: task ids, comma-separated (empty = all)
+        default: ""
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install . anthropic
+      - env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python evals/run.py --model "${{ inputs.model }}" --effort "${{ inputs.effort }}" --only "${{ inputs.only }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: evals/results/

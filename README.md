@@ -39,6 +39,24 @@ confirmed; one → probable; a contradiction → find a third document.
 `audit_tree` finds the impossible (born after the mother's death, a mother aged 10, death before birth), possible
 duplicates and gaps — a to-do list for the next search.
 
+> *The register says he was born «на Покров» 1885, the year is written ҂аѡ҃пе.*
+
+`cyrillic_numerals` reads the year (1885), `feast_date` gives 1 October (Julian) = 13 October 1885.
+
+> *We share 230 cM with a match on MyHeritage. Who could she be?*
+
+`dna_match`: second cousin, first cousin twice removed, half first cousin… — and why only documents can decide.
+
+> *Where are the parish registers of Volhynia governorate now?*
+
+`where_are_records`: the state archives of Zhytomyr (the consistory), Rivne and Volyn — borders moved, so it is not
+always the archive of today's region.
+
+> *Remember what we found, and continue next week.*
+
+A research project on your computer: people, sources with full citations, open leads and a log of every search —
+including "nothing found" — so nobody searches the same place twice. GEDCOM in and out.
+
 ## Why use it
 
 | Without it | With genealogy-mcp |
@@ -50,9 +68,13 @@ duplicates and gaps — a to-do list for the next search.
 | Dates taken at face value | Julian ↔ Gregorian, birth years from ages with realistic drift, dates normalised to GEDCOM |
 | Generic advice | Record guides: parish registers, confession lists, revision lists, household books, WWI/WWII, repression files, passenger lists, censuses, European civil registration, Latin American records |
 | You write to archives from scratch | Request drafts for Russian ZAGS, state, military and FSB archives, and for any archive in English, Spanish or Portuguese |
+| It forgets everything between chats | A research project that remembers people, sources, leads and every search |
+| It cannot read old numbers and dates | Church Slavonic numerals, church feasts, Julian, Hebrew and French Republican calendars |
+| "Search FamilySearch for your name" | Live search in the Internet Archive full text, WikiTree, Open Archives and Wikidata place history |
+| DNA matches are a mystery | Shared cM → the relationships it fits |
 
-Everything runs on your computer. The server makes no network requests: it does not see your searches and sends
-nothing anywhere.
+Everything runs on your computer. The server goes online only when the assistant runs a live search
+(`search_online`, `place_history`), and then sends that query to that one site.
 
 ## Coverage
 
@@ -71,9 +93,14 @@ nothing anywhere.
 
 ## Install
 
-You need [uv](https://docs.astral.sh/uv/getting-started/installation/) (it fetches Python and the package by itself).
+**Claude Desktop, one click:** download `genealogy-mcp-<version>.mcpb` from the
+[latest release](https://github.com/igormel81/genealogy-mcp/releases/latest) and open it — Claude Desktop installs
+it and asks where to keep your research projects.
 
-**Claude Desktop** — Settings → Developer → Edit Config, add:
+For the other ways you need [uv](https://docs.astral.sh/uv/getting-started/installation/) (it fetches Python and the
+package by itself).
+
+**Claude Desktop, by hand** — Settings → Developer → Edit Config, add:
 
 ```json
 {
@@ -108,14 +135,21 @@ Once the package is on PyPI, `uvx genealogy-mcp` is enough.
 | `plan_research` | A step-by-step plan for a country and period: which records exist, guides, sources in order |
 | `find_sources` | Sources by country/region (`europe`, `latin_america`, `russian_empire`…), years and record kind |
 | `source_details` | One source: coverage, access, how to search |
+| `where_are_records` | Which archives now hold the records of a historical province (Russian Empire, Poland, Galicia, Bukovina, East Prussia, the Baltics, the Caucasus) |
 | `search_links` | Ready search URLs for a name and its variants |
-| `name_variants` | Spelling, old orthography, gendered forms, transliterations, given-name equivalents, patronymics |
+| `search_online` | Live search: Internet Archive full text, Chronicling America, WikiTree, Open Archives, Open List |
+| `place_history` | Wikidata: what a village belonged to over the years, coordinates, Wikipedia article |
+| `name_variants` | Spelling, old orthography, gendered forms, transliterations, Daitch–Mokotoff codes, given-name equivalents (incl. Yiddish and Hebrew), patronymics |
 | `normalize_date` | "около 1899", "9 de octubre de 1899" → `ABT 1899`, `9 OCT 1899` |
-| `convert_calendar` | Julian ↔ Gregorian |
+| `convert_calendar` | Julian ↔ Gregorian, Hebrew, French Republican |
+| `feast_date` | «на Покров», «после Петрова поста», Easter, Wielkanoc… → the date in a given year |
+| `cyrillic_numerals` | ҂аѡ҃п ↔ 1880 |
 | `birth_year_from_age` | The birth-year range from an age in a record |
 | `kinship` | The name of a relation in ru/en/ro, with the expected DNA share |
-| `check_match` | Is a found record our person? A verdict with every fact compared |
+| `dna_match` | Shared cM → the relationships it fits (Shared cM Project 4.0) |
+| `check_match` | Is a found record our person? A verdict with every fact compared (Hispanic double surnames too) |
 | `audit_tree` | Impossible facts, duplicates and gaps in a GEDCOM or `family_tree.json` |
+| `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export |
 | `draft_archive_request` | A request letter to a registry office or archive |
 | `record_guide` | How to read and find a kind of record |
 | `glossary` | Old Russian record terms explained |
@@ -126,11 +160,22 @@ Once the package is on PyPI, `uvx genealogy-mcp` is enough.
 
 ## Privacy and honesty
 
-- Nothing leaves your machine; the server has no network code. The assistant you use is a separate service with its
-  own privacy policy — think before pasting details about living people.
+- The server sends nothing anywhere by itself. A live search (`search_online`, `place_history`) sends the query — names,
+  years, place — to the one site searched. Research projects are files on your computer
+  (`~/Documents/genealogy-mcp` or `GENEALOGY_MCP_HOME`); on a shared HTTP server they are switched off.
+- The assistant you use is a separate service with its own privacy policy — think before pasting details about living
+  people.
 - Letters are drafts: you check and send them.
 - The rules the assistant gets: cite the original, keep conflicting versions, mark guesses as "probably", never link a
   namesake without evidence.
+
+## Benchmark
+
+`evals/tasks.json` holds 32 questions with checkable answers: dates by church feasts, Julian, Hebrew and Republican
+calendars, Cyrillic numerals, Daitch–Mokotoff, DNA, kinship, old terms, archives of historical provinces, evidence
+checks, record history. `evals/check_tools.py` runs in CI and checks that the tools answer all of them correctly.
+`evals/run.py` asks a Claude model the same questions without the server and with it and scores both
+(needs an API key; it costs money, so it is run by hand: Actions → Benchmark).
 
 ## Contributing
 

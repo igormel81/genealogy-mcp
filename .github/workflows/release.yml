@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install build && python -m build
+      - run: pip install build . && python -m build && python tools/make_mcpb.py
       - name: versions agree (pyproject.toml, server.json, package)
         run: |
           python - <<'PY'

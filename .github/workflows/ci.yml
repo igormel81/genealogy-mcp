@@ -20,6 +20,14 @@ jobs:
           python tools/make_sources.py
           git diff --exit-code src/genealogy_mcp/data/sources.json
       - run: python -m unittest discover -v tests
+      - name: the tools answer every benchmark question correctly
+        run: python evals/check_tools.py
+      - name: the Claude Desktop extension builds and validates
+        if: matrix.python == '3.12'
+        run: |
+          python tools/make_mcpb.py
+          git diff --exit-code mcpb/manifest.json
+          npx -y @anthropic-ai/mcpb validate mcpb/manifest.json
       - name: one version in pyproject.toml, server.json and the package
         if: matrix.python == '3.12'
         run: |
