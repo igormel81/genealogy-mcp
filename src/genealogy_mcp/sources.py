@@ -31,13 +31,18 @@ RECORD_KINDS = {
     "nobility": ("nobility and officials", "дворянство и чиновники"),
 }
 REGIONS = {   # names people use → ISO country codes
-    "europe": "AT BE BY CZ DE DK EE ES FI FR GB HU IE IT LT LV MD NL NO PL PT RO RS RU SE SI SK UA HR",
+    "europe": "AT BE BG BY CH CZ DE DK EE ES FI FR GB GR HR HU IE IT LT LV MD NL NO PL PT RO RS RU SE SI SK UA",
     "eastern_europe": "BY EE LT LV MD PL RO RU UA",
     "western_europe": "AT BE DE FR GB IE IT NL ES PT",
     "scandinavia": "DK FI NO SE",
     "latin_america": "AR BO BR CL CO CR CU EC GT MX PE PY UY VE",
     "russian_empire": "RU UA BY PL LT LV EE MD FI",
-    "ussr": "RU UA BY MD LT LV EE",
+    "ussr": "RU UA BY MD LT LV EE KZ UZ KG TJ TM GE AM AZ",
+    "central_asia": "KZ UZ KG TJ TM",
+    "caucasus": "GE AM AZ RU",
+    "north_america": "US CA MX",
+    "oceania": "AU NZ",
+    "balkans": "BG RO RS HR SI GR",
     "british_isles": "GB IE",
 }
 COUNTRY_NAMES = {
@@ -54,6 +59,14 @@ COUNTRY_NAMES = {
     "chile": "CL", "чили": "CL", "peru": "PE", "перу": "PE", "colombia": "CO", "колумбия": "CO", "cuba": "CU", "куба": "CU",
     "uruguay": "UY", "уругвай": "UY", "paraguay": "PY", "парагвай": "PY", "venezuela": "VE", "венесуэла": "VE",
     "ecuador": "EC", "эквадор": "EC", "bolivia": "BO", "боливия": "BO",
+    "canada": "CA", "канада": "CA", "australia": "AU", "австралия": "AU", "new zealand": "NZ", "новая зеландия": "NZ",
+    "bulgaria": "BG", "болгария": "BG", "serbia": "RS", "сербия": "RS", "croatia": "HR", "хорватия": "HR",
+    "slovenia": "SI", "словения": "SI", "greece": "GR", "греция": "GR", "switzerland": "CH", "швейцария": "CH",
+    "georgia": "GE", "грузия": "GE", "armenia": "AM", "армения": "AM", "azerbaijan": "AZ", "азербайджан": "AZ",
+    "kazakhstan": "KZ", "казахстан": "KZ", "uzbekistan": "UZ", "узбекистан": "UZ", "kyrgyzstan": "KG", "киргизия": "KG",
+    "кыргызстан": "KG", "tajikistan": "TJ", "таджикистан": "TJ", "turkmenistan": "TM", "туркмения": "TM", "туркменистан": "TM",
+    "средняя азия": "central_asia", "central asia": "central_asia", "кавказ": "caucasus", "caucasus": "caucasus",
+    "north america": "north_america", "северная америка": "north_america", "балканы": "balkans", "balkans": "balkans",
     "европа": "europe", "латинская америка": "latin_america", "south america": "latin_america", "южная америка": "latin_america",
     "российская империя": "russian_empire", "ссср": "ussr", "soviet union": "ussr",
 }

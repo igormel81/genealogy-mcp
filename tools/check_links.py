@@ -32,10 +32,20 @@ def check(url):
         return "warn", str(e)[:80]
 
 
+def _filled(tpl):
+    """A search template with a sample name: the search pages must answer too."""
+    from urllib.parse import quote
+    for k, v in {"given": "John", "surname": "Smith", "year_from": "1880", "year_to": "1900", "place": "", "q": "John Smith"}.items():
+        tpl = tpl.replace("{" + k + "}", quote(v))
+    return tpl
+
+
 def main():
-    sources = [s for s in json.loads(CAT.read_text(encoding="utf-8")) if s.get("url")]
+    catalogue = json.loads(CAT.read_text(encoding="utf-8"))
+    targets = [(s["id"], s["url"]) for s in catalogue if s.get("url")]
+    targets += [(s["id"] + " (search)", _filled(s["search"])) for s in catalogue if s.get("search")]
     with ThreadPoolExecutor(8) as ex:
-        results = list(ex.map(lambda s: (s["id"], s["url"], *check(s["url"])), sources))
+        results = list(ex.map(lambda t: (t[0], t[1], *check(t[1])), targets))
     dead = [r for r in results if r[2] == "dead"]
     for sid, url, state, info in results:
         if state != "ok":
