@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.1
+
+Reference data checked against official sources (`docs/reference-audit-2026-10-12.md`):
+
+- Archives: current names in Tatarstan, Buryatia, Bashkortostan, Orenburg and Uzbekistan; AGAD (fond 298) for Galician
+  Greek Catholic registers; RGIA of the Far East for Amur; Erivan governorate also found by Azerbaijan (Nakhchivan),
+  Transcaspian by Kazakhstan (Mangyshlak).
+- Guides: civil registration in Spain from 1 January 1871, Austria — marriages from 1 August 1938, births and deaths from
+  1 January 1939 (not Galicia and Bukovina), early Italian regional registers; revisions span several years, no women in
+  the 1811 revision; access to repression files told apart for Ukraine (open since 2015) and Russia.
+- Catalogue: 114 sources — the Central Asian entry split into five national archives with their sites; Finland's digital
+  archive moved to Astia; coverage and access corrected for GRO, Pier 21, Trove, NAA, Papers Past, NZ BDM, JRI-Poland,
+  Gesher Galicia, Steve Morse, Bundesarchiv, BBLD, Odessa3 and others.
+- A test keeps these corrections from slipping back.
+
 ## 0.3.0
 
 - The catalogue grows to 110 sources: Germany (WWI casualty lists, GEDBAS, Online-OFB, German Digital Library,
