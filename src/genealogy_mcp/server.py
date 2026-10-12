@@ -1,5 +1,6 @@
 """genealogy-mcp: an MCP server that gives an AI assistant a genealogist's toolkit and know-how."""
 import json
+import re
 from importlib import resources as _res
 from typing import Annotated, Any, Literal
 
@@ -7,7 +8,7 @@ from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
-from . import __version__, audit, dates, evidence, guides, kinship, letters, names, plan, sources
+from . import __version__, audit, calendars, dates, dna, evidence, guides, kinship, letters, names, numerals, plan, soundex, sources
 
 INSTRUCTIONS = """You help people research their family history. Work like a careful genealogist:
 1. Start from what the person knows; ask about the oldest relatives, places (village, district, province), dates, documents at home.
@@ -124,11 +125,15 @@ def name_variants(
     name: str,
     kind: Annotated[Literal["surname", "given", "patronymic"], Field(description="What the name is")] = "surname",
 ) -> dict[str, Any]:
-    """All the forms a name can take in records: spelling variants, pre-1918 orthography, male/female surname forms
+    """All the forms a name can take in records (and its Daitch–Mokotoff Soundex codes): spelling variants, pre-1918 orthography, male/female surname forms
     (Колодин/Колодина, Kowalski/Kowalska, Kazlauskas/Kazlauskienė), transliterations (passport, BGN, German, French,
     Polish, Romanian, Spanish, Ukrainian, scholarly) and given-name equivalents across languages (Иван = Іоаннъ = Jan = Johann = Juan)."""
     v = names.variants(name, kind)
     v["all_forms"] = names.all_forms(name, kind)
+    if kind == "surname":
+        v["daitch_mokotoff"] = soundex.codes_for(name)
+        v["daitch_mokotoff_tip"] = ("Use these codes in JewishGen and stevemorse.org 'sounds like' searches: they find spellings "
+                                    "no variant list foresees.")
     return v
 
 
@@ -142,12 +147,82 @@ def normalize_date(text: str) -> dict[str, Any]:
 
 @server.tool(annotations=RO)
 def convert_calendar(
-    date: Annotated[str, Field(description="A full date: '1899-10-09', '9.10.1899' or '9 OCT 1899'")],
-    to: Literal["gregorian", "julian"] = "gregorian",
+    date: Annotated[str, Field(description="'1899-10-09' / '9.10.1899' (Julian or Gregorian), '15 Nisan 5650' (Hebrew), '18 Brumaire an VIII' (French Republican)")],
+    to: Literal["gregorian", "julian", "hebrew", "republican"] = "gregorian",
+    from_calendar: Annotated[Literal["auto", "julian", "gregorian", "hebrew", "republican"], Field(description="The calendar of `date`; auto: Hebrew and Republican are recognised by month names, a plain date is Julian when converting to Gregorian and vice versa")] = "auto",
 ) -> dict[str, Any]:
-    """Julian (old style) ↔ Gregorian (new style). Russian records before February 1918 are in the Julian calendar:
-    +10 days in the 1600s, +11 in the 1700s, +12 in the 1800s, +13 in 1900–1918."""
-    return dates.convert_calendar(date, to)
+    """Convert between calendars of old records: Julian (old style; Russia until February 1918: +10 days in the 1600s,
+    +11 in the 1700s, +12 in the 1800s, +13 in 1900–1918), Gregorian, Hebrew (Jewish registers, tombstones) and the
+    French Republican calendar (1792–1805)."""
+    try:
+        text = str(date).strip()
+        src = from_calendar
+        if src == "auto":
+            if any(calendars._heb_month(w) for w in text.split()[1:-1] if not w.isdigit()) and re.search(r"\b5\d{3}\b", text):
+                src = "hebrew"
+            elif re.search(r"\ban\b|vend|brum|frim|niv|pluv|vent|germ|flor|prair|mess|therm|fruct", text, re.I) and not re.search(r"\d{4}", text):
+                src = "republican"
+        if src == "hebrew":
+            r = calendars.hebrew_to_gregorian(text)
+            if to == "julian":
+                r["result"] = r["julian"]
+            else:
+                r["result"] = r["gregorian"]
+            return r
+        if src == "republican":
+            r = calendars.republican_to_gregorian(text)
+            r["result"] = r["gregorian"]
+            return r
+        if to in ("hebrew", "republican"):
+            y, m, d = dates._ymd(text)
+            if src == "julian":
+                y, m, d = calendars.julian_to_gregorian(y, m, d)
+            iso = f"{y:04d}-{m:02d}-{d:02d}"
+            r = calendars.gregorian_to_hebrew(iso) if to == "hebrew" else calendars.gregorian_to_republican(iso)
+            r["result"] = r[to]
+            return r
+        return dates.convert_calendar(text, to)
+    except (ValueError, AttributeError) as e:
+        return {"error": str(e)}
+
+
+@server.tool(annotations=RO)
+def feast_date(
+    feast: Annotated[str, Field(description="A feast or fast as a record names it: «Покров», «Петров день», «Троица», «Пасха», «Филиппов пост», 'Michaelmas', 'Wielkanoc'…")],
+    year: int,
+    church: Literal["orthodox", "catholic"] = "orthodox",
+) -> dict[str, Any]:
+    """The date of a church feast or fast in a given year (Julian and Gregorian), including movable feasts counted from
+    Easter. Records and family stories often date events by feasts: «родился на Покров», «венчались после Петрова поста»."""
+    return calendars.feast_date(feast, year, church)
+
+
+@server.tool(annotations=RO)
+def cyrillic_numerals(value: Annotated[str, Field(description="Letters to read ('҂аѡ҃п', 'ѳі') or a number to write (1880), or a transcription to scan for numerals")]) -> dict[str, Any]:
+    """Church Slavonic numerals in old registers and church books: ҂аѡ҃п = 1880, ѳі = 19 (11–19 are written units
+    first). Reads letters, writes a number, or finds every numeral marked with a titlo in a text."""
+    v = str(value).strip()
+    if v.isdigit():
+        try:
+            return {"number": int(v), "cyrillic": numerals.format(int(v))}
+        except ValueError as e:
+            return {"error": str(e)}
+    n = numerals.parse(v)
+    if n is not None:
+        return {"cyrillic": v, "number": n}
+    found = numerals.find_all(v)
+    return {"found": [{"cyrillic": a, "number": b} for a, b in found]} if found else {
+        "error": "not a numeral; letters: а1 в2 г3 д4 є5 ѕ6 з7 и8 ѳ9 і10 к20 л30 м40 н50 ѯ60 ѻ70 п80 ч90 р100 с200 т300 у400 ф500 х600 ѱ700 ѡ800 ц900, ҂ = ×1000"}
+
+
+@server.tool(annotations=RO)
+def dna_match(
+    shared_cm: Annotated[float, Field(description="Total shared autosomal DNA in centimorgans (cM), as AncestryDNA, MyHeritage, 23andMe, FTDNA or GEDmatch report it")],
+    lang: Lang = "en",
+) -> dict[str, Any]:
+    """Which relationships a DNA match fits, from the amount of shared DNA (Shared cM Project 4.0 ranges), closest first.
+    Several always fit: use documents (and the kinship tool) to decide."""
+    return dna.fits(shared_cm, lang)
 
 
 @server.tool(annotations=RO)

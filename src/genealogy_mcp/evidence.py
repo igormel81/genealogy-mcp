@@ -33,9 +33,23 @@ def _forms(value, kind):
     return {_norm(x) for x in forms if x}
 
 
+PARTICLES = {"de", "del", "de la", "y", "e", "da", "do", "dos", "das", "van", "von", "der", "di", "la", "le", "du"}
+
+
+def _parts(value):
+    """'Pérez García' → ['Pérez', 'García']; 'de la Cruz y Sánchez' → ['Cruz', 'Sánchez']. Hispanic records carry the
+    father's and the mother's surname (Portuguese: mother's, then father's); one shared part is a match."""
+    words = [w for w in re.split(r"[\s-]+", str(value)) if w and w.lower() not in PARTICLES]
+    return words or [str(value)]
+
+
 def _name_match(a, b, kind):
     if not a or not b:
         return None
+    if kind == "surname":
+        pa, pb = _parts(a), _parts(b)
+        if len(pa) > 1 or len(pb) > 1:
+            return any(_forms(x, kind) & _forms(y, kind) for x in pa for y in pb)
     return bool(_forms(a, kind) & _forms(b, kind))
 
 
