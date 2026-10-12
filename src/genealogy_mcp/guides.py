@@ -238,8 +238,8 @@ archives (free), Openarchieven / WieWasWie (Netherlands), Arch.be (Belgium), PAR
 Geneteka (Poland index) and Szukajwarchiwach (scans), ScotlandsPeople (paid), FreeBMD (England index).
 
 **Traps:** before civil registration you need parish registers (often in diocesan archives, Matricula for
-Austria/Germany/Poland/Slovenia). Napoleon-era registers in occupied territories use the French Republican calendar
-(an II, etc.).""",
+Austria/Germany/Poland/Slovenia). Registers from the period of French rule may use the French Republican calendar
+(an II, etc.); it was abolished from 1 January 1806.""",
         "ru": """**С какого года:** Франция 1792, Бельгия и Нидерланды 1796–1811 (при французах), Италия местами с 1797 г. (например, Кремона), в целом с 1866–1871 гг. (Трентино/Южный Тироль с 1918 г.), Германия
 1874–1876 (Пруссия 1874), Англия и Уэльс 1837, Шотландия 1855, Ирландия 1864 (некатолические браки — 1845), Испания 1871,
 Португалия 1911, Венгрия 1895, Австрия 1938–1939 (Бургенланд с 1895 г.; гражданские браки с 1938 г., рождения и смерти с 1939 г.; ранее церковные книги имели силу гражданских), Польша — гражданско-церковные книги с 1808/1826 (ксёндз был регистратором),
@@ -251,7 +251,8 @@ Austria/Germany/Poland/Slovenia). Napoleon-era registers in occupied territories
 Англии).
 
 **Ловушки:** до гражданской регистрации нужны церковные книги (часто в епархиальных архивах; Matricula — Австрия,
-Германия, Польша, Словения). Книги наполеоновского времени на занятых землях ведутся по республиканскому календарю.""",
+Германия, Польша, Словения). В книгах периода французского господства может встречаться французский республиканский
+календарь; он отменён с 1 января 1806 г.""",
     },
     "latin_america": {
         "title": ("Latin America: parish and civil records, immigration", "Латинская Америка: церковные и гражданские записи, иммиграция"),

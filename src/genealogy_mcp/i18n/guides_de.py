@@ -39,9 +39,9 @@ Trauungen mit Altersangaben und Zeugen; Sterbefälle mit Alter und Todesursache.
     "wwi": ("Erster Weltkrieg", """**Was:** deutsche Verlustlisten (des.genealogy.net, etwa 8,5 Mio. Einträge), österreichische Verlustlisten, russische
 Verlustlisten (gwar.mil.ru), Kriegsgefangenenarchiv des IKRK (grandeguerre.icrc.org), Volksbund-Gräbersuche.
 
-**Wie:** Suchen Sie mit dem Namen und dem Geburtsort; der Eintrag nennt das Regiment — damit lassen sich die Kriegsstammrollen finden (in Bayern online,
+**Wie:** Suchen Sie mit dem Namen und dem Geburtsort; sofern der Eintrag das Regiment nennt, lassen sich damit die Kriegsstammrollen finden (in Bayern online,
 für Preußen größtenteils verloren)."""),
-    "wwii": ("Zweiter Weltkrieg", """**Was:** Wehrmachtsangehörige: Bundesarchiv, Abteilung PA (früher WASt / Deutsche Dienststelle) in Berlin — Auskunft auf
+    "wwii": ("Zweiter Weltkrieg", """**Was:** Wehrmachtsangehörige: Bundesarchiv, Abteilung Deutsches Reich (DR), Standort Berlin-Tegel — Auskunft auf
 Antrag; Gefallene: Volksbund-Gräbersuche; Verfolgte, Zwangsarbeiter, Displaced Persons: Arolsen Archives; sowjetische
 Soldaten: «Память народа» und OBD «Мемориал».
 

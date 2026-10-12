@@ -38,6 +38,6 @@ Polônia — registros civis mantidos por autoridades religiosas desde 1808/1826
 **Onde:** arquivos municipais e do Estado; disponíveis on-line: Digitarq (Portugal: registros paroquiais dos arquivos distritais),
 Antenati (Itália), PARES (Espanha), FranceArchives, Geneteka (Polônia), Matricula (Áustria, Alemanha).
 
-**Armadilhas:** antes do registro civil, consulte os livros paroquiais (em Portugal, nos arquivos distritais). Registros da época
-napoleônica usam o calendário republicano francês."""),
+**Armadilhas:** antes do registro civil, consulte os livros paroquiais (em Portugal, nos arquivos distritais). Nos registros do período
+de domínio francês pode aparecer o calendário republicano francês; ele foi abolido a partir de 1 de janeiro de 1806."""),
 }

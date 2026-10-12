@@ -35,7 +35,8 @@ archivos departamentales, Openarchieven (Países Bajos), PARES y archivos munici
 Szukajwarchiwach (Polonia), ScotlandsPeople (de pago), FreeBMD (Inglaterra).
 
 **Precauciones:** antes del registro civil hacen falta los libros parroquiales (a menudo en archivos diocesanos; Matricula
-para Austria, Alemania, Polonia y Eslovenia). Los registros de la época napoleónica usan el calendario republicano."""),
+para Austria, Alemania, Polonia y Eslovenia). En los registros del período de dominio francés puede aparecer el calendario
+republicano francés; fue abolido a partir del 1 de enero de 1806."""),
     "census": ("Censos de población", """**Imperio ruso 1897:** el único censo general; la mayoría de las hojas fueron destruidas; las que se conservan están en
 archivos regionales (algunas en FamilySearch). **URSS 1926–1939:** casi no se conservan hojas individuales. **Otros
 países:** EE. UU. 1790–1950 (el de 1950 abierto desde 2022), Reino Unido 1841–1921, Irlanda 1901 y 1911 (gratis), Canadá,
