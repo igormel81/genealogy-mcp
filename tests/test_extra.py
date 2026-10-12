@@ -107,5 +107,21 @@ class PlacesByCountry(unittest.TestCase):
         self.assertEqual([e["id"] for e in places.find("Moldova")], ["bessarabia"])
 
 
+
+
+class Translations(unittest.TestCase):
+    def test_guides(self):
+        from genealogy_mcp import guides
+        for lang in guides.LANGS[2:]:
+            extra = guides._extra(lang)
+            self.assertTrue(extra, lang)
+            for key, (title, text) in extra.items():
+                self.assertIn(key, guides.GUIDES, f"{lang}: unknown topic {key}")
+                self.assertTrue(title and len(text) > 300, f"{lang}/{key}")
+        self.assertEqual(len(guides._extra("uk")), len(guides.GUIDES))
+        self.assertIn("English", guides.guide("wwi", "es"))
+        self.assertTrue(guides.guide("latin_america", "pt").startswith("# América Latina"))
+
+
 if __name__ == "__main__":
     unittest.main()

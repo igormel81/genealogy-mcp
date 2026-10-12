@@ -360,11 +360,12 @@ def draft_archive_request(
 @server.tool(annotations=RO)
 def record_guide(
     topic: Annotated[str, Field(description="One of: " + ", ".join(guides.GUIDES))] = "",
-    lang: Lang = "en",
+    lang: Annotated[Literal["en", "ru", "uk", "es", "pt", "pl", "de"], Field(description="en, ru and uk: every guide; es, pt, pl, de: the guides most used in those countries (others fall back to English)")] = "en",
 ) -> str:
     """How to read and find a kind of record: parish registers, confession lists, revision lists, household books,
     WWI and WWII records, repression files, passenger lists, censuses, European civil registration, Latin America,
-    evaluating evidence. Without a topic — the list."""
+    evaluating evidence — in English, Russian, Ukrainian, and partly Spanish, Portuguese, Polish, German. Without a
+    topic — the list."""
     text = guides.guide(topic, lang)
     if text:
         return text
@@ -483,6 +484,12 @@ def res_prompts(lang: str) -> str:
 @server.resource("genealogy://records/{topic}", mime_type="text/markdown", description="How to read a kind of record (English)")
 def res_record(topic: str) -> str:
     return guides.guide(topic, "en") or "Unknown topic. Topics: " + ", ".join(guides.GUIDES)
+
+
+@server.resource("genealogy://records/{lang}/{topic}", mime_type="text/markdown",
+                 description="How to read a kind of record, in en, ru, uk, es, pt, pl or de")
+def res_record_lang(lang: str, topic: str) -> str:
+    return guides.guide(topic, lang) or "Unknown topic. Topics: " + ", ".join(guides.GUIDES)
 
 
 @server.resource("genealogy://glossary", mime_type="application/json", description="Glossary of old Russian record terms")

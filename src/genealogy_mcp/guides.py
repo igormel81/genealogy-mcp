@@ -361,16 +361,34 @@ GLOSSARY = {   # term → (English explanation, Russian explanation)
 }
 
 
+LANGS = ("en", "ru", "uk", "es", "pt", "pl", "de")
+
+
+def _extra(lang):
+    """Translations beyond English and Russian: genealogy_mcp/i18n/guides_<lang>.py."""
+    if lang not in LANGS[2:]:
+        return {}
+    import importlib
+    return importlib.import_module(f".i18n.guides_{lang}", __package__).GUIDES
+
+
 def guide(topic, lang="en"):
     g = GUIDES.get(topic)
     if not g:
         return None
+    extra = _extra(lang).get(topic)
+    if extra:
+        return f"# {extra[0]}\n\n{extra[1]}"
     ru = lang == "ru"
-    return f"# {g['title'][1 if ru else 0]}\n\n{g['ru' if ru else 'en']}"
+    text = f"# {g['title'][1 if ru else 0]}\n\n{g['ru' if ru else 'en']}"
+    if lang not in ("en", "ru"):
+        text += f"\n\n_(No {lang} translation of this guide yet: shown in English.)_"
+    return text
 
 
 def topics(lang="en"):
-    return {k: v["title"][1 if lang == "ru" else 0] for k, v in GUIDES.items()}
+    extra = _extra(lang)
+    return {k: (extra[k][0] if k in extra else v["title"][1 if lang == "ru" else 0]) for k, v in GUIDES.items()}
 
 
 def glossary(term="", lang="en"):
