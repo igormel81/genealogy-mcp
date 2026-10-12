@@ -20,6 +20,17 @@ jobs:
           python tools/make_sources.py
           git diff --exit-code src/genealogy_mcp/data/sources.json
       - run: python -m unittest discover -v tests
+      - name: one version in pyproject.toml, server.json and the package
+        if: matrix.python == '3.12'
+        run: |
+          python - <<'PY'
+          import json, re, tomllib
+          v = tomllib.load(open("pyproject.toml", "rb"))["project"]["version"]
+          s = json.load(open("server.json"))
+          init = re.search(r'__version__ = "(.+?)"', open("src/genealogy_mcp/__init__.py").read())[1]
+          assert s["version"] == v and all(p["version"] == v for p in s["packages"]) and init == v, (v, s["version"], init)
+          assert len(s["description"]) <= 100, "server.json description: 100 characters at most"
+          PY
       - name: the server starts and answers over stdio
         run: |
           printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}' \

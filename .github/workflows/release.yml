@@ -1,7 +1,10 @@
 name: Release
-# Actions → Release → Run workflow: tags v<version from pyproject.toml>, builds, makes a GitHub release.
-# PyPI: add a trusted publisher on pypi.org (workflow release.yml, environment pypi) and set the
-# repository variable PYPI_PUBLISH=true.
+# Actions → Release → Run workflow: tags v<version from pyproject.toml>, builds, makes a GitHub release
+# (skipped when it already exists), then — with the repository variable PYPI_PUBLISH=true — publishes
+# to PyPI and to the official MCP Registry (registry.modelcontextprotocol.io).
+# PyPI once: pypi.org → Your projects → Publishing → add a pending trusted publisher:
+#   project genealogy-mcp, owner igormel81, repository genealogy-mcp, workflow release.yml, environment pypi.
+# The MCP Registry needs nothing: it signs in with this workflow's GitHub token (io.github.igormel81/…).
 on:
   workflow_dispatch:
 permissions:
@@ -17,12 +20,40 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install build && python -m build
+      - name: versions agree (pyproject.toml, server.json, package)
+        run: |
+          python - <<'PY'
+          import json, re, tomllib
+          v = tomllib.load(open("pyproject.toml", "rb"))["project"]["version"]
+          s = json.load(open("server.json"))
+          init = re.search(r'__version__ = "(.+?)"', open("src/genealogy_mcp/__init__.py").read())[1]
+          assert s["version"] == v and all(p["version"] == v for p in s["packages"]) and init == v, (v, s["version"], init)
+          print("version", v)
+          PY
       - name: tag and GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           v=$(python -c "import tomllib;print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
-          notes=$(awk -v v="$v" '$0 ~ "^## "v {f=1; next} /^## / {f=0} f' CHANGELOG.md)
-          gh release create "v$v" dist/* --title "v$v" --notes "$notes" --target "$GITHUB_SHA"
+          echo "VERSION=$v" >> "$GITHUB_ENV"
+          if gh release view "v$v" >/dev/null 2>&1; then
+            echo "release v$v exists, skipping"
+          else
+            notes=$(awk -v v="$v" '$0 ~ "^## "v {f=1; next} /^## / {f=0} f' CHANGELOG.md)
+            gh release create "v$v" dist/* --title "v$v" --notes "$notes" --target "$GITHUB_SHA"
+          fi
       - if: vars.PYPI_PUBLISH == 'true'
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
+      - name: MCP Registry
+        if: vars.PYPI_PUBLISH == 'true'
+        run: |
+          # the registry checks the package on PyPI: wait until the new version is visible there
+          for i in $(seq 1 30); do
+            curl -sf "https://pypi.org/pypi/genealogy-mcp/$VERSION/json" >/dev/null && break
+            sleep 10
+          done
+          curl -sL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish
