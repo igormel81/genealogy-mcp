@@ -98,5 +98,14 @@ class Places(unittest.TestCase):
             self.assertTrue(e["archives"] and e["now"], e["id"])
 
 
+
+
+class PlacesByCountry(unittest.TestCase):
+    def test_country(self):
+        from genealogy_mcp import places
+        self.assertIn("semirechye", [e["id"] for e in places.find("Казахстан")])
+        self.assertEqual([e["id"] for e in places.find("Moldova")], ["bessarabia"])
+
+
 if __name__ == "__main__":
     unittest.main()

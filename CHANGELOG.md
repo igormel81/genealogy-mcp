@@ -4,7 +4,7 @@
 
 - **Live search** (`search_online`): Internet Archive full text (passages with the words found), WikiTree, Open
   Archives, Chronicling America, Open List; `place_history`: what a village belonged to over time (Wikidata).
-- **Where the records are** (`where_are_records`): 74 provinces of the Russian Empire, the Kingdom of Poland, Galicia,
+- **Where the records are** (`where_are_records`): 87 provinces of the Russian Empire, the Kingdom of Poland, Galicia,
   Bukovina, East Prussia, the Baltics and the Caucasus → today's regions and archives.
 - **A research project that remembers** (`project_view`, `project_save`, `project_log`, `project_transfer`): people,
   families, sources, leads, a search log with negative results, a corrections log, GEDCOM import and export; the
