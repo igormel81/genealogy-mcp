@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0
+
+- The catalogue grows to 110 sources: Germany (WWI casualty lists, GEDBAS, Online-OFB, German Digital Library,
+  Bundesarchiv), Jewish genealogy (JRI-Poland, Gesher Galicia, LitvakSIG, Steve Morse), the British Isles (FreeCEN,
+  FreeREG, The National Archives, GRO, Welsh Newspapers), Canada, Australia and New Zealand, Czechia, Finland, Bulgaria,
+  Georgia, Central Asia; new regions for `find_sources`: Central Asia, the Caucasus, the Balkans, North America, Oceania.
+- `where_are_records`: 87 provinces — Siberia, the Far East and Central Asia added; a country name lists every
+  province now (partly) in it.
+- Record guides in Ukrainian (all twelve) and, for the most used topics, Spanish, Portuguese, Polish and German.
+- The weekly link check also opens every search-link template.
+
 ## 0.2.0
 
 - **Live search** (`search_online`): Internet Archive full text (passages with the words found), WikiTree, Open

@@ -55,8 +55,9 @@ def find_sources(
     lang: Lang = "en",
     limit: int = 25,
 ) -> dict[str, Any]:
-    """Find genealogy databases and archives for a country (or region), period and kind of records — 79 sources across
-    Russia and the former USSR, Eastern, Western and Northern Europe, the British Isles, the USA and Latin America,
+    """Find genealogy databases and archives for a country (or region), period and kind of records — 110 sources across
+    Russia and the former USSR, the Caucasus and Central Asia, Eastern, Western and Northern Europe, Germany, the British
+    Isles, the Americas, Australia and New Zealand,
     each with what it holds and how to search it well."""
     found = sources.find(country, year_from, year_to, records, text, include_worldwide)
     return {"count": len(found), "sources": [_source_brief(s, lang) for s in found[:limit]], "more": max(0, len(found) - limit),

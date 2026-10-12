@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 An [MCP](https://modelcontextprotocol.io) server that turns Claude, ChatGPT, Cursor or any MCP-capable assistant into a
-careful genealogist. It knows **where** the records of your ancestors are (79 archives and databases across Russia and
+careful genealogist. It knows **where** the records of your ancestors are (110 archives and databases across Russia and
 the former USSR, Europe, the British Isles, the USA and Latin America), **how** to search them (name variants,
 transliterations, old spelling, the Julian calendar), and **when a find really is your person** — so the assistant gives
 you working links and a plan instead of confident guesses.
@@ -61,7 +61,7 @@ including "nothing found" — so nobody searches the same place twice. GEDCOM in
 
 | Without it | With genealogy-mcp |
 |---|---|
-| The assistant names two or three famous websites | 79 sources chosen by country, years and kind of record, each with "how to search it well" |
+| The assistant names two or three famous websites | 110 sources chosen by country, years and kind of record, each with "how to search it well" |
 | Searches one spelling | Spelling variants, pre-1918 orthography, male/female forms, 9 transliteration systems, given-name equivalents (Иван = Іоаннъ = Jan = Johann = Juan) |
 | Invented or broken URLs | Ready search links built from tested URL templates; a weekly job checks every site |
 | "This is probably your ancestor" | An explicit evidence rule: a namesake is not a relative |
@@ -87,9 +87,19 @@ Everything runs on your computer. The server goes online only when the assistant
   Geneteka, Szukajwarchiwach, epaveldas, Raduraksti, the Estonian archives.
 - **Europe:** ICRC WWI prisoners, CWGC, Volksbund, ScotlandsPeople, FreeBMD, Irish civil and census records, Archion,
   GenWiki, FranceArchives, Mémoire des hommes, Antenati, PARES, Digitarq, Open Archives (NL), Belgian State Archives,
-  Riksarkivet, Digitalarkivet, Danish Family Search, HisKi, Hungaricana.
+  Riksarkivet, Digitalarkivet, Danish Family Search, HisKi, Finnish Digital Archive, Hungaricana, Acta Publica (Czechia),
+  Bulgarian state archives, FreeCEN, FreeREG, The National Archives, GRO, Welsh Newspapers.
+- **Germany and German-speaking lands:** WWI casualty lists, GEDBAS, Online-OFB, German Digital Library, Bundesarchiv,
+  Baltic Biographical Lexicon, Black Sea Germans (Odessa3), Poznań Project, Metryki.
+- **Jewish genealogy:** JRI-Poland, Gesher Galicia, LitvakSIG, JewishGen, Yad Vashem, Steve Morse One-Step tools.
+- **Caucasus and Central Asia:** National Archives of Georgia, the central state archives of Kazakhstan, Uzbekistan,
+  Kyrgyzstan, Tajikistan and Turkmenistan.
 - **The Americas:** FamilySearch Latin America, AGN Mexico, Arquivo Nacional and Museu da Imigração (Brazil),
-  Hemeroteca Digital, CEMLA and AGN (Argentina), Archivo Nacional (Chile), NARA, Ellis Island, Chronicling America.
+  Hemeroteca Digital, CEMLA and AGN (Argentina), Archivo Nacional (Chile), NARA, Ellis Island, Chronicling America,
+  USGenWeb, Library and Archives Canada, BAnQ (Quebec), Pier 21.
+- **Australia and New Zealand:** Trove, National Archives of Australia, Papers Past, New Zealand BDM.
+
+Record guides in English, Russian and Ukrainian, the main ones also in Spanish, Portuguese, Polish and German.
 
 ## Install
 
