@@ -143,9 +143,9 @@ claude mcp add genealogy -- uvx genealogy-mcp
 **Docker:** `docker build -t genealogy-mcp .`, затем `docker run -i --rm genealogy-mcp` (stdio) или
 `docker run --rm -p 8000:8000 genealogy-mcp --http --host 0.0.0.0` (HTTP, адрес `/mcp`).
 
-**Ваш сайт на gene-archive** как проект: установите gene-archive рядом с сервером
-(`pip install git+https://github.com/igormel81/gene_archive@v0.4.0` — команда `gene` должна быть в PATH, иначе задайте
-`GENE_CMD`), затем укажите папку в `GENEALOGY_MCP_SITES` (или в настройках расширения Claude Desktop) либо просто
+**Ваш сайт на gene-archive** как проект: установите сервер вместе с gene-archive —
+`pip install "genealogy-mcp[site]"` или `uvx --from "genealogy-mcp[site]" genealogy-mcp` (команда `gene` найдётся
+в PATH или рядом с Python сервера; если она в другом месте, задайте `GENE_CMD`), затем укажите папку в `GENEALOGY_MCP_SITES` (или в настройках расширения Claude Desktop) либо просто
 назовите ассистенту путь к ней. `GENE_AUTHOR` — имя в истории git (по умолчанию `git config user.name`).
 
 **Клиенты, подключающиеся по HTTP** (коннекторы ChatGPT, удалённые агенты): запустите

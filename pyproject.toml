@@ -23,6 +23,10 @@ classifiers = [
 ]
 dependencies = ["mcp>=2.2,<3"]
 
+[project.optional-dependencies]
+# your gene-archive site as the project: changes go through `gene apply`
+site = ["gene-archive>=0.4.0"]
+
 [project.urls]
 Homepage = "https://github.com/igormel81/genealogy-mcp"
 Issues = "https://github.com/igormel81/genealogy-mcp/issues"

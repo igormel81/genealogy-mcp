@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- `pip install "genealogy-mcp[site]"` installs gene-archive (now on PyPI) for your site folder in one step.
+- The `gene` command is found next to the server's Python too, so a virtualenv that was not activated works
+  without `GENE_CMD`.
+
 ## 0.4.0
 
 - **Your family site as the project.** The project tools take the path of a gene-archive site folder (or the folders

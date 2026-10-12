@@ -75,8 +75,8 @@ def gene_command():
     for name in ("gene", "gene.exe"):
         if (here / name).is_file():
             return [str(here / name)]
-    raise ValueError("gene-archive is not installed: pip install git+https://github.com/igormel81/gene_archive@v0.4.0 "
-                     "(or set GENE_CMD, e.g. 'uvx --from git+https://github.com/igormel81/gene_archive gene')")
+    raise ValueError("gene-archive is not installed: pip install \"genealogy-mcp[site]\" "
+                     "(or set GENE_CMD, e.g. 'uvx --from gene-archive gene')")
 
 
 def _author(folder):
