@@ -32,25 +32,26 @@ def _q(*parts):
 # ---------------------------------------------------------------- sources
 
 def internet_archive(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15):
-    """Full text of digitised books (memorial books, directories, regimental histories, newspapers)."""
-    q = query or _q(f'"{_q(given, surname)}"' if surname else "", place)
+    """Full text of digitised books (memorial books, directories, regimental histories, newspapers): returns the
+    passages where the words occur and a link that opens the book on that search."""
+    q = query or _q(f'"{_q(given, surname)}"' if surname else "", f'"{place}"' if place else "")
+    d = _get("https://archive.org/services/search/beta/page_production/", {"user_query": q, "service_backend": "fts", "hits_per_page": limit})
     hits = []
-    try:   # full-text search service
-        d = _get("https://archive.org/services/search/beta/page_production/", {
-            "user_query": q, "service_backend": "fts", "hits_per_page": limit, "page_type": "collection_details",
-            "page_target": "", "aggregations": "false"})
-        for h in (((d.get("response") or {}).get("body") or {}).get("hits") or {}).get("hits", []):
-            f = h.get("fields") or {}
-            ident = f.get("identifier")
-            snippet = " … ".join(((h.get("highlight") or {}).get("text") or [])[:2])
-            hits.append({"title": f.get("title"), "date": f.get("date") or f.get("year"), "url": f"https://archive.org/details/{ident}",
-                         "snippet": re.sub(r"</?mark>", "**", snippet)[:400]})
-    except (urllib.error.URLError, ValueError, TimeoutError, OSError):
-        pass
-    if not hits:   # metadata search as a fallback
-        d = _get("https://archive.org/advancedsearch.php", {"q": q, "fl[]": ["identifier", "title", "date"], "rows": limit, "output": "json"})
+    for h in (((d.get("response") or {}).get("body") or {}).get("hits") or {}).get("hits", []):
+        f = h.get("fields") or {}
+        year = f.get("year") or (str(f.get("date") or "")[:4] or None)
+        if year_from and year and str(year).isdigit() and int(year) < int(year_from) - 50:
+            continue
+        passages = [re.sub(r"\s+", " ", t).replace("{{{", "**").replace("}}}", "**") for t in (h.get("highlight") or {}).get("text", [])[:3]]
+        href = f.get("__href__") or f"/details/{f.get('identifier')}"
+        hits.append({"title": f.get("title"), "year": year, "file": f.get("file_basename"),
+                     "url": "https://archive.org" + href, "passages": passages})
+    if not hits:   # nothing in the text: try titles and descriptions of books
+        d = _get("https://archive.org/advancedsearch.php", {"q": f"({q}) AND mediatype:texts", "fl[]": ["identifier", "title", "date"],
+                                                           "rows": limit, "output": "json"})
         for doc in d.get("response", {}).get("docs", []):
-            hits.append({"title": doc.get("title"), "date": doc.get("date"), "url": f"https://archive.org/details/{doc['identifier']}"})
+            hits.append({"title": doc.get("title"), "year": str(doc.get("date") or "")[:4] or None,
+                         "url": f"https://archive.org/details/{doc['identifier']}", "passages": []})
     return hits
 
 
@@ -82,7 +83,8 @@ def wikitree(surname="", given="", year_from=None, year_to=None, place="", query
     out = []
     for m in matches[:limit]:
         out.append({"title": _q(m.get("FirstName"), m.get("LastNameAtBirth"), f"({m.get('LastNameCurrent')})" if m.get("LastNameCurrent") not in (None, m.get("LastNameAtBirth")) else ""),
-                    "date": f"{m.get('BirthDate', '')} – {m.get('DeathDate', '')}", "place": m.get("BirthLocation"),
+                    "date": " – ".join(x if x and not x.startswith("0000") else "?" for x in (m.get("BirthDate"), m.get("DeathDate"))).replace("-00", ""),
+                    "place": m.get("BirthLocation"),
                     "url": f"https://www.wikitree.com/wiki/{m.get('Name')}"})
     return out
 
@@ -90,15 +92,15 @@ def wikitree(surname="", given="", year_from=None, year_to=None, place="", query
 def open_archives(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15):
     """Open Archives (openarchieven.nl): civil and church records from Dutch and Belgian archives, some German and others."""
     name = query or _q(given, surname)
+    if year_from or year_to:   # the API takes the period inside the name: "Jan Jansen 1850-1860"
+        name += f" {year_from or year_to}-{year_to or year_from}"
     params = {"name": name, "lang": "en", "number_show": limit, "eventplace": place}
-    if year_from or year_to:
-        params["period"] = f"{year_from or 1500}-{year_to or 2000}"
     d = _get("https://api.openarch.nl/1.1/records/search.json", params)
     out = []
     for r in (d.get("response") or {}).get("docs", [])[:limit]:
         ed = r.get("eventdate") or {}
         date = "-".join(str(ed.get(k)) for k in ("year", "month", "day") if ed.get(k))
-        out.append({"title": f"{r.get('personname')} — {r.get('relationtype', '')}, {r.get('eventtype', '')}",
+        out.append({"title": f"{str(r.get('personname', '')).lstrip('# ')} — {r.get('relationtype', '')}, {r.get('eventtype', '')}",
                     "date": date, "place": r.get("eventplace") if isinstance(r.get("eventplace"), str) else ", ".join(r.get("eventplace") or []),
                     "archive": r.get("archive"), "url": r.get("url")})
     return out
@@ -133,7 +135,11 @@ def search(source, **kw):
         return {"source": source, "count": len(hits), "results": hits,
                 "note": "Index entries and snippets point to a record: open it and cite the original."}
     except urllib.error.HTTPError as e:
-        return {"source": source, "error": f"the site answered {e.code}"}
+        msg = f"the site answered {e.code}"
+        if e.code in (403, 429, 503):
+            msg += (" — it may refuse requests from this network (some sites block data centres or other countries). "
+                    "Give the user the link from search_links to open in a browser.")
+        return {"source": source, "error": msg}
     except (urllib.error.URLError, TimeoutError, OSError) as e:
         return {"source": source, "error": f"the site did not answer: {getattr(e, 'reason', e)}"}
     except (ValueError, KeyError, IndexError, AttributeError) as e:
