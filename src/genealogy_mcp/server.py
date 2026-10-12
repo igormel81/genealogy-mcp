@@ -9,6 +9,7 @@ from mcp.types import ToolAnnotations
 from pydantic import Field
 
 from . import __version__, audit, calendars, dates, dna, evidence, guides, kinship, letters, names, numerals, plan, soundex, sources
+from . import project as proj
 
 INSTRUCTIONS = """You help people research their family history. Work like a careful genealogist:
 1. Start from what the person knows; ask about the oldest relatives, places (village, district, province), dates, documents at home.
@@ -19,8 +20,10 @@ INSTRUCTIONS = """You help people research their family history. Work like a car
 5. A name is not a person: before linking a found record, run check_match — two independent facts beyond the name.
 6. Cite the original (archive, fond, opis, delo, folio, or film and image), not an index; keep conflicting versions.
 7. Old dates: Julian calendar in Russia until 1918 (convert_calendar); ages in records drift (birth_year_from_age).
-8. Archive requests are drafts (draft_archive_request): the user checks and sends them; never claim a letter was sent.
-9. Living people: do not publish details about them; mark guesses as 'probably'.
+8. Keep the work in a project (project_view / project_save / project_log): save sources with full citations, people and
+   families citing them, open leads, and every search with its result — next time start from project_view.
+9. Archive requests are drafts (draft_archive_request): the user checks and sends them; never claim a letter was sent.
+10. Living people: do not publish details about them; mark guesses as 'probably'.
 Answer in the user's language; tools take lang="ru" for Russian texts."""
 
 server = MCPServer("genealogy-mcp", title="Genealogy research toolkit", instructions=INSTRUCTIONS, version=__version__,
@@ -309,6 +312,82 @@ def glossary(term: Annotated[str, Field(description="A word from an old document
     """Old Russian terms from records — estates, kinship by marriage (шурин, деверь, золовка), archive citation (фонд,
     опись, дело, лист), administrative units, pre-1918 letters — explained."""
     return guides.glossary(term, lang)
+
+
+# ---------------------------------------------------------------- the research project (memory between conversations)
+
+def _local_only():
+    if not ALLOW_FILES:
+        raise ValueError("projects are kept on the user's computer: not available on a shared HTTP server")
+
+
+def _safe(fn, *a, **kw):
+    try:
+        _local_only()
+        return fn(*a, **kw)
+    except (ValueError, OSError) as e:
+        return {"error": str(e)}
+
+
+WRITE = ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=False, openWorldHint=False)
+
+
+@server.tool(annotations=RO)
+def project_view(
+    project: Annotated[str, Field(description="Project name (one per family or research question); empty = list the projects")] = "",
+    what: Literal["summary", "record", "search", "log", "checks"] = "summary",
+    id: Annotated[str, Field(description="Record id for what='record' (I1, F1, S1, L1)")] = "",
+    query: Annotated[str, Field(description="Text for what='search'")] = "",
+    lang: Lang = "en",
+) -> dict[str, Any]:
+    """Read the research project kept between conversations: summary (people, open leads, recent searches, problems),
+    one record with its family and sources, a text search, the full search log, or the tree checks.
+    Start every session on an existing project with what='summary'."""
+    if not project:
+        return _safe(lambda: {"projects": proj.list_projects(), "folder": str(proj.home())})
+    return _safe(proj.view, project, what, id, query, lang)
+
+
+@server.tool(annotations=WRITE)
+def project_save(
+    project: str,
+    kind: Literal["person", "family", "source", "lead"],
+    record: Annotated[dict[str, Any], Field(description="""Fields. person: given_names, surname, sex (M/F), birth/death/burial {date, place_as_recorded, source_ids, note}, notes, research_status ('confirmed' | 'probable' | 'unlinked_candidate').
+family: partners [ids], children [ids], marriage {date, place_as_recorded, source_ids}, source_ids.
+source: title, kind (parish_register, census, military, civil_record, family_document, photo, book, web…), locator (archive, fond, opis, delo, folio — or film/image), url, scope (what it says: transcription).
+lead: title (what to check), record (where), person_id, url, status ('open'|'closed'), resolution.
+Pass "id" to update an existing record (a field set to null is removed).""")],
+    reason: Annotated[str, Field(description="Why this was added or changed — kept in the corrections log")] = "",
+    source_ids: Annotated[list[str] | None, Field(description="Sources (S…) that prove it")] = None,
+    delete: bool = False,
+) -> dict[str, Any]:
+    """Add or change a person, family, source or research lead in the project. Every change of an existing record is
+    logged with the old and new value, the reason and the documents. Save the source first, then cite its S-id."""
+    return _safe(proj.upsert, project, kind, record, reason, source_ids, delete)
+
+
+@server.tool(annotations=WRITE)
+def project_log(
+    project: str,
+    action: Annotated[str, Field(description="What was searched and where: 'FamilySearch index, Kolodin, Tula 1880–1890'")],
+    result: Annotated[str, Field(description="What came out — 'nothing found' is a result too")],
+    scope: str = "",
+) -> dict[str, Any]:
+    """Write a line in the project's research log, so nobody searches the same place twice. Log negative results."""
+    return _safe(proj.log, project, action, result, scope)
+
+
+@server.tool(annotations=WRITE)
+def project_transfer(
+    project: str,
+    direction: Literal["export_gedcom", "import_gedcom"],
+    file: Annotated[str, Field(description="For import: path to a .ged file or the GEDCOM text")] = "",
+) -> dict[str, Any]:
+    """Export the project as GEDCOM 5.5.1 (for MyHeritage, Ancestry, Gramps, Geni…) next to the project file, or start a
+    new project from a GEDCOM exported by another program."""
+    if direction == "export_gedcom":
+        return _safe(proj.export, project, "gedcom")
+    return _safe(proj.import_gedcom, project, file)
 
 
 # ---------------------------------------------------------------- resources
