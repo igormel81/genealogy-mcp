@@ -16,6 +16,7 @@ import re
 import shlex
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 from . import audit
@@ -61,13 +62,19 @@ def _site(name):
 
 
 def gene_command():
-    """How to run gene-archive's CLI: $GENE_CMD (e.g. "uvx --from gene-archive gene") or `gene` on PATH."""
+    """How to run gene-archive's CLI: $GENE_CMD (e.g. "uvx --from gene-archive gene"), `gene` on PATH
+    or next to this Python (same virtualenv)."""
     env = os.environ.get("GENE_CMD")
     if env:
         return shlex.split(env)
     found = shutil.which("gene")
     if found:
         return [found]
+    # installed into the same virtualenv, but the server was started by its full path without activating it
+    here = Path(sys.executable).parent
+    for name in ("gene", "gene.exe"):
+        if (here / name).is_file():
+            return [str(here / name)]
     raise ValueError("gene-archive is not installed: pip install git+https://github.com/igormel81/gene_archive@v0.4.0 "
                      "(or set GENE_CMD, e.g. 'uvx --from git+https://github.com/igormel81/gene_archive gene')")
 

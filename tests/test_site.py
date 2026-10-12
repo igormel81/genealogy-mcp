@@ -76,3 +76,20 @@ class SiteFolder(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GeneCommand(unittest.TestCase):
+    """`gene` is found next to this Python when the virtualenv is not activated (PATH lacks its bin)."""
+
+    def test_next_to_python(self):
+        from unittest import mock
+        with tempfile.TemporaryDirectory() as tmp:
+            gene = Path(tmp) / "gene"
+            gene.write_text("")
+            with mock.patch.dict(os.environ, {"PATH": "/nonexistent"}):
+                os.environ.pop("GENE_CMD", None)
+                with mock.patch.object(project.sys, "executable", str(Path(tmp) / "python")):
+                    self.assertEqual(project.gene_command(), [str(gene)])
+                    gene.unlink()
+                    with self.assertRaises(ValueError):
+                        project.gene_command()
