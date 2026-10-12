@@ -1,0 +1,11 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.igormel81/genealogy-mcp",
+  "title": "Genealogy research toolkit",
+  "description": "Family history research for AI assistants: 79 archives and databases (Russia/USSR, Europe, Latin America, US), name variants, old calendars, kinship, evidence checks, GEDCOM audit.",
+  "repository": { "url": "https://github.com/igormel81/genealogy-mcp", "source": "github" },
+  "version": "0.1.0",
+  "packages": [
+    { "registryType": "pypi", "identifier": "genealogy-mcp", "version": "0.1.0", "transport": { "type": "stdio" } }
+  ]
+}

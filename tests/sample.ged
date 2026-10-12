@@ -1,0 +1,36 @@
+0 HEAD
+1 CHAR UTF-8
+0 @I1@ INDI
+1 NAME Иван /Колодин/
+1 SEX M
+1 BIRT
+2 DATE 1880
+2 SOUR @S1@
+1 DEAT
+2 DATE 1870
+0 @I2@ INDI
+1 NAME Анна /Колодина/
+1 SEX F
+1 BIRT
+2 DATE ABT 1885
+1 DEAT
+2 DATE 1890
+0 @I3@ INDI
+1 NAME Пётр /Колодин/
+1 BIRT
+2 DATE 1895
+0 @I4@ INDI
+1 NAME Pyotr /Kolodin/
+0 @I5@ INDI
+1 NAME Петр /Колодин/
+1 BIRT
+2 DATE 1896
+0 @F1@ FAM
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I3@
+1 MARR
+2 DATE 1898
+0 @S1@ SOUR
+1 TITL Метрическая книга
+0 TRLR

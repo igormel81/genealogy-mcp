@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "genealogy-mcp"
+version = "0.1.0"
+description = "Genealogy research toolkit for AI assistants (MCP server): 79 archives and databases for Russia, the former USSR, Europe and Latin America, name variants and transliterations, old calendars, kinship names, evidence checks, GEDCOM audit and archive request drafts."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Igor Melnikov" }]
+keywords = ["genealogy", "family history", "mcp", "model context protocol", "claude", "llm", "gedcom", "ancestry",
+            "familysearch", "archives", "russia", "ukraine", "europe", "latin america", "генеалогия", "родословная"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Sociology :: Genealogy",
+    "Programming Language :: Python :: 3",
+    "Natural Language :: English",
+    "Natural Language :: Russian",
+]
+dependencies = ["mcp>=2.2,<3"]
+
+[project.urls]
+Homepage = "https://github.com/igormel81/genealogy-mcp"
+Issues = "https://github.com/igormel81/genealogy-mcp/issues"
+"Family archive engine" = "https://github.com/igormel81/gene_archive"
+
+[project.scripts]
+genealogy-mcp = "genealogy_mcp.server:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+genealogy_mcp = ["data/*.json", "data/docs/*.md"]

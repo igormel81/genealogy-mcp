@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install . pyflakes
+      - run: pyflakes src tests tools
+      - name: the catalogue is generated from tools/make_sources.py
+        run: |
+          python tools/make_sources.py
+          git diff --exit-code src/genealogy_mcp/data/sources.json
+      - run: python -m unittest discover -v tests
+      - name: the server starts and answers over stdio
+        run: |
+          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}' \
+            '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | timeout 20 genealogy-mcp | tee out.txt
+          grep -q '"find_sources"' out.txt
