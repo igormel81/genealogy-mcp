@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "genealogy-mcp"
-version = "0.3.1"
+version = "0.3.2"
 description = "Genealogy research toolkit for AI assistants (MCP server): 114 archives and databases (Russia and the former USSR, Europe, Latin America, US), where a province's records are kept today, live search, name variants and Daitch–Mokotoff, Julian/Hebrew/Republican calendars, church feasts, kinship and DNA, evidence checks, a research project that remembers, GEDCOM."
 readme = "README.md"
 license = "MIT"

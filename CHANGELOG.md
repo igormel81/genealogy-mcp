@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.2
+
+- Open List live search works again: the site's MediaWiki search is disabled, so `search_online` uses its OpenSearch
+  (name prefixes) and reports site errors instead of an empty result.
+- Translated record guides proofread (uk, pl, de, es, pt); three factual fixes: the Bundesarchiv department for
+  pre-1945 military personnel (DR, Berlin-Tegel), WWI casualty lists do not always give the regiment, the French
+  Republican calendar ended on 1 January 1806.
+- Dockerfile (stdio and HTTP), checked in CI by starting the container and listing the tools.
+
 ## 0.3.1
 
 Reference data checked against official sources (`docs/reference-audit-2026-10-12.md`):
