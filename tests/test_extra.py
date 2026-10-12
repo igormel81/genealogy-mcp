@@ -83,5 +83,20 @@ class Names(unittest.TestCase):
         self.assertEqual(evidence.check_match({"surname": "Pérez"}, {"surname": "Gómez"})["verdict"], "different_person")
 
 
+
+
+class Places(unittest.TestCase):
+    def test_find(self):
+        from genealogy_mcp import places
+        self.assertEqual([e["id"] for e in places.find("Тульская губерния")], ["tula"])
+        self.assertEqual([e["id"] for e in places.find("Bessarabia")], ["bessarabia"])
+        self.assertIn("chernigov", [e["id"] for e in places.find("Брянская область")])
+        self.assertEqual(places.find("Атлантида"), [])
+        ids = [e["id"] for e in places.P]
+        self.assertEqual(len(ids), len(set(ids)))
+        for e in places.P:
+            self.assertTrue(e["archives"] and e["now"], e["id"])
+
+
 if __name__ == "__main__":
     unittest.main()

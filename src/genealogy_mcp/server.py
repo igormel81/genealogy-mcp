@@ -8,7 +8,7 @@ from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
-from . import __version__, audit, calendars, dates, dna, evidence, guides, kinship, letters, names, numerals, plan, soundex, sources
+from . import __version__, audit, calendars, dates, dna, evidence, guides, kinship, letters, names, numerals, places, plan, soundex, sources
 from . import project as proj
 
 INSTRUCTIONS = """You help people research their family history. Work like a careful genealogist:
@@ -108,6 +108,37 @@ def search_links(
                 out.append({"source": s["name"], "id": s["id"], "name_form": f"{giv} {sur}".strip(), "url": url})
     return {"links": out, "name_forms": list(dict.fromkeys(f"{g} {x}".strip() for _, x, g in forms)),
             "tip": "Open each link; an index hit is a pointer — open the image of the record and cite it."}
+
+
+@server.tool(annotations=RO)
+def where_are_records(
+    place: Annotated[str, Field(description="A historical province or a modern region: «Тульская губерния», 'Volhynia', 'Бессарабия', 'Galicia', «Брянская область», 'Kyiv'")],
+    lang: Lang = "en",
+) -> dict[str, Any]:
+    """Which archives now hold the records (parish registers, revision lists, confession lists, civil records) of a
+    province of the Russian Empire, the Kingdom of Poland, Galicia, Bukovina, East Prussia, the Baltics or the Caucasus —
+    borders moved, so this is often not the archive of today's region. Also works from a modern region back to the
+    historical provinces it was part of."""
+    found = places.find(place)
+    if not found:
+        return {"error": "not found", "tip": ("Find the village's uezd and province first (Wikipedia, «Списки населённых мест», "
+                                              "etomesto.ru maps), then ask again with the province."),
+                "known": sorted({e["names"][0] for e in places.P})}
+    out = []
+    for e in found:
+        codes = {x["country"] for x in e["now"]}
+        fs = [s for s in sources.catalogue() if s["id"] == "familysearch_catalog"]
+        srcs = fs + [s for s in sources.find(",".join(codes), include_worldwide=False)
+                     if set(s["records"]) & {"church", "revision", "confession", "vital", "catalogs"} and s["url"]]
+        out.append({"province": e["names"][0], "other_names": e["names"][1:], "then": e["then"],
+                    "now": [f"{x['region']} ({x['country']})" for x in e["now"]], "archives": e["archives"], "note": e["note"],
+                    "online": [{"id": s["id"], "name": s["name"], "url": s["url"]} for s in srcs[:8]]})
+    tip = ("Номер фонда ищите в путеводителе архива (guides.rusarchives.ru, archives.gov.ua, archives.gov.by) или в каталоге "
+           "FamilySearch по месту; метрики — фонд духовной консистории, ревизские сказки — казённой палаты."
+           if lang == "ru" else
+           "Find the fond number in the archive's guide (guides.rusarchives.ru, archives.gov.ua, archives.gov.by) or in the "
+           "FamilySearch catalogue by place: parish registers are in the consistory's fond, revision lists in the treasury chamber's.")
+    return {"matches": out, "tip": tip}
 
 
 @server.tool(annotations=RO)
