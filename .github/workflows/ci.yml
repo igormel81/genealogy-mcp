@@ -41,7 +41,8 @@ jobs:
           PY
       - name: the server starts and answers over stdio
         run: |
-          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}' \
+          # keep stdin open a moment: on EOF the server may stop before it answers the last request
+          (printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}' \
             '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
-            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | timeout 20 genealogy-mcp | tee out.txt
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'; sleep 3) | timeout 20 genealogy-mcp | tee out.txt
           grep -q '"find_sources"' out.txt
