@@ -25,6 +25,8 @@ INSTRUCTIONS = """You help people research their family history. Work like a car
    numbers (cyrillic_numerals); ages in records drift (birth_year_from_age). DNA: dna_match, then documents.
 8. Keep the work in a project (project_view / project_save / project_log): save sources with full citations, people and
    families citing them, open leads, and every search with its result — next time start from project_view.
+   If the family has a gene-archive site, pass the path of its folder as the project: you read the archive itself and
+   your changes go through its checks and logs. Show the change (dry_run) and get the user's yes before writing.
 9. Archive requests are drafts (draft_archive_request): the user checks and sends them; never claim a letter was sent.
 10. Living people: do not publish details about them; mark guesses as 'probably'.
 Answer in the user's language; tools take lang="ru" for Russian texts."""
@@ -400,15 +402,15 @@ WRITE = ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHin
 
 @server.tool(annotations=RO)
 def project_view(
-    project: Annotated[str, Field(description="Project name (one per family or research question); empty = list the projects")] = "",
+    project: Annotated[str, Field(description="Project name (one per family or research question), or the path of a gene-archive site folder (reads the family's archive itself); empty = list the projects and site folders")] = "",
     what: Literal["summary", "record", "search", "log", "checks"] = "summary",
     id: Annotated[str, Field(description="Record id for what='record' (I1, F1, S1, L1)")] = "",
     query: Annotated[str, Field(description="Text for what='search'")] = "",
     lang: Lang = "en",
 ) -> dict[str, Any]:
-    """Read the research project kept between conversations: summary (people, open leads, recent searches, problems),
-    one record with its family and sources, a text search, the full search log, or the tree checks.
-    Start every session on an existing project with what='summary'."""
+    """Read the research project kept between conversations — or a family's gene-archive site folder: summary (people,
+    open leads, recent searches, problems), one record with its family and sources, a text search, the full search
+    log, or the tree checks. Start every session on an existing project with what='summary'."""
     if not project:
         return _safe(lambda: {"projects": proj.list_projects(), "folder": str(proj.home())})
     return _safe(proj.view, project, what, id, query, lang)
@@ -416,7 +418,7 @@ def project_view(
 
 @server.tool(annotations=WRITE)
 def project_save(
-    project: str,
+    project: Annotated[str, Field(description="Project name, or the path of a gene-archive site folder")],
     kind: Literal["person", "family", "source", "lead"],
     record: Annotated[dict[str, Any], Field(description="""Fields. person: given_names, surname, sex (M/F), birth/death/burial {date, place_as_recorded, source_ids, note}, notes, research_status ('confirmed' | 'probable' | 'unlinked_candidate').
 family: partners [ids], children [ids], marriage {date, place_as_recorded, source_ids}, source_ids.
@@ -426,15 +428,18 @@ Pass "id" to update an existing record (a field set to null is removed).""")],
     reason: Annotated[str, Field(description="Why this was added or changed — kept in the corrections log")] = "",
     source_ids: Annotated[list[str] | None, Field(description="Sources (S…) that prove it")] = None,
     delete: bool = False,
+    dry_run: Annotated[bool, Field(description="Check the change and show it without writing — use it to show the user what will be saved")] = False,
 ) -> dict[str, Any]:
     """Add or change a person, family, source or research lead in the project. Every change of an existing record is
-    logged with the old and new value, the reason and the documents. Save the source first, then cite its S-id."""
-    return _safe(proj.upsert, project, kind, record, reason, source_ids, delete)
+    logged with the old and new value, the reason and the documents. Save the source first, then cite its S-id.
+    In a gene-archive site folder the change goes through `gene apply`: refused if it adds an error, logged, committed
+    to git under the owner's name, and the site is rebuilt. Ask the user before writing into their archive."""
+    return _safe(proj.upsert, project, kind, record, reason, source_ids, delete, dry_run)
 
 
 @server.tool(annotations=WRITE)
 def project_log(
-    project: str,
+    project: Annotated[str, Field(description="Project name, or the path of a gene-archive site folder")],
     action: Annotated[str, Field(description="What was searched and where: 'FamilySearch index, Kolodin, Tula 1880–1890'")],
     result: Annotated[str, Field(description="What came out — 'nothing found' is a result too")],
     scope: str = "",

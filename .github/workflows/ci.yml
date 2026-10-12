@@ -14,6 +14,8 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: pip install . pyflakes
+      - name: gene-archive, for the site-folder bridge tests
+        run: pip install git+https://github.com/igormel81/gene_archive
       - run: pyflakes src tests tools
       - name: the catalogue is generated from tools/make_sources.py
         run: |

@@ -1,2 +1,2 @@
 """genealogy-mcp: a genealogist's toolkit for AI assistants (Model Context Protocol server)."""
-__version__ = "0.3.2"
+__version__ = "0.4.0"

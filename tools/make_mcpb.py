@@ -45,7 +45,8 @@ def manifest():
             "mcp_config": {
                 "command": "uv",
                 "args": ["run", "--directory", "${__dirname}", "genealogy-mcp"],
-                "env": {"GENEALOGY_MCP_HOME": "${user_config.projects_folder}"},
+                "env": {"GENEALOGY_MCP_HOME": "${user_config.projects_folder}",
+                        "GENEALOGY_MCP_SITES": "${user_config.site_folder}"},
             },
         },
         "user_config": {
@@ -55,7 +56,13 @@ def manifest():
                 "description": "Where the research projects (people, sources, search log) are kept between conversations.",
                 "default": "${DOCUMENTS}/genealogy-mcp",
                 "required": False,
-            }
+            },
+            "site_folder": {
+                "type": "directory",
+                "title": "Family archive site (gene-archive), optional",
+                "description": "The folder of your gene-archive site: Claude reads it and writes changes through its checks and logs (needs gene-archive installed).",
+                "required": False,
+            },
         },
         "tools": [{"name": t.name, "description": first_sentence(t.description)} for t in tools],
         "prompts_generated": True,   # the server serves its prompts (start_research, check_find, …) itself

@@ -3,11 +3,19 @@ searches (negative results too), stored as a JSON file in the format of the gene
 (https://github.com/igormel81/gene_archive), so a project can grow into a family website.
 
 Files live in $GENEALOGY_MCP_HOME, else ~/Documents/genealogy-mcp (or ~/genealogy-mcp).
+
+A project can also be the folder of a gene-archive site (a path instead of a name, or one of the folders in
+$GENEALOGY_MCP_SITES). Then it is read straight from its family_tree.json and every change goes through
+`gene apply` — the same checks, corrections and research logs and git commit as the site's online editor — and the
+site is rebuilt (GENEALOGY_MCP_SITE_BUILD=0 turns the rebuild off).
 """
 import datetime
 import json
 import os
 import re
+import shlex
+import shutil
+import subprocess
 from pathlib import Path
 
 from . import audit
@@ -25,7 +33,82 @@ def home():
     return (docs if docs.is_dir() else Path.home()) / "genealogy-mcp"
 
 
+# ---------------------------------------------------------------- gene-archive site folders
+
+GENE_KINDS = {"person": "people", "family": "families", "source": "sources", "lead": "research_leads"}
+
+
+def site_folders():
+    """Site folders the user named in $GENEALOGY_MCP_SITES (separated like PATH)."""
+    out = []
+    for part in os.environ.get("GENEALOGY_MCP_SITES", "").split(os.pathsep):
+        if part.strip() and is_site(part.strip()):
+            out.append(str(Path(part.strip()).expanduser().resolve()))
+    return out
+
+
+def is_site(name):
+    """A gene-archive site folder: a path with family_tree.json (and site.json) in it."""
+    n = str(name).strip()
+    if not n or not (os.sep in n or "/" in n or n.startswith("~") or n == "."):
+        return False
+    p = Path(n).expanduser()
+    return p.is_dir() and (p / "family_tree.json").is_file() and (p / "site.json").is_file()
+
+
+def _site(name):
+    return Path(str(name).strip()).expanduser().resolve()
+
+
+def gene_command():
+    """How to run gene-archive's CLI: $GENE_CMD (e.g. "uvx --from gene-archive gene") or `gene` on PATH."""
+    env = os.environ.get("GENE_CMD")
+    if env:
+        return shlex.split(env)
+    found = shutil.which("gene")
+    if found:
+        return [found]
+    raise ValueError("gene-archive is not installed: pip install git+https://github.com/igormel81/gene_archive "
+                     "(or set GENE_CMD, e.g. 'uvx --from git+https://github.com/igormel81/gene_archive gene')")
+
+
+def _author(folder):
+    env = os.environ.get("GENE_AUTHOR")
+    if env:
+        return env
+    try:
+        r = subprocess.run(["git", "config", "user.name"], cwd=folder, capture_output=True, text=True, timeout=10)
+        return r.stdout.strip() or "genealogy-mcp"
+    except (OSError, subprocess.SubprocessError):
+        return "genealogy-mcp"
+
+
+def gene_apply(folder, requests, dry_run=False):
+    """Runs `gene apply` on a site folder; returns its answers (one per request) and the build result."""
+    cmd = gene_command() + ["apply", str(folder), "--author", _author(folder), "--login", "genealogy-mcp"]
+    if dry_run:
+        cmd.append("--dry-run")
+    elif os.environ.get("GENEALOGY_MCP_SITE_BUILD", "1") != "0":
+        cmd.append("--build")
+    try:
+        r = subprocess.run(cmd, input=json.dumps(requests, ensure_ascii=False), capture_output=True, text=True,
+                           timeout=600, cwd=folder)
+    except (OSError, subprocess.SubprocessError) as e:
+        raise ValueError(f"gene apply did not run: {e}") from None
+    answers = []
+    for line in r.stdout.splitlines():
+        try:
+            answers.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    if not answers:
+        raise ValueError(f"gene apply failed: {(r.stderr or r.stdout).strip()[-800:]}")
+    return answers
+
+
 def _path(name):
+    if is_site(name):
+        return _site(name) / "family_tree.json"
     name = str(name).strip()
     if not NAME_RE.fullmatch(name) or name.startswith(".") or ".." in name:
         raise ValueError("a project name is letters, digits, spaces, '-', '_' or '.', up to 60 characters")
@@ -42,6 +125,11 @@ def empty(title=""):
 
 
 def load(name, create=False):
+    if is_site(name):
+        data = json.loads((_site(name) / "family_tree.json").read_text(encoding="utf-8"))
+        for k in ("people", "families", "sources", "research_leads", "research_log", "corrections"):
+            data.setdefault(k, [])
+        return data
     p = _path(name)
     if not p.exists():
         if not create:
@@ -51,6 +139,8 @@ def load(name, create=False):
 
 
 def save(name, data):
+    if is_site(name):
+        raise ValueError("a site folder is changed only through gene apply")
     p = _path(name)
     p.parent.mkdir(parents=True, exist_ok=True)
     if p.exists():
@@ -63,7 +153,8 @@ def save(name, data):
 
 def list_projects():
     h = home()
-    return sorted(p.stem for p in h.glob("*.json")) if h.is_dir() else []
+    local = sorted(p.stem for p in h.glob("*.json")) if h.is_dir() else []
+    return local + site_folders()
 
 
 def _next_id(items, prefix):
@@ -123,10 +214,47 @@ def _normalize_person(rec, warnings):
         rec["sex"] = str(rec["sex"]).upper()[:1].replace("М", "M").replace("Ж", "F")
 
 
-def upsert(name, kind, record, reason="", source_ids=None, delete=False):
+def _site_upsert(name, kind, record, reason, source_ids, delete, dry_run):
+    folder = _site(name)
+    rec = dict(record or {})
+    warnings = []
+    if kind == "person":
+        _normalize_person(rec, warnings)
+    if kind == "lead":
+        if not rec.get("id"):
+            rec.setdefault("status", "open")
+            rec.setdefault("record", rec.get("title", ""))
+    if kind == "source" and not rec.get("id"):
+        rec.setdefault("kind", "record")
+    if source_ids and kind in ("person", "family"):   # the documents behind the record, not only in the log
+        old = []
+        if rec.get("id"):
+            coll = load(name).get(GENE_KINDS[kind], [])
+            old = next((x.get("source_ids", []) for x in coll if x.get("id") == rec["id"]), [])
+        rec["source_ids"] = sorted(set(old) | set(rec.get("source_ids", [])) | set(source_ids))
+    if delete:
+        req = {"op": "delete", "kind": GENE_KINDS[kind], "id": rec.get("id"), "reason": reason}
+    else:
+        req = {"op": "save", "kind": GENE_KINDS[kind], "record": rec, "reason": reason, "source_ids": source_ids or []}
+    answers = gene_apply(folder, [req], dry_run)
+    first = answers[0]
+    if not first.get("ok"):
+        raise ValueError(first.get("error") or "refused")
+    out = {"saved" if not delete else "deleted": first.get("record") or first.get("id"), "id": first.get("id"),
+           "changed": first.get("changed"), "commit": first.get("commit"), "warnings": warnings + first.get("warnings", []),
+           "project": str(folder), "dry_run": dry_run}
+    builds = [a for a in answers[1:] if "build" in a or "build_error" in a]
+    if builds:
+        out["site"] = builds[0].get("build") or ("build failed: " + builds[0].get("build_error", ""))
+    return out
+
+
+def upsert(name, kind, record, reason="", source_ids=None, delete=False, dry_run=False):
     """Creates or updates a record; every changed field of an existing record goes to `corrections`."""
     if kind not in KINDS:
         raise ValueError(f"kind is one of {', '.join(KINDS)}")
+    if is_site(name):
+        return _site_upsert(name, kind, record, reason, source_ids, delete, dry_run)
     data = load(name, create=True)
     coll, prefix = KINDS[kind]
     rec = dict(record or {})
@@ -142,7 +270,8 @@ def upsert(name, kind, record, reason="", source_ids=None, delete=False):
                 f[k] = [x for x in f.get(k, []) if x != rid]
         data["corrections"].append({"record": rid, "field": "*", "previous": old, "current": None, "reason": reason or "deleted",
                                     "date": _today()})
-        save(name, data)
+        if not dry_run:
+            save(name, data)
         return {"deleted": rid}
     if kind == "person":
         _normalize_person(rec, warnings)
@@ -188,12 +317,18 @@ def upsert(name, kind, record, reason="", source_ids=None, delete=False):
         out = rec
         if kind == "person" and not data.get("root_person_id"):
             data["root_person_id"] = rec["id"]
-    save(name, data)
-    return {"saved": out, "warnings": warnings, "project": name}
+    if not dry_run:
+        save(name, data)
+    return {"saved": out, "warnings": warnings, "project": name, "dry_run": dry_run}
 
 
 def log(name, action, result, scope=""):
     """A line in the research log: what was searched, where, what came out — 'nothing found' counts."""
+    if is_site(name):
+        a = gene_apply(_site(name), [{"op": "log", "action": action, "result": result, "scope": scope}])[0]
+        if not a.get("ok"):
+            raise ValueError(a.get("error") or "refused")
+        return {"logged": a.get("entry"), "commit": a.get("commit"), "project": str(_site(name))}
     data = load(name, create=True)
     entry = {"date": _today(), "action": action, "result": result, **({"scope": scope} if scope else {})}
     data["research_log"].append(entry)
@@ -211,7 +346,8 @@ def view(name, what="summary", rid="", query="", lang="en"):
     data = load(name)
     if what == "summary":
         open_leads = [x for x in data["research_leads"] if x.get("status") != "closed"]
-        return {"project": name, "file": str(_path(name)), "people": len(data["people"]), "families": len(data["families"]),
+        return {"project": name, "file": str(_path(name)), "kind": "gene-archive site" if is_site(name) else "project",
+                "people": len(data["people"]), "families": len(data["families"]),
                 "sources": len(data["sources"]), "root_person_id": data.get("root_person_id"),
                 "people_list": [_brief(p) for p in data["people"][:200]],
                 "open_leads": open_leads[:30], "recent_log": data["research_log"][-15:],
@@ -317,7 +453,8 @@ def to_gedcom(data):
 
 def export(name, fmt="gedcom"):
     data = load(name)
-    p = _path(name)
+    p = (home() / _site(name).name).with_suffix(".json") if is_site(name) else _path(name)
+    p.parent.mkdir(parents=True, exist_ok=True)
     if fmt == "gedcom":
         dest = p.with_suffix(".ged")
         dest.write_text(to_gedcom(data), encoding="utf-8")
@@ -328,6 +465,8 @@ def export(name, fmt="gedcom"):
 
 def import_gedcom(name, path_or_text, allow_paths=True):
     """A new project from a GEDCOM file (from MyHeritage, Ancestry, Gramps, Geni…)."""
+    if is_site(name):
+        raise ValueError("a site folder is not imported into: make a new site with `gene import tree.ged <folder>`")
     if _path(name).exists():
         raise ValueError(f"project {name!r} exists: import into a new project name")
     parsed = audit.load(path_or_text, allow_paths)

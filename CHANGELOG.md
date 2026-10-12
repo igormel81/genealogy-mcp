@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.0
+
+- **Your family site as the project.** The project tools take the path of a gene-archive site folder (or the folders
+  in `GENEALOGY_MCP_SITES`, also a setting of the Claude Desktop extension): the assistant reads the archive itself,
+  and every change goes through `gene apply` — the site's checks, its corrections and research logs, a git commit
+  under the owner's name, a rebuild of the site. `project_save` has `dry_run` to show a change before writing it.
+
 ## 0.3.2
 
 - Open List live search works again: the site's MediaWiki search is disabled, so `search_online` uses its OpenSearch

@@ -57,6 +57,13 @@ always the archive of today's region.
 A research project on your computer: people, sources with full citations, open leads and a log of every search —
 including "nothing found" — so nobody searches the same place twice. GEDCOM in and out.
 
+> *Write what we found into our family site.*
+
+If your family archive is a [gene-archive](https://github.com/igormel81/gene_archive) site, give the project tools the
+path of its folder: the assistant reads the archive itself — who is missing, which dates have no document — and every
+change it makes goes through the site's own checks, lands in its corrections and research logs, is committed to git
+under your name and rebuilds the site. It shows the change first and writes only after your yes.
+
 ## Why use it
 
 | Without it | With genealogy-mcp |
@@ -135,6 +142,11 @@ claude mcp add genealogy -- uvx genealogy-mcp
 **Docker:** `docker build -t genealogy-mcp .` then `docker run -i --rm genealogy-mcp` (stdio) or
 `docker run --rm -p 8000:8000 genealogy-mcp --http --host 0.0.0.0` (HTTP at `/mcp`).
 
+**Your gene-archive site** as the project: install gene-archive next to the server
+(`pip install git+https://github.com/igormel81/gene_archive` — the `gene` command must be on PATH, or set `GENE_CMD`),
+then name the folder in `GENEALOGY_MCP_SITES` (or in the Claude Desktop extension settings), or just give its path
+to the assistant. `GENE_AUTHOR` sets the name in the git history (default: `git config user.name`).
+
 **Clients that connect over HTTP** (ChatGPT connectors, remote agents): run
 `genealogy-mcp --http --host 0.0.0.0 --port 8000` behind HTTPS and add `https://your-host/mcp`.
 In HTTP mode `audit_tree` takes the GEDCOM text only, never a file path.
@@ -162,7 +174,7 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 | `dna_match` | Shared cM → the relationships it fits (Shared cM Project 4.0) |
 | `check_match` | Is a found record our person? A verdict with every fact compared (Hispanic double surnames too) |
 | `audit_tree` | Impossible facts, duplicates and gaps in a GEDCOM or `family_tree.json` |
-| `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export |
+| `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export — or a gene-archive site folder, written through its checks and logs |
 | `draft_archive_request` | A request letter to a registry office or archive |
 | `record_guide` | How to read and find a kind of record |
 | `glossary` | Old Russian record terms explained |
