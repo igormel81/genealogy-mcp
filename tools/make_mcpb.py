@@ -1,4 +1,4 @@
-"""Builds dist/genealogy-mcp-<version>.mcpb — a Claude Desktop extension (double-click to install).
+"""Builds dist-mcpb/genealogy-mcp-<version>.mcpb — a Claude Desktop extension (double-click to install).
 
     python3 tools/make_mcpb.py            # writes mcpb/manifest.json and the .mcpb archive
     npx -y @anthropic-ai/mcpb validate mcpb/manifest.json
@@ -70,7 +70,7 @@ def manifest():
 def build():
     m = manifest()
     (ROOT / "mcpb" / "manifest.json").write_text(json.dumps(m, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    out = ROOT / "dist" / f"genealogy-mcp-{__version__}.mcpb"
+    out = ROOT / "dist-mcpb" / f"genealogy-mcp-{__version__}.mcpb"   # not dist/: PyPI uploads everything there
     out.parent.mkdir(exist_ok=True)
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         z.write(ROOT / "mcpb" / "manifest.json", "manifest.json")

@@ -40,7 +40,7 @@ jobs:
             echo "release v$v exists, skipping"
           else
             notes=$(awk -v v="$v" '$0 ~ "^## "v {f=1; next} /^## / {f=0} f' CHANGELOG.md)
-            gh release create "v$v" dist/* --title "v$v" --notes "$notes" --target "$GITHUB_SHA"
+            gh release create "v$v" dist/* dist-mcpb/* --title "v$v" --notes "$notes" --target "$GITHUB_SHA"
           fi
       - if: vars.PYPI_PUBLISH == 'true'
         uses: pypa/gh-action-pypi-publish@release/v1
