@@ -144,7 +144,7 @@ claude mcp add genealogy -- uvx genealogy-mcp
 `docker run --rm -p 8000:8000 genealogy-mcp --http --host 0.0.0.0` (HTTP, адрес `/mcp`).
 
 **Ваш сайт на gene-archive** как проект: установите gene-archive рядом с сервером
-(`pip install git+https://github.com/igormel81/gene_archive` — команда `gene` должна быть в PATH, иначе задайте
+(`pip install git+https://github.com/igormel81/gene_archive@v0.4.0` — команда `gene` должна быть в PATH, иначе задайте
 `GENE_CMD`), затем укажите папку в `GENEALOGY_MCP_SITES` (или в настройках расширения Claude Desktop) либо просто
 назовите ассистенту путь к ней. `GENE_AUTHOR` — имя в истории git (по умолчанию `git config user.name`).
 

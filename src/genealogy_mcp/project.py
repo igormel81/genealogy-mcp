@@ -68,7 +68,7 @@ def gene_command():
     found = shutil.which("gene")
     if found:
         return [found]
-    raise ValueError("gene-archive is not installed: pip install git+https://github.com/igormel81/gene_archive "
+    raise ValueError("gene-archive is not installed: pip install git+https://github.com/igormel81/gene_archive@v0.4.0 "
                      "(or set GENE_CMD, e.g. 'uvx --from git+https://github.com/igormel81/gene_archive gene')")
 
 
