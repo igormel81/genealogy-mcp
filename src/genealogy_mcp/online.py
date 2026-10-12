@@ -107,15 +107,20 @@ def open_archives(surname="", given="", year_from=None, year_to=None, place="", 
 
 
 def open_list(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15):
-    """Open List (ru.openlist.wiki): victims of Soviet political repression."""
+    """Open List (ru.openlist.wiki): name/title prefix search for victims of Soviet political repression.
+    The site's standard MediaWiki text/title search is disabled; its documented OpenSearch still works.
+    """
     q = query or _q(surname, given)
-    d = _get("https://ru.openlist.wiki/api.php", {"action": "query", "list": "search", "srsearch": q, "srlimit": limit,
-                                                 "format": "json", "srprop": "snippet"})
+    d = _get("https://ru.openlist.wiki/api.php", {"action": "opensearch", "search": q, "limit": limit, "format": "json"})
+    if isinstance(d, dict) and d.get("error"):
+        error = d["error"]
+        raise ValueError(f"Open List API: {error.get('code', 'error')} — {error.get('info', '')}")
+    if (not isinstance(d, list) or len(d) != 4 or any(not isinstance(values, list) for values in d[1:])
+            or len(d[1]) != len(d[2]) or len(d[1]) != len(d[3])):
+        raise ValueError("Open List API: unexpected OpenSearch response")
     out = []
-    for r in (d.get("query") or {}).get("search", [])[:limit]:
-        title = r.get("title", "")
-        out.append({"title": title, "url": "https://ru.openlist.wiki/" + urllib.parse.quote(title.replace(" ", "_")),
-                    "snippet": re.sub(r"<[^>]+>", "", r.get("snippet", ""))[:300]})
+    for title, snippet, url in zip(d[1][:limit], d[2][:limit], d[3][:limit]):
+        out.append({"title": title, "url": url, "snippet": re.sub(r"<[^>]+>", "", snippet)[:300]})
     return out
 
 
@@ -132,8 +137,11 @@ def search(source, **kw):
     fn = SOURCES[source][0]
     try:
         hits = fn(**kw)
+        note = "Index entries and snippets point to a record: open it and cite the original."
+        if source == "open_list":
+            note += " Open List searches name/title prefixes; full-text search is disabled on the site."
         return {"source": source, "count": len(hits), "results": hits,
-                "note": "Index entries and snippets point to a record: open it and cite the original."}
+                "note": note}
     except urllib.error.HTTPError as e:
         msg = f"the site answered {e.code}"
         if e.code in (403, 429, 503):
