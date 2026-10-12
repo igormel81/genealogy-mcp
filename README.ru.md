@@ -133,6 +133,9 @@ claude mcp add genealogy -- uvx genealogy-mcp
 **Cursor** (`~/.cursor/mcp.json`), **Windsurf**, **Cline** — тот же блок `mcpServers`.
 **VS Code** (`.vscode/mcp.json`): `{"servers": {"genealogy": {"command": "uvx", "args": [ …то же… ]}}}`.
 
+**Docker:** `docker build -t genealogy-mcp .`, затем `docker run -i --rm genealogy-mcp` (stdio) или
+`docker run --rm -p 8000:8000 genealogy-mcp --http --host 0.0.0.0` (HTTP, адрес `/mcp`).
+
 **Клиенты, подключающиеся по HTTP** (коннекторы ChatGPT, удалённые агенты): запустите
 `genealogy-mcp --http --host 0.0.0.0 --port 8000` за HTTPS и добавьте адрес `https://ваш-сервер/mcp`.
 В этом режиме `audit_tree` принимает только текст GEDCOM, а не путь к файлу.

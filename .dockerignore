@@ -1,0 +1,9 @@
+.git
+.github
+dist
+dist-mcpb
+build
+**/__pycache__
+*.egg-info
+evals/results
+tests

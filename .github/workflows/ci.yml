@@ -46,3 +46,15 @@ jobs:
             '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
             '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'; sleep 3) | timeout 20 genealogy-mcp | tee out.txt
           grep -q '"find_sources"' out.txt
+  docker:
+    # what Glama and other hosts do: build the image, start it over stdio, list the tools
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t genealogy-mcp .
+      - name: the container answers over stdio
+        run: |
+          (printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}' \
+            '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'; sleep 5) | timeout 60 docker run -i --rm genealogy-mcp | tee out.txt
+          grep -q '"where_are_records"' out.txt
