@@ -1,0 +1,37 @@
+name: "Bug report / Сообщить об ошибке"
+description: "Report unexpected tool behaviour / Сообщите об ошибке инструмента"
+labels: [bug]
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: "Tool name / Какой инструмент"
+    validations:
+      required: true
+  - type: textarea
+    id: input
+    attributes:
+      label: "Input / Что передали"
+      description: "Use a minimal example without personal data or credentials / Приведите минимальный пример без персональных данных и данных входа."
+      render: json
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Actual result / Что получили"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected result / Что ожидали"
+    validations:
+      required: true
+  - type: input
+    id: client
+    attributes:
+      label: "Client and version / Клиент и версия"
+      placeholder: "Claude Desktop, Claude Code, Cursor…"
+    validations:
+      required: true

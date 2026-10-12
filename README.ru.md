@@ -132,6 +132,7 @@ claude mcp add genealogy -- uvx --from git+https://github.com/igormel81/genealog
 
 ## Как помочь
 
+Подробнее о полях источника и правилах участия — в [CONTRIBUTING.ru.md](CONTRIBUTING.ru.md).
 Нет нужного источника или сайт переехал? Поправьте `tools/make_sources.py`, запустите `python3 tools/make_sources.py` и
 `python3 -m unittest discover tests`, пришлите pull request. Руководства — в `src/genealogy_mcp/guides.py`.
 

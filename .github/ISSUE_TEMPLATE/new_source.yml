@@ -1,0 +1,57 @@
+name: "Suggest a source / Предложить источник"
+description: "Suggest an archive or database / Предложите архив или базу данных"
+labels: [new-source]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: "Source name / Название источника"
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: "URL / Адрес"
+      placeholder: "https://…"
+    validations:
+      required: true
+  - type: input
+    id: countries
+    attributes:
+      label: "Countries / Страны"
+      description: "ISO country codes if known (RU, UA, US); worldwide = * / Коды ISO, если известны; весь мир = *"
+    validations:
+      required: true
+  - type: input
+    id: years
+    attributes:
+      label: "Years covered / Годы"
+      placeholder: "1800–1920"
+    validations:
+      required: true
+  - type: textarea
+    id: records
+    attributes:
+      label: "Record types / Виды записей"
+      description: "Parish registers, civil registration, censuses, military, emigration, etc. / Церковные записи, гражданская регистрация, переписи, военные, эмиграция и другие."
+    validations:
+      required: true
+  - type: dropdown
+    id: access
+    attributes:
+      label: "Access / Доступ"
+      options:
+        - "Free / Бесплатно"
+        - "Free, sign-in required / Бесплатно, нужен вход"
+        - "Paid / Платно"
+        - "By request / По запросу"
+        - "Mixed / Частично бесплатно"
+    validations:
+      required: true
+  - type: textarea
+    id: how
+    attributes:
+      label: "How to search / Как искать"
+      description: "Search steps, languages, restrictions and pitfalls / Шаги поиска, языки, ограничения и особенности."
+    validations:
+      required: true

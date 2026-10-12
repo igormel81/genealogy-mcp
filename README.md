@@ -134,6 +134,7 @@ Once the package is on PyPI, `uvx genealogy-mcp` is enough.
 
 ## Contributing
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for source fields and contribution guidelines.
 A source is missing or a link moved? Edit `tools/make_sources.py`, run `python3 tools/make_sources.py` and
 `python3 -m unittest discover tests`, open a pull request. Record guides live in `src/genealogy_mcp/guides.py`.
 

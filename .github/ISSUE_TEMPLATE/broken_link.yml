@@ -1,0 +1,31 @@
+name: "Broken link / Ссылка не работает"
+description: "Report an inaccessible catalogue source / Сообщите о недоступном источнике каталога"
+labels: [broken-link]
+body:
+  - type: input
+    id: source_id
+    attributes:
+      label: "Catalogue source ID / ID источника из каталога"
+      placeholder: "familysearch_catalog"
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: "What happens when opening the link / Что видно при открытии"
+      description: "Include the URL and error message / Укажите адрес и текст ошибки."
+    validations:
+      required: true
+  - type: input
+    id: country
+    attributes:
+      label: "Country you opened it from / Страна, из которой открывали"
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: "Where you opened it / Откуда открывали"
+      description: "Browser or MCP client, catalogue or search link, direct connection or VPN / Браузер или MCP-клиент, ссылка из каталога или поиска, напрямую или через VPN. Do not share your IP or credentials / Не публикуйте IP или данные входа."
+    validations:
+      required: true
