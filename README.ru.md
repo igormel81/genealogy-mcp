@@ -107,7 +107,7 @@ Internet Archive и военные базы, подскажет, в каком �
   "mcpServers": {
     "genealogy": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/igormel81/genealogy-mcp", "genealogy-mcp"]
+      "args": ["genealogy-mcp"]
     }
   }
 }
@@ -116,7 +116,7 @@ Internet Archive и военные базы, подскажет, в каком �
 **Claude Code:**
 
 ```sh
-claude mcp add genealogy -- uvx --from git+https://github.com/igormel81/genealogy-mcp genealogy-mcp
+claude mcp add genealogy -- uvx genealogy-mcp
 ```
 
 **Cursor** (`~/.cursor/mcp.json`), **Windsurf**, **Cline** — тот же блок `mcpServers`.
@@ -126,7 +126,7 @@ claude mcp add genealogy -- uvx --from git+https://github.com/igormel81/genealog
 `genealogy-mcp --http --host 0.0.0.0 --port 8000` за HTTPS и добавьте адрес `https://ваш-сервер/mcp`.
 В этом режиме `audit_tree` принимает только текст GEDCOM, а не путь к файлу.
 
-Когда пакет появится на PyPI, хватит `uvx genealogy-mcp`.
+Пакет есть на [PyPI](https://pypi.org/project/genealogy-mcp/) и в [официальном каталоге MCP](https://registry.modelcontextprotocol.io) (`io.github.igormel81/genealogy-mcp`): `uvx genealogy-mcp` сам его установит и запустит.
 
 ## Инструменты
 

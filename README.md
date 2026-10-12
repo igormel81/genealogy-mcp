@@ -107,7 +107,7 @@ package by itself).
   "mcpServers": {
     "genealogy": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/igormel81/genealogy-mcp", "genealogy-mcp"]
+      "args": ["genealogy-mcp"]
     }
   }
 }
@@ -116,7 +116,7 @@ package by itself).
 **Claude Code:**
 
 ```sh
-claude mcp add genealogy -- uvx --from git+https://github.com/igormel81/genealogy-mcp genealogy-mcp
+claude mcp add genealogy -- uvx genealogy-mcp
 ```
 
 **Cursor** (`~/.cursor/mcp.json`), **Windsurf**, **Cline** — the same `mcpServers` block as for Claude Desktop.
@@ -126,7 +126,7 @@ claude mcp add genealogy -- uvx --from git+https://github.com/igormel81/genealog
 `genealogy-mcp --http --host 0.0.0.0 --port 8000` behind HTTPS and add `https://your-host/mcp`.
 In HTTP mode `audit_tree` takes the GEDCOM text only, never a file path.
 
-Once the package is on PyPI, `uvx genealogy-mcp` is enough.
+The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [official MCP Registry](https://registry.modelcontextprotocol.io) (`io.github.igormel81/genealogy-mcp`): `uvx genealogy-mcp` installs and runs it.
 
 ## Tools
 
