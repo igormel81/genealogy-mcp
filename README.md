@@ -5,6 +5,9 @@
 **[Русская версия](README.ru.md)**
 
 [![CI](https://github.com/igormel81/genealogy-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/igormel81/genealogy-mcp/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/genealogy-mcp.svg)](https://pypi.org/project/genealogy-mcp/)
+[![Python](https://img.shields.io/pypi/pyversions/genealogy-mcp.svg)](https://pypi.org/project/genealogy-mcp/)
+[![MCP Registry](https://img.shields.io/badge/MCP_Registry-io.github.igormel81%2Fgenealogy--mcp-1f3b33)](https://registry.modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 An [MCP](https://modelcontextprotocol.io) server that turns Claude, ChatGPT, Cursor or any MCP-capable assistant into a
@@ -16,6 +19,35 @@ you working links and a plan instead of confident guesses.
 Built from years of real research for an open family archive powered by
 [gene_archive](https://github.com/igormel81/gene_archive): parish registers, revision lists, WWI and WWII databases,
 repression files, emigration records — and every trap we fell into along the way.
+
+![You ask your assistant; genealogy-mcp knows where to look, how to search, how to read old dates and whether a find is your person, and writes into your project, your own GEDCOM tree or your family site](https://raw.githubusercontent.com/igormel81/genealogy-mcp/main/docs/overview.svg)
+
+## At a glance
+
+- **114 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
+  archive holds the records of a historical province today (borders moved; the answer is often not the obvious one).
+- **24 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
+  Julian, Hebrew and French Republican calendars, dates by church feasts, Church Slavonic numerals, kinship in three
+  languages, DNA, evidence checks, a tree audit, live search in open databases, archive request drafts.
+- **It works on your tree, not beside it.** Point it at the `.ged` file from MyHeritage, Ancestry, Gramps or RootsMagic
+  and it reads, searches and changes it in place — only the changed lines, everything else byte for byte, a copy kept,
+  every change shown first. Or at a [gene-archive](https://github.com/igormel81/gene_archive) family website: changes go
+  through the site's checks, logs and git history.
+- **It remembers.** Sources with full citations, open leads and every search — "nothing found" included — so nobody
+  searches the same place twice.
+- **Honest by design.** A namesake is not a relative: a find is linked only with two independent facts beyond the name.
+- **Private.** Runs on your computer; goes online only for a search you ask for, and only to that one site.
+- **Any assistant:** Claude Desktop (one-click install), Claude Code, ChatGPT, Cursor, VS Code, Windsurf, Cline.
+- Guides in English, Russian and Ukrainian, the main ones also in Spanish, Portuguese, Polish and German.
+
+## Quick start
+
+**Claude Desktop:** download `genealogy-mcp-<version>.mcpb` from the
+[latest release](https://github.com/igormel81/genealogy-mcp/releases/latest) and open it.
+**Claude Code:** `claude mcp add genealogy -- uvx genealogy-mcp`.
+**Anything else:** `uvx genealogy-mcp` as the server command (details in [Install](#install)).
+
+Then just ask: *"Help me find my great-grandfather. Here is what I know…"*
 
 ## What you can ask
 
@@ -84,9 +116,14 @@ your program (Family Historian and webtrees work on GEDCOM directly). Files not 
 | Generic advice | Record guides: parish registers, confession lists, revision lists, household books, WWI/WWII, repression files, passenger lists, censuses, European civil registration, Latin American records |
 | You write to archives from scratch | Request drafts for Russian ZAGS, state, military and FSB archives, and for any archive in English, Spanish or Portuguese |
 | It forgets everything between chats | A research project that remembers people, sources, leads and every search |
+| It cannot touch your tree | Reads and changes your own GEDCOM file in place, losing nothing, showing every change first |
 | It cannot read old numbers and dates | Church Slavonic numerals, church feasts, Julian, Hebrew and French Republican calendars |
 | "Search FamilySearch for your name" | Live search in the Internet Archive full text, WikiTree, Open Archives and Wikidata place history |
 | DNA matches are a mystery | Shared cM → the relationships it fits |
+
+Most genealogy MCP servers connect the assistant to one service or one file. genealogy-mcp gives it the research
+method around them — where to look, how to search, how to read and weigh what it finds — and works on your own tree
+file too. It runs happily next to a server for a service you use, such as a FamilySearch client.
 
 Everything runs on your computer. The server goes online only when the assistant runs a live search
 (`search_online`, `place_history`), and then sends that query to that one site.

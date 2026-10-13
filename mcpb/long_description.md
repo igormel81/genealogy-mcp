@@ -6,5 +6,6 @@ Turns Claude into a careful genealogist.
 - **Dates:** Julian ↔ Gregorian, church feasts, the Hebrew and French Republican calendars, Church Slavonic numerals, birth years from ages.
 - **Is it our person?** Evidence checks, kinship names in Russian, English and Romanian, DNA (shared cM).
 - **A project that remembers:** people, sources with full citations, a search log with negative results, GEDCOM import and export — kept in a folder on your computer.
+- **Your own tree:** give Claude the path of the .ged file from MyHeritage, Ancestry, Gramps or RootsMagic — it reads, searches and changes it in place, rewriting only the changed lines, showing them first and keeping a copy.
 
 Nothing is sent anywhere except the query of an online search you ask for, to that one site.

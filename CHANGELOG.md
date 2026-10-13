@@ -1,12 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.5.0
 
 - **Your own tree as the project.** The project tools take the path of a `.ged` file — the tree from MyHeritage,
   Ancestry, Gramps, RootsMagic, Family Historian, webtrees: the assistant reads and searches it and changes it in place.
   Only the changed lines are rewritten (other programs' tags, photos, notes, the header, line endings and the BOM stay
   as they were), `gedcom_changes` shows them — also with `dry_run`; a copy is kept before every write and before the
   first one; the search log, leads and corrections live in `<file>.research.json`. Files not in UTF-8 are read-only.
+- README: what it does at a glance, a diagram, a quick start, badges; the Russian comparison table is whole again.
 
 ## 0.4.1
 

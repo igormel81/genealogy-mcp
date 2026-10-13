@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif" role="img" aria-label="genealogy-mcp">
+<rect x="0.5" y="0.5" width="899" height="429" rx="14" fill="#fbfaf7" stroke="#e2ddd3"/>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8a7f6c"/></marker></defs>
+<rect x="24" y="28" width="210" height="150" rx="10" fill="#fff" stroke="#d8d1c3"/>
+<text x="40" y="54" font-size="13" font-weight="700" fill="#6b5f4b">Вы спрашиваете</text>
+<text x="40" y="82" font-size="14" fill="#2b2620" font-style="italic">«Прадед, Иван Колодин,</text>
+<text x="40" y="103" font-size="14" fill="#2b2620" font-style="italic">родился около 1885 г. под</text>
+<text x="40" y="124" font-size="14" fill="#2b2620" font-style="italic">Богородицком Тульской</text>
+<text x="40" y="145" font-size="14" fill="#2b2620" font-style="italic">губернии. Где искать?»</text>
+<line x1="238" y1="103" x2="260" y2="103" stroke="#8a7f6c" stroke-width="2" marker-end="url(#a)"/>
+<rect x="264" y="58" width="184" height="90" rx="10" fill="#efe9dd" stroke="#d8d1c3"/>
+<text x="356" y="88" font-size="14" font-weight="700" fill="#2b2620" text-anchor="middle">Ваш ИИ-ассистент</text>
+<text x="356" y="110" font-size="11.5" fill="#5c5446" text-anchor="middle">Claude · ChatGPT · Cursor</text>
+<text x="356" y="128" font-size="11.5" fill="#5c5446" text-anchor="middle">VS Code · любой MCP-клиент</text>
+<line x1="452" y1="103" x2="474" y2="103" stroke="#8a7f6c" stroke-width="2" marker-end="url(#a)"/>
+<rect x="478" y="16" width="400" height="398" rx="12" fill="#1f3b33"/>
+<text x="498" y="42" font-size="15" font-weight="700" fill="#f3efe6">genealogy-mcp</text>
+<rect x="494" y="56" width="368" height="62" rx="8" fill="#2a4d43"/>
+<text x="508" y="76" font-size="13" font-weight="700" fill="#f0c674">Где искать</text>
+<text x="508" y="94" font-size="11.5" fill="#e6e1d6">114 архивов и баз, 55 стран; где сегодня хранятся</text>
+<text x="508" y="110" font-size="11.5" fill="#e6e1d6">документы исторической губернии</text>
+<rect x="494" y="127" width="368" height="62" rx="8" fill="#2a4d43"/>
+<text x="508" y="147" font-size="13" font-weight="700" fill="#f0c674">Как искать</text>
+<text x="508" y="165" font-size="11.5" fill="#e6e1d6">варианты имён, дореформенное письмо, 9 транслитераций,</text>
+<text x="508" y="181" font-size="11.5" fill="#e6e1d6">Daitch–Mokotoff; живой поиск в открытых базах</text>
+<rect x="494" y="198" width="368" height="62" rx="8" fill="#2a4d43"/>
+<text x="508" y="218" font-size="13" font-weight="700" fill="#f0c674">Старые даты и числа</text>
+<text x="508" y="236" font-size="11.5" fill="#e6e1d6">старый ↔ новый стиль, церковные праздники, еврейский</text>
+<text x="508" y="252" font-size="11.5" fill="#e6e1d6">и республиканский календари, церковнославянские цифры</text>
+<rect x="494" y="269" width="368" height="62" rx="8" fill="#2a4d43"/>
+<text x="508" y="289" font-size="13" font-weight="700" fill="#f0c674">Наш ли это человек?</text>
+<text x="508" y="307" font-size="11.5" fill="#e6e1d6">проверка доказательств, степени родства, ДНК (сМ),</text>
+<text x="508" y="323" font-size="11.5" fill="#e6e1d6">проверка древа на невозможные даты и дубли</text>
+<rect x="494" y="340" width="368" height="62" rx="8" fill="#2a4d43"/>
+<text x="508" y="360" font-size="13" font-weight="700" fill="#f0c674">Куда записывает</text>
+<text x="508" y="378" font-size="11.5" fill="#e6e1d6">проект поиска с памятью · ваше древо в файле .ged —</text>
+<text x="508" y="394" font-size="11.5" fill="#e6e1d6">правка прямо в нём · семейный сайт на gene-archive</text>
+<line x1="474" y1="290" x2="444" y2="290" stroke="#8a7f6c" stroke-width="2" marker-end="url(#a)"/>
+<rect x="24" y="208" width="416" height="178" rx="10" fill="#fff" stroke="#d8d1c3"/>
+<text x="40" y="236" font-size="13" font-weight="700" fill="#6b5f4b">Что вы получаете</text>
+<text x="40" y="268" font-size="14" fill="#2b2620"><tspan fill="#2f7a5f" font-weight="700">✓</tspan>  план поиска и нужный архив</text>
+<text x="40" y="298" font-size="14" fill="#2b2620"><tspan fill="#2f7a5f" font-weight="700">✓</tspan>  рабочие ссылки для каждого варианта имени</text>
+<text x="40" y="328" font-size="14" fill="#2b2620"><tspan fill="#2f7a5f" font-weight="700">✓</tspan>  факты, проверенные до записи в древо</text>
+<text x="40" y="358" font-size="14" fill="#2b2620"><tspan fill="#2f7a5f" font-weight="700">✓</tspan>  черновик запроса в архив</text>
+</svg>
