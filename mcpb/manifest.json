@@ -132,7 +132,7 @@
     },
     {
       "name": "project_view",
-      "description": "Read the research project kept between conversations — or a family's gene-archive site folder: summary (people, open leads, recent searches, problems), one record with its family and sources, a text search, the full search log, or the tree checks."
+      "description": "Read the research project kept between conversations — or a family's gene-archive site folder, or the user's own tree in a GEDCOM file: summary (people, open leads, recent searches, problems), one record with its family and sources, a text search, the full search log, or the tree checks."
     },
     {
       "name": "project_save",

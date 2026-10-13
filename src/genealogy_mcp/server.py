@@ -26,7 +26,9 @@ INSTRUCTIONS = """You help people research their family history. Work like a car
 8. Keep the work in a project (project_view / project_save / project_log): save sources with full citations, people and
    families citing them, open leads, and every search with its result — next time start from project_view.
    If the family has a gene-archive site, pass the path of its folder as the project: you read the archive itself and
-   your changes go through its checks and logs. Show the change (dry_run) and get the user's yes before writing.
+   your changes go through its checks and logs. If the tree lives in a program (MyHeritage, Ancestry, Gramps,
+   RootsMagic, Family Historian…), pass the path of its GEDCOM export: you read and change that file in place.
+   Show the change (dry_run) and get the user's yes before writing.
 9. Archive requests are drafts (draft_archive_request): the user checks and sends them; never claim a letter was sent.
 10. Living people: do not publish details about them; mark guesses as 'probably'.
 Answer in the user's language; tools take lang="ru" for Russian texts."""
@@ -402,13 +404,14 @@ WRITE = ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHin
 
 @server.tool(annotations=RO)
 def project_view(
-    project: Annotated[str, Field(description="Project name (one per family or research question), or the path of a gene-archive site folder (reads the family's archive itself); empty = list the projects and site folders")] = "",
+    project: Annotated[str, Field(description="Project name (one per family or research question), the path of a gene-archive site folder, or the path of a .ged file (the user's own tree); empty = list the projects, site folders and trees")] = "",
     what: Literal["summary", "record", "search", "log", "checks"] = "summary",
     id: Annotated[str, Field(description="Record id for what='record' (I1, F1, S1, L1)")] = "",
     query: Annotated[str, Field(description="Text for what='search'")] = "",
     lang: Lang = "en",
 ) -> dict[str, Any]:
-    """Read the research project kept between conversations — or a family's gene-archive site folder: summary (people,
+    """Read the research project kept between conversations — or a family's gene-archive site folder, or the user's own
+    tree in a GEDCOM file: summary (people,
     open leads, recent searches, problems), one record with its family and sources, a text search, the full search
     log, or the tree checks. Start every session on an existing project with what='summary'."""
     if not project:
@@ -418,7 +421,7 @@ def project_view(
 
 @server.tool(annotations=WRITE)
 def project_save(
-    project: Annotated[str, Field(description="Project name, or the path of a gene-archive site folder")],
+    project: Annotated[str, Field(description="Project name, the path of a gene-archive site folder, or the path of a .ged file")],
     kind: Literal["person", "family", "source", "lead"],
     record: Annotated[dict[str, Any], Field(description="""Fields. person: given_names, surname, sex (M/F), birth/death/burial {date, place_as_recorded, source_ids, note}, notes, research_status ('confirmed' | 'probable' | 'unlinked_candidate').
 family: partners [ids], children [ids], marriage {date, place_as_recorded, source_ids}, source_ids.
@@ -433,13 +436,15 @@ Pass "id" to update an existing record (a field set to null is removed).""")],
     """Add or change a person, family, source or research lead in the project. Every change of an existing record is
     logged with the old and new value, the reason and the documents. Save the source first, then cite its S-id.
     In a gene-archive site folder the change goes through `gene apply`: refused if it adds an error, logged, committed
-    to git under the owner's name, and the site is rebuilt. Ask the user before writing into their archive."""
+    to git under the owner's name, and the site is rebuilt. In a .ged file only the changed lines are rewritten (everything
+    else in the file stays as it was), a copy is kept, and gedcom_changes shows the lines. Ask the user before writing
+    into their archive or tree."""
     return _safe(proj.upsert, project, kind, record, reason, source_ids, delete, dry_run)
 
 
 @server.tool(annotations=WRITE)
 def project_log(
-    project: Annotated[str, Field(description="Project name, or the path of a gene-archive site folder")],
+    project: Annotated[str, Field(description="Project name, the path of a gene-archive site folder, or the path of a .ged file")],
     action: Annotated[str, Field(description="What was searched and where: 'FamilySearch index, Kolodin, Tula 1880–1890'")],
     result: Annotated[str, Field(description="What came out — 'nothing found' is a result too")],
     scope: str = "",

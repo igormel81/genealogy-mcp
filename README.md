@@ -64,6 +64,14 @@ path of its folder: the assistant reads the archive itself — who is missing, w
 change it makes goes through the site's own checks, lands in its corrections and research logs, is committed to git
 under your name and rebuilds the site. It shows the change first and writes only after your yes.
 
+> *Here is my tree — add what we found.*
+
+Or give it the GEDCOM file of the tree you keep in MyHeritage, Ancestry, Gramps, RootsMagic, Family Historian or
+webtrees: the assistant reads it, searches it and changes it in place. Only the lines of what changed are rewritten —
+your program's own tags, photos, notes and the header stay byte for byte; it shows those lines before writing, keeps a
+copy of the file, and keeps the search log, leads and corrections in a file next to it. Then import the file back into
+your program (Family Historian and webtrees work on GEDCOM directly). Files not in UTF-8 are read-only.
+
 ## Why use it
 
 | Without it | With genealogy-mcp |
@@ -147,6 +155,10 @@ claude mcp add genealogy -- uvx genealogy-mcp
 on PATH or next to the server's Python; elsewhere set `GENE_CMD`), then name the folder in `GENEALOGY_MCP_SITES` (or in the Claude Desktop extension settings), or just give its path
 to the assistant. `GENE_AUTHOR` sets the name in the git history (default: `git config user.name`).
 
+**Your tree in a GEDCOM file** as the project: give the assistant the path of the `.ged` file (or name it in
+`GENEALOGY_MCP_SITES`). Copies are kept as `tree.ged.bak` (before the last change) and `tree.before-genealogy-mcp.ged`
+(before the first); the log lives in `tree.ged.research.json`.
+
 **Clients that connect over HTTP** (ChatGPT connectors, remote agents): run
 `genealogy-mcp --http --host 0.0.0.0 --port 8000` behind HTTPS and add `https://your-host/mcp`.
 In HTTP mode `audit_tree` takes the GEDCOM text only, never a file path.
@@ -174,7 +186,7 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 | `dna_match` | Shared cM → the relationships it fits (Shared cM Project 4.0) |
 | `check_match` | Is a found record our person? A verdict with every fact compared (Hispanic double surnames too) |
 | `audit_tree` | Impossible facts, duplicates and gaps in a GEDCOM or `family_tree.json` |
-| `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export — or a gene-archive site folder, written through its checks and logs |
+| `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export — or a gene-archive site folder, written through its checks and logs, or your own `.ged` file, changed in place |
 | `draft_archive_request` | A request letter to a registry office or archive |
 | `record_guide` | How to read and find a kind of record |
 | `glossary` | Old Russian record terms explained |

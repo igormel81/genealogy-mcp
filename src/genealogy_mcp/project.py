@@ -8,6 +8,9 @@ A project can also be the folder of a gene-archive site (a path instead of a nam
 $GENEALOGY_MCP_SITES). Then it is read straight from its family_tree.json and every change goes through
 `gene apply` — the same checks, corrections and research logs and git commit as the site's online editor — and the
 site is rebuilt (GENEALOGY_MCP_SITE_BUILD=0 turns the rebuild off).
+
+A project can also be a GEDCOM file (its path, or a file named in $GENEALOGY_MCP_SITES): the tree the user keeps in
+their own program, read and changed in place without losing anything else in it (see gedfile.py).
 """
 import datetime
 import json
@@ -19,7 +22,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from . import audit
+from . import audit, gedfile
 from .dates import GED_MONTHS, normalize_date
 
 KINDS = {"person": ("people", "I"), "family": ("families", "F"), "source": ("sources", "S"), "lead": ("research_leads", "L")}
@@ -43,7 +46,7 @@ def site_folders():
     """Site folders the user named in $GENEALOGY_MCP_SITES (separated like PATH)."""
     out = []
     for part in os.environ.get("GENEALOGY_MCP_SITES", "").split(os.pathsep):
-        if part.strip() and is_site(part.strip()):
+        if part.strip() and (is_site(part.strip()) or gedfile.is_ged(part.strip())):
             out.append(str(Path(part.strip()).expanduser().resolve()))
     return out
 
@@ -114,6 +117,8 @@ def gene_apply(folder, requests, dry_run=False):
 
 
 def _path(name):
+    if gedfile.is_ged(name):
+        return _site(name)
     if is_site(name):
         return _site(name) / "family_tree.json"
     name = str(name).strip()
@@ -132,6 +137,8 @@ def empty(title=""):
 
 
 def load(name, create=False):
+    if gedfile.is_ged(name):
+        return gedfile.load(_site(name))
     if is_site(name):
         data = json.loads((_site(name) / "family_tree.json").read_text(encoding="utf-8"))
         for k in ("people", "families", "sources", "research_leads", "research_log", "corrections"):
@@ -146,6 +153,9 @@ def load(name, create=False):
 
 
 def save(name, data):
+    if gedfile.is_ged(name):
+        gedfile.save(_site(name), data)
+        return _site(name)
     if is_site(name):
         raise ValueError("a site folder is changed only through gene apply")
     p = _path(name)
@@ -164,9 +174,12 @@ def list_projects():
     return local + site_folders()
 
 
-def _next_id(items, prefix):
+def _next_id(items, prefix, taken=()):
     nums = [int(x["id"][1:]) for x in items if re.fullmatch(prefix + r"\d+", str(x.get("id", "")))]
-    return f"{prefix}{max(nums, default=0) + 1}"
+    n = max(nums, default=0) + 1
+    while f"{prefix}{n}" in taken:   # a GEDCOM file shares one set of ids between all its records
+        n += 1
+    return f"{prefix}{n}"
 
 
 def _find(data, rid):
@@ -277,11 +290,13 @@ def upsert(name, kind, record, reason="", source_ids=None, delete=False, dry_run
                 f[k] = [x for x in f.get(k, []) if x != rid]
         data["corrections"].append({"record": rid, "field": "*", "previous": old, "current": None, "reason": reason or "deleted",
                                     "date": _today()})
-        if not dry_run:
-            save(name, data)
-        return {"deleted": rid}
+        return {"deleted": rid, **_store(name, data, dry_run)}
     if kind == "person":
         _normalize_person(rec, warnings)
+    if gedfile.is_ged(name) and kind in gedfile.FIELDS:
+        lost = sorted(set(rec) - gedfile.FIELDS[kind])
+        if lost:
+            warnings.append(f"not kept in a GEDCOM file: {', '.join(lost)} (write it in notes instead)")
     if kind == "family":
         people = {p["id"] for p in data["people"]}
         for k in ("partners", "children"):
@@ -313,7 +328,7 @@ def upsert(name, kind, record, reason="", source_ids=None, delete=False, dry_run
         old.update(merged)
         out = old
     else:
-        rec["id"] = _next_id(data[coll], prefix)
+        rec["id"] = _next_id(data[coll], prefix, set(data.get("_xrefs", ())) if kind != "lead" else ())
         if kind == "source":
             rec.setdefault("kind", "record")
             if not rec.get("title"):
@@ -324,9 +339,16 @@ def upsert(name, kind, record, reason="", source_ids=None, delete=False, dry_run
         out = rec
         if kind == "person" and not data.get("root_person_id"):
             data["root_person_id"] = rec["id"]
+    return {"saved": out, "warnings": warnings, "project": name, "dry_run": dry_run, **_store(name, data, dry_run)}
+
+
+def _store(name, data, dry_run):
+    """Saves the project; for a GEDCOM file also tells which lines of the file change."""
+    if gedfile.is_ged(name):
+        return {"gedcom_changes": gedfile.save(_site(name), data, write=not dry_run) or "none"}
     if not dry_run:
         save(name, data)
-    return {"saved": out, "warnings": warnings, "project": name, "dry_run": dry_run}
+    return {}
 
 
 def log(name, action, result, scope=""):
@@ -353,7 +375,8 @@ def view(name, what="summary", rid="", query="", lang="en"):
     data = load(name)
     if what == "summary":
         open_leads = [x for x in data["research_leads"] if x.get("status") != "closed"]
-        return {"project": name, "file": str(_path(name)), "kind": "gene-archive site" if is_site(name) else "project",
+        return {"project": name, "file": str(_path(name)), "kind": "gene-archive site" if is_site(name) else "GEDCOM file" if gedfile.is_ged(name) else "project",
+                **({"read_only": data["_readonly"]} if data.get("_readonly") else {}),
                 "people": len(data["people"]), "families": len(data["families"]),
                 "sources": len(data["sources"]), "root_person_id": data.get("root_person_id"),
                 "people_list": [_brief(p) for p in data["people"][:200]],
@@ -459,6 +482,8 @@ def to_gedcom(data):
 
 
 def export(name, fmt="gedcom"):
+    if gedfile.is_ged(name):
+        raise ValueError(f"this project is a GEDCOM file already: {_site(name)}")
     data = load(name)
     p = (home() / _site(name).name).with_suffix(".json") if is_site(name) else _path(name)
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -472,6 +497,8 @@ def export(name, fmt="gedcom"):
 
 def import_gedcom(name, path_or_text, allow_paths=True):
     """A new project from a GEDCOM file (from MyHeritage, Ancestry, Gramps, Geni…)."""
+    if gedfile.is_ged(name):
+        raise ValueError("this project is a GEDCOM file already: work on it directly (project_view, project_save)")
     if is_site(name):
         raise ValueError("a site folder is not imported into: make a new site with `gene import tree.ged <folder>`")
     if _path(name).exists():
