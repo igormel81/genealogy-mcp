@@ -18,7 +18,8 @@ you working links and a plan instead of confident guesses.
 
 Built from years of real research for an open family archive powered by
 [gene_archive](https://github.com/igormel81/gene_archive): parish registers, revision lists, WWI and WWII databases,
-repression files, emigration records — and every trap we fell into along the way.
+repression files, emigration records — and every trap we fell into along the way. The story behind it:
+[an article on Habr](https://habr.com/ru/articles/1094212/) (in Russian).
 
 ![You ask your assistant; genealogy-mcp knows where to look, how to search, how to read old dates and whether a find is your person, and writes into your project, your own GEDCOM tree or your family site](https://raw.githubusercontent.com/igormel81/genealogy-mcp/main/docs/overview.svg)
 
