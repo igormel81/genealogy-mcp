@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.1
+
+- `place_history` finds a village given together with its region («Сынково Тульская область», «Каменка Черкасская
+  область»): Wikidata matches names only, so when the whole phrase finds nothing the settlement name is searched and
+  the rest of the phrase picks the right namesake (generic words like «область», «район», «уезд» are ignored).
+  Before, such a query — the very example in the tool's description — returned nothing.
+
 ## 0.5.0
 
 - **Your own tree as the project.** The project tools take the path of a `.ged` file — the tree from MyHeritage,

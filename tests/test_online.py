@@ -44,3 +44,23 @@ class OpenList(unittest.TestCase):
                 result = online.search("open_list", query="query")
             self.assertIn("error", result)
             self.assertNotIn("count", result)
+
+
+class PlaceHistory(unittest.TestCase):
+    def test_village_with_region_falls_back_to_village_and_picks_namesake(self):
+        def fake_get(url, params=None, data=None):
+            if params.get("action") == "wbsearchentities":
+                return {"search": [] if " " in params["search"] else [{"id": "Q1"}, {"id": "Q2"}]}
+            return {}
+        ents = {"Q1": {"labels": {"ru": {"value": "Сынково"}}, "descriptions": {"ru": {"value": "деревня во Владимирской области"}}},
+                "Q2": {"labels": {"ru": {"value": "Сынково"}}, "descriptions": {"ru": {"value": "деревня в Тульской области"}}}}
+        with patch.object(online, "_get", side_effect=fake_get), \
+             patch.object(online, "_wd_entities", side_effect=lambda ids, lang: {i: ents[i] for i in ids if i in ents}):
+            result = online.place_history("Сынково Тульская область")
+        self.assertEqual([p["wikidata"].rsplit("/", 1)[1] for p in result["places"]], ["Q2"])
+
+    def test_exact_hit_is_not_filtered(self):
+        with patch.object(online, "_get", return_value={"search": [{"id": "Q9"}]}), \
+             patch.object(online, "_wd_entities", return_value={"Q9": {"labels": {"ru": {"value": "Тула"}}}}):
+            result = online.place_history("Тула")
+        self.assertEqual(len(result["places"]), 1)

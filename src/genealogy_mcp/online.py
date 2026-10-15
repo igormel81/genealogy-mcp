@@ -179,9 +179,18 @@ def _time(q):
 def place_history(name, lang="ru", limit=5):
     """What a settlement belonged to over time (Wikidata P131 with start and end dates), its coordinates and
     Wikipedia article — to find the uezd, province and parish of a village."""
-    found = _get("https://www.wikidata.org/w/api.php", {"action": "wbsearchentities", "search": name, "language": lang,
-                                                        "uselang": lang, "type": "item", "limit": limit, "format": "json"})
-    ids = [x["id"] for x in found.get("search", [])]
+    def search(text, n):
+        found = _get("https://www.wikidata.org/w/api.php", {"action": "wbsearchentities", "search": text, "language": lang,
+                                                            "uselang": lang, "type": "item", "limit": n, "format": "json"})
+        return [x["id"] for x in found.get("search", [])]
+
+    ids, qualifiers = search(name, limit), []
+    words = name.replace(",", " ").split()
+    if not ids and len(words) > 1:
+        # Wikidata matches labels only: «Сынково Тульская область» finds nothing, so search the settlement
+        # name and use the rest («Тульская область») to pick the right namesake below
+        generic = ("облас", "район", "уезд", "губер", "волос", "край", "респу", "oblas", "regio", "distr", "provi", "count", "gover")
+        ids, qualifiers = search(words[0], 50), [w.lower()[:5] for w in words[1:] if len(w) > 2 and not w.lower().startswith(generic)]
     if not ids:
         return {"query": name, "places": []}
     ents = _wd_entities(ids, lang)
@@ -206,6 +215,12 @@ def place_history(name, lang="ru", limit=5):
                     "description": ((e.get("descriptions") or {}).get(lang) or (e.get("descriptions") or {}).get("en") or {}).get("value"),
                     "located_in": within, "coordinates": [coord.get("latitude"), coord.get("longitude")] if coord else None,
                     "wikipedia": f"https://{wiki['site'].replace('wiki', '')}.wikipedia.org/wiki/{urllib.parse.quote(wiki['title'].replace(' ', '_'))}" if wiki else None})
+    if qualifiers:
+        def hits(p):
+            text = " ".join([p["description"] or ""] + [str(u["unit"]) for u in p["located_in"]]).lower()
+            return sum(q in text for q in qualifiers)
+        best = [p for p in sorted(out, key=hits, reverse=True) if hits(p)]
+        out = (best or out)[:limit]
     return {"query": name, "places": out,
             "tip": "Wikidata often lists only today's district; for 1700–1917 check the Wikipedia article and «Списки населённых мест». "
                    "Then where_are_records with the province."}
