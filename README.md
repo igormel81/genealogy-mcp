@@ -252,9 +252,10 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 
 ## Benchmark
 
-`evals/tasks.json` holds 32 questions with checkable answers: dates by church feasts, Julian, Hebrew and Republican
-calendars, Cyrillic numerals, Daitch–Mokotoff, DNA, kinship, old terms, archives of historical provinces, evidence
-checks, record history. `evals/check_tools.py` runs in CI and checks that the tools answer all of them correctly.
+`evals/tasks.json` holds 35 questions with checkable answers: dates by church feasts, Julian, Hebrew and Republican
+calendars, Cyrillic numerals, Daitch–Mokotoff, Moldovan surnames, DNA, kinship, old terms, archives of historical
+provinces and borders by year, evidence checks, ages that cannot be one person,
+record history. `evals/check_tools.py` runs in CI and checks that the tools answer all of them correctly.
 `evals/run.py` asks a Claude model the same questions without the server and with it and scores both
 (needs an API key; it costs money, so it is run by hand: Actions → Benchmark).
 
