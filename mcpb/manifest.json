@@ -123,6 +123,10 @@
       "description": "Is the person in a found record ours? Compares fact by fact (with name variants and Julian/rounded-age tolerance) and gives a verdict: confirmed (2+ independent facts beyond the name), probable, insufficient, conflict or different_person."
     },
     {
+      "name": "parent_hypothesis",
+      "description": "A working hypothesis about a parent from a patronymic: the father's given name it implies (Петрович → Пётр, Ильич → Илья), each candidate ranked by name, surname, village and age with the arguments for and against (a grandson named after him, godparents and sureties of his surname, his household listing a child of this name), a warning for a namesake from another village, and the record that would settle it."
+    },
+    {
       "name": "audit_tree",
       "description": "Audit a family tree from any program (GEDCOM) for impossible facts (born after the mother's death, a parent under 14, death before birth), possible duplicates and gaps (no sources, no dates, people cut off from the tree) — a to-do list for the next search."
     },

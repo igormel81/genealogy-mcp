@@ -27,7 +27,7 @@ repression files, emigration records — and every trap we fell into along the w
 
 - **124 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
   archive holds the records of a historical province today (borders moved; the answer is often not the obvious one).
-- **27 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
+- **28 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
   Julian, Hebrew and French Republican calendars, dates by church feasts, Church Slavonic numerals, kinship in three
   languages, DNA, evidence checks, a tree audit, live search in open databases, archive request drafts.
 - **It works on your tree, not beside it.** Point it at the `.ged` file from MyHeritage, Ancestry, Gramps or RootsMagic
@@ -226,6 +226,7 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 | `kinship` | The name of a relation in ru/en/ro, with the expected DNA share |
 | `dna_match` | Shared cM → the relationships it fits (Shared cM Project 4.0) |
 | `check_match` | Is a found record our person? A verdict with every fact compared (Hispanic double surnames too) |
+| `parent_hypothesis` | A parent hypothesis from a patronymic: candidates ranked by name, village and age, arguments for and against (grandson's name, godparents, sureties), a warning for namesakes from another village, the record that would settle it — a lead, never a link |
 | `audit_tree` | Impossible facts, duplicates and gaps in a GEDCOM or `family_tree.json` |
 | `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export — or a gene-archive site folder, written through its checks and logs, or your own `.ged` file, changed in place |
 | `project_coverage` | What has been read: parish → year → part → film and frames → complete / partial up to No. … / not found; what is still unread for these villages and years |

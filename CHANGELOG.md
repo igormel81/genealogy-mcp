@@ -36,6 +36,11 @@
   +18…+45, first marriage at about 22) and ages in records: a GEDCOM date (`BET … AND …`, or `ABT …` when the range
   is wide), the most likely year and a ready explanation sentence in English or Russian. Ages are checked against
   each other: 7 in 1850 and 22 in 1882 are flagged as likely two namesakes (#10).
+- **`parent_hypothesis`** — a working hypothesis about a father from a patronymic: the given name it implies
+  (Петрович → Пётр, Ильич → Илья, Кузьминична → Кузьма), candidates ranked by name, surname, village and age, the
+  arguments for and against (a grandson with his name, godparents and sureties of his surname, his household listing a
+  child of this name; too old, died before the birth, another name), a warning for a namesake from another village,
+  the records that would settle it and a ready open lead. The evidence rule stands: a hypothesis, never a link (#11).
 
 ## 0.5.1
 

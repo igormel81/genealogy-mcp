@@ -8,7 +8,7 @@ from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
-from . import __version__, audit, calendars, coverage, dates, dna, estimate, evidence, guides, kinship, letters, names, numerals, online, places, plan, soundex, sources
+from . import __version__, audit, calendars, coverage, dates, dna, estimate, evidence, guides, hypothesis, kinship, letters, names, numerals, online, places, plan, soundex, sources
 from . import films as film_plan
 from . import project as proj
 
@@ -22,6 +22,8 @@ INSTRUCTIONS = """You help people research their family history. Work like a car
    (search_online) and give the user direct links for the rest (search_links).
    Go through every relevant source, not just the first one with a hit, and say which ones were checked.
 5. A name is not a person: before linking a found record, run check_match — two independent facts beyond the name.
+   A patronymic gives the father's name, not the father: weigh candidates with parent_hypothesis and keep the result
+   as a lead or 'probably' until a record names him.
 6. Cite the original (archive, fond, opis, delo, folio, or film and image), not an index; keep conflicting versions.
 7. Old dates: Julian calendar in Russia until 1918 (convert_calendar), dates by church feasts (feast_date), letters as
    numbers (cyrillic_numerals); ages in records drift (birth_year_from_age); with no record of birth, estimate it from
@@ -423,6 +425,23 @@ def check_match(
     """Is the person in a found record ours? Compares fact by fact (with name variants and Julian/rounded-age tolerance)
     and gives a verdict: confirmed (2+ independent facts beyond the name), probable, insufficient, conflict or different_person."""
     return evidence.check_match(known, found, year_tolerance, lang)
+
+
+@server.tool(annotations=RO)
+def parent_hypothesis(
+    child: Annotated[dict[str, Any], Field(description="The person whose parent we look for: given, surname, patronymic (or father_given as recorded), birth_year, place (village), children_given (the person's own children — a son may carry the grandfather's name), godparents (of the person's children) and sureties (at the person's marriage), as names, id")],
+    candidates: Annotated[list[dict[str, Any]] | None, Field(description="Possible fathers found in the records: given, surname, birth_year, death_year, place, sex, children (names listed in the candidate's household), id; empty = how to find them")] = None,
+    lang: Lang = "en",
+) -> dict[str, Any]:
+    """A working hypothesis about a parent from a patronymic: the father's given name it implies (Петрович → Пётр,
+    Ильич → Илья), each candidate ranked by name, surname, village and age with the arguments for and against (a
+    grandson named after him, godparents and sureties of his surname, his household listing a child of this name), a
+    warning for a namesake from another village, and the record that would settle it. Always a hypothesis — save it as
+    an open lead or 'probably', never as a link in the tree."""
+    try:
+        return hypothesis.hypothesis(child, candidates, lang)
+    except ValueError as e:
+        return {"error": str(e)}
 
 
 @server.tool(annotations=ToolAnnotations(readOnlyHint=True, openWorldHint=False))
