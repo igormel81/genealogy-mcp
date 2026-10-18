@@ -27,7 +27,7 @@ repression files, emigration records — and every trap we fell into along the w
 
 - **124 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
   archive holds the records of a historical province today (borders moved; the answer is often not the obvious one).
-- **24 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
+- **26 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
   Julian, Hebrew and French Republican calendars, dates by church feasts, Church Slavonic numerals, kinship in three
   languages, DNA, evidence checks, a tree audit, live search in open databases, archive request drafts.
 - **It works on your tree, not beside it.** Point it at the `.ged` file from MyHeritage, Ancestry, Gramps or RootsMagic
@@ -227,6 +227,8 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 | `check_match` | Is a found record our person? A verdict with every fact compared (Hispanic double surnames too) |
 | `audit_tree` | Impossible facts, duplicates and gaps in a GEDCOM or `family_tree.json` |
 | `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export — or a gene-archive site folder, written through its checks and logs, or your own `.ged` file, changed in place |
+| `project_coverage` | What has been read: parish → year → part → film and frames → complete / partial up to No. … / not found; what is still unread for these villages and years |
+| `film_reading_plan` | Reading an unindexed FamilySearch film page by page: which films in which order, thumbnails vs full frames, a request budget under the rate limit, what to log |
 | `draft_archive_request` | A request letter to a registry office or archive |
 | `record_guide` | How to read and find a kind of record |
 | `glossary` | Old Russian record terms explained |

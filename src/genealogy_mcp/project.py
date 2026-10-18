@@ -381,6 +381,7 @@ def view(name, what="summary", rid="", query="", lang="en"):
                 "sources": len(data["sources"]), "root_person_id": data.get("root_person_id"),
                 "people_list": [_brief(p) for p in data["people"][:200]],
                 "open_leads": open_leads[:30], "recent_log": data["research_log"][-15:],
+                **({"coverage_entries": len(data["coverage"])} if data.get("coverage") else {}),
                 "checks": audit.report(json.dumps(data), lang=lang, limit=15)["items"]}
     if what == "record":
         coll, rec = _find(data, rid)

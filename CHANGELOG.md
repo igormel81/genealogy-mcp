@@ -6,6 +6,16 @@
   metricabook.ru (register scans), Rodovod, Road of Memory and Immortal Regiment (WWII). New for Bessarabia, Moldova
   and Romania: genealogica.ro (with the exact-match, county and year settings and its hourly limit), Genealogy of
   Bessarabia, deportari.org, Cartea Memoriei and Dmitriev's 1772–1774 Moldavian censuses with their gaps (#5).
+- **What has been read.** `project_coverage` keeps parish → year → part (births, marriages, deaths, confession and
+  revision lists) → film and frames → status (complete, partial up to No. …, not found) with the sources, and answers
+  what is still unread for these villages and years — a village is matched through the entries that name it. Kept in
+  the project file, next to a `.ged` file in `<file>.research.json`, and for a gene-archive site in a file of this
+  server, read together with the site's own `coverage` section (`gene apply` does not take coverage yet) (#7).
+- **Reading unindexed FamilySearch films.** A new section of the research guide — catalogue → film → frames, finding
+  the parish book with thumbnails and end-of-year summaries, full frames only for records, the variable rate limit
+  (an hour's pause after HTTP 429, no parallel sessions), the volume's title page over inventory numbers — and the
+  `film_reading_plan` tool: which films to read in which order, a rough request budget in sessions, what to log;
+  with a project it skips what is already read and resumes partial books (#6).
 
 ## 0.5.1
 

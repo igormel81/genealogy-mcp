@@ -8,7 +8,8 @@ from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
-from . import __version__, audit, calendars, dates, dna, evidence, guides, kinship, letters, names, numerals, online, places, plan, soundex, sources
+from . import __version__, audit, calendars, coverage, dates, dna, evidence, guides, kinship, letters, names, numerals, online, places, plan, soundex, sources
+from . import films as film_plan
 from . import project as proj
 
 INSTRUCTIONS = """You help people research their family history. Work like a careful genealogist:
@@ -29,6 +30,8 @@ INSTRUCTIONS = """You help people research their family history. Work like a car
    your changes go through its checks and logs. If the tree lives in a program (MyHeritage, Ancestry, Gramps,
    RootsMagic, Family Historian…), pass the path of its GEDCOM export: you read and change that file in place.
    Show the change (dry_run) and get the user's yes before writing.
+   Reading registers page by page: ask project_coverage what is still unread, plan with film_reading_plan, and mark
+   every book read (complete, partial up to No. …, not found) — never read the same frames twice.
 9. Archive requests are drafts (draft_archive_request): the user checks and sends them; never claim a letter was sent.
 10. Living people: do not publish details about them; mark guesses as 'probably'.
 Answer in the user's language; tools take lang="ru" for Russian texts."""
@@ -190,6 +193,33 @@ def plan_research(
     """A step-by-step research plan for a country and period: which records exist, which guides to read and which
     sources to search, in order (free and country-specific first)."""
     return plan.plan(country, year_from, year_to, question, lang)
+
+
+@server.tool(annotations=RO)
+def film_reading_plan(
+    parish: Annotated[str, Field(description="The church whose books to read, with its village: «Покровская церковь с. Сынково», 'church of Leca'")],
+    year_from: int,
+    year_to: int | None = None,
+    parts: Annotated[list[str] | None, Field(description="Parts to read: " + ", ".join(coverage.PARTS) + "; default births, marriages, deaths")] = None,
+    films: Annotated[list[dict[str, Any]] | None, Field(description="Films from the FamilySearch Catalog entry: [{film (DGS number), years ('1860-1875'), frames (images on the film, if shown), item, note}]; empty = how to find them")] = None,
+    project: Annotated[str, Field(description="A project (name, site folder or .ged path) whose coverage marks what is already read; it is skipped")] = "",
+    order: Literal["newest_first", "oldest_first"] = "newest_first",
+    lang: Lang = "en",
+) -> dict[str, Any]:
+    """A plan for reading unindexed FamilySearch films page by page for a parish, years and parts: which films to read
+    in which order, thumbnails to find the book (title pages, end-of-year summaries naming the church) and full frames
+    only for the record pages, a rough request budget split into sessions under the site's variable rate limit (pause at
+    least an hour after HTTP 429, no parallel sessions), and what to log with project_coverage."""
+    entries = None
+    if project:
+        got = _safe(coverage.load, project)
+        if isinstance(got, dict):
+            return got
+        entries = got
+    try:
+        return film_plan.plan(parish, year_from, year_to, parts, films, entries, order, lang)
+    except ValueError as e:
+        return {"error": str(e)}
 
 
 @server.tool(annotations=RO)
@@ -451,6 +481,31 @@ def project_log(
 ) -> dict[str, Any]:
     """Write a line in the project's research log, so nobody searches the same place twice. Log negative results."""
     return _safe(proj.log, project, action, result, scope)
+
+
+@server.tool(annotations=WRITE)
+def project_coverage(
+    project: Annotated[str, Field(description="Project name, the path of a gene-archive site folder, or the path of a .ged file")],
+    action: Annotated[Literal["mark", "unread", "list"], Field(description="mark: save what was read; unread: what is still unread for places and years; list: everything recorded")] = "unread",
+    entries: Annotated[list[dict[str, Any]] | None, Field(description="For mark: one entry per book read — parish (the church whose book it is), villages (that church's villages in the book), year, part (" + ", ".join(coverage.PARTS) + "), film, frames ('112-140'), status (complete | partial | not_found), up_to (for partial: 'No. 45'), source_ids, note")] = None,
+    places: Annotated[list[str] | None, Field(description="For unread/list: parishes or villages (a village is matched through the entries that name it)")] = None,
+    year_from: int | None = None,
+    year_to: int | None = None,
+    parts: Annotated[list[str] | None, Field(description="For unread: the parts to check; default births, marriages, deaths")] = None,
+    dry_run: Annotated[bool, Field(description="For mark: show the change without writing")] = False,
+    lang: Lang = "en",
+) -> dict[str, Any]:
+    """What has already been read in the registers: parish → year → part → film and frames → status (complete, partial
+    up to No. …, not found). Mark each book when you finish it, and ask what is still unread for these villages and
+    years before opening a film — so nobody reads the same frames twice. Kept with the project (for a .ged file in the
+    file next to it; for a gene-archive site in a file of this server, read together with the site's own coverage)."""
+    if action == "mark":
+        if not entries:
+            return {"error": "give entries to mark"}
+        return _safe(coverage.mark, project, entries, dry_run)
+    if action == "list":
+        return _safe(coverage.listing, project, places or [])
+    return _safe(coverage.unread, project, places or [], year_from, year_to, parts, lang)
 
 
 @server.tool(annotations=WRITE)

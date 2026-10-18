@@ -79,6 +79,10 @@
       "description": "A step-by-step research plan for a country and period: which records exist, which guides to read and which sources to search, in order (free and country-specific first)."
     },
     {
+      "name": "film_reading_plan",
+      "description": "A plan for reading unindexed FamilySearch films page by page for a parish, years and parts: which films to read in which order, thumbnails to find the book (title pages, end-of-year summaries naming the church) and full frames only for the record pages, a rough request budget split into sessions under the site's variable rate limit (pause at least an hour after HTTP 429, no parallel sessions), and what to log with project_coverage."
+    },
+    {
       "name": "name_variants",
       "description": "All the forms a name can take in records (and its Daitch–Mokotoff Soundex codes): spelling variants, pre-1918 orthography, male/female surname forms (Колодин/Колодина, Kowalski/Kowalska, Kazlauskas/Kazlauskienė), transliterations (passport, BGN, German, French, Polish, Romanian, Spanish, Ukrainian, scholarly) and given-name equivalents across languages (Иван = Іоаннъ = Jan = Johann = Juan)."
     },
@@ -141,6 +145,10 @@
     {
       "name": "project_log",
       "description": "Write a line in the project's research log, so nobody searches the same place twice."
+    },
+    {
+      "name": "project_coverage",
+      "description": "What has already been read in the registers: parish → year → part → film and frames → status (complete, partial up to No."
     },
     {
       "name": "project_transfer",

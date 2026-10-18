@@ -456,6 +456,40 @@ gene build        # builds the site; refuses when validation fails
   Geni and MyHeritage, whose matches find distant cousins; `gene gedcom --for public`
   is for open forums, with living people left without names.
 
+### Reading an unindexed FamilySearch film, page by page
+
+Most parish registers, confession lists and revision lists on FamilySearch have no
+name index: they are filmed books you read frame by frame. A film is often a
+volume of several parishes bound together ("multiple localities"), so the work is
+first to find *your* book in it, then to read only its pages.
+
+1. **Catalogue → film → frames.** Search the FamilySearch Catalog by place (country →
+   province → district → village or parish). The catalogue entry lists films (DGS
+   numbers) with years and contents. Write down the film number *and* the item, then
+   open the images.
+2. **Find the book with thumbnails.** The grid view shows dozens of small frames at
+   once. Small thumbnails cost little and are enough to see the structure: title
+   pages, the three parts of a register (births, marriages, deaths), blank pages,
+   the start of the next book. Open full frames only for the record pages you need.
+3. **Use the end of the book.** Registers often end with a summary — the number of
+   births, marriages and deaths for the year, signed by the clergy — and volumes may
+   have a table of contents. Both name the church and the village, so they tell you
+   whose book this is faster than reading the records.
+4. **Trust the volume, not the number.** File numbers in an archive inventory and on
+   the film often differ, and the catalogue's description can be wrong. Rely on the
+   title page and the table of contents of the volume; cite archive, fond, opis,
+   delo **and** film and image number.
+5. **The rate limit is not fixed.** The site may allow a few thousand thumbnails or,
+   after a recent refusal, only a couple of hundred full frames. After an HTTP 429
+   ("too many requests") stop for **at least an hour**. Never run parallel sessions:
+   they share one limit and lengthen the block.
+6. **Log as you go.** For each book: parish, year, part, film and frames, and how far
+   you read (complete, partial up to No. …, not found). Then nobody — you, a relative
+   or an assistant — reads the same frames twice.
+
+The `film_reading_plan` tool turns a parish, years and parts into this plan: which
+films and books to read in which order, a rough number of requests, and what to log.
+
 ### DNA tests, briefly
 
 - **Autosomal** tests find relatives on all lines, reliably to about 3rd–4th cousins
