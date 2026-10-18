@@ -16,6 +16,15 @@
   (an hour's pause after HTTP 429, no parallel sessions), the volume's title page over inventory numbers — and the
   `film_reading_plan` tool: which films to read in which order, a rough request budget in sessions, what to log;
   with a project it skips what is already read and resumes partial books (#6).
+- **Borders by year in `where_are_records`.** With `year`, Bessarabia is answered for that year: the south (Cahul,
+  Ismail, Bolgrad — also given as a district) was Moldavian, then Romanian in 1857–1878 (Treaty of Paris 1856 → Treaty
+  of Berlin 1878), all Bessarabia Romanian in 1918–1940 and 1941–1944, Soviet from June 1940 and 1944; the state, the
+  county or uezd of the time and the archives to search now (Chișinău, the Izmail branch of the Odesa region archive,
+  the Romanian National Archives, the civil registry), with a warning in border years (#12).
+- **Parish attachment.** `where_are_records` takes a `village` and `place_history` reports it too: which church kept
+  the village's books (a village without a church was recorded in a neighbouring one), with years and source, and how
+  to find it out — clergy registers, consistory inventories, gazetteers, the book's own summary. Only sourced
+  attachments are listed (#8).
 
 ## 0.5.1
 

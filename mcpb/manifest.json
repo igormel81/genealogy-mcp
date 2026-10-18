@@ -72,7 +72,7 @@
     },
     {
       "name": "place_history",
-      "description": "Look a place up in Wikidata: what administrative units it was part of (with years where known), coordinates and the Wikipedia article — a first step to the uezd, province and parish of a village."
+      "description": "Look a place up in Wikidata: what administrative units it was part of (with years where known), coordinates and the Wikipedia article — a first step to the uezd, province and parish of a village — and the church its books were kept in, where that attachment is known."
     },
     {
       "name": "plan_research",

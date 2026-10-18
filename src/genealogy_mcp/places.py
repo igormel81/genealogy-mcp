@@ -77,7 +77,7 @@ add("kovno", "Ковенская губерния|Kovno|Kaunas", RE, "LT:Lietuva
 add("courland", "Курляндская губерния|Courland|Kurland", RE, "LV:Kurzeme;LV:Zemgale", "Latvijas Valsts vēstures arhīvs (Rīga)", "Лютеранские и католические книги — raduraksti.arhivi.lv.")
 add("livonia", "Лифляндская губерния|Livonia|Livland", RE, "LV:Vidzeme;EE:Lõuna-Eesti", "Latvijas Valsts vēstures arhīvs (Rīga);Rahvusarhiiv (Tartu)", "Северная (эстонская) часть — архив в Тарту (ais.ra.ee).")
 add("estland", "Эстляндская губерния|Estland|Estonia", RE, "EE:Eesti", "Rahvusarhiiv (Tallinn, Tartu)")
-add("bessarabia", "Бессарабская губерния|Bessarabia|Basarabia", RE, "MD:Moldova;UA:Одеська область", "Agenția Națională a Arhivelor, Chișinău (ф. 211 — Кишинёвская консистория);" + DA.format("Одеської") + " (Ізмаїл, Аккерман)", "В 1918–1940 гг. под Румынией: тогдашние записи гражданского состояния — также румынские архивы.")
+add("bessarabia", "Бессарабская губерния|Bessarabia|Basarabia", RE, "MD:Moldova;UA:Одеська область", "Agenția Națională a Arhivelor, Chișinău (ф. 211 — Кишинёвская консистория);" + DA.format("Одеської") + " (Ізмаїл, Аккерман)", "Юг (Кагул, Измаил, Болград) в 1857–1878 гг. — в Молдавском княжестве, затем Румынии (Парижский мир 1856 г. — Берлинский конгресс 1878 г.); вся Бессарабия в 1918–1940 и 1941–1944 гг. — под Румынией: записи этих лет — также в румынских архивах. Укажите год (year), чтобы узнать страну и архив.")
 # ---------- Kingdom of Poland and other Polish lands
 for gid, ru, en, ap in (("warsaw", "Варшавская", "Warsaw", "Warszawie"), ("lublin", "Люблинская", "Lublin", "Lublinie"), ("radom", "Радомская", "Radom", "Radomiu"),
                         ("kielce", "Келецкая", "Kielce", "Kielcach"), ("piotrkow", "Петроковская", "Piotrków", "Piotrkowie Trybunalskim"),
@@ -138,3 +138,165 @@ def find(place):
         if code and len(code) == 2:
             out = [e for e in P if any(x["country"] == code for x in e["now"])]
     return out
+
+
+# ---------------------------------------------------------------- Bessarabia: whose land it was in a given year
+# Treaty of Paris (30 March 1856): the south of Bessarabia went to the Principality of Moldavia (handed over in 1857),
+# from 1859 the United Principalities, later Romania; Treaty of Berlin (13 July 1878): back to Russia (taken over in
+# October 1878). Bessarabia as a whole: Romania 1918–1940 and 1941–1944, the USSR from 28 June 1940 and from 1944.
+ANRM = "Agenția Națională a Arhivelor — Arhiva Națională a Republicii Moldova (Chișinău): fond of the Kishinev consistory (f. 211), uezd and volost fonds"
+IZMAIL = "Izmail branch of the State Archive of Odesa Region (Ізмаїл; the former archive of Izmail oblast, 1940–1954)"
+ODESA = "Державний архів Одеської області (Odesa)"
+RO_ARCH = "Arhivele Naționale ale României — county directorates (Galați for the Lower Danube diocese, Iași for the central institutions of Moldavia)"
+CIVIL_MD = "Civil registry (stare civilă) of the Republic of Moldova — records younger than about 100 years"
+CIVIL_UA = "Civil registry offices of Ukraine (відділи ДРАЦС) — records younger than about 75–100 years"
+
+SOUTH = {   # district → names, today, archives now
+    "cahul": ("Cahul|Кагул|Кагульский|Кагульский уезд|Kagul|Кахул", "MD", "Cahul district, Moldova", [ANRM]),
+    "ismail": ("Ismail|Izmail|Измаил|Измаильский|Измаильский уезд|Ізмаїл|Ізмаїльський|Reni|Рени|Рені|Kiliya|Chilia|Килия|Кілія|Vylkove|Вилково",
+               "UA", "Izmail district, Odesa region, Ukraine", [IZMAIL, ANRM]),
+    "bolgrad": ("Bolgrad|Bolhrad|Болград|Болградский|Болградський", "UA", "Bolhrad district, Odesa region, Ukraine", [IZMAIL, ODESA, ANRM]),
+}
+PERIODS = [   # (from, to, south only, state, unit in the south, unit elsewhere in Bessarabia, note)
+    (1812, 1856, False, "Russian Empire", "Bessarabia oblast", "Bessarabia oblast",
+     "Orthodox registers: the Kishinev consistory. The Bulgarian and Gagauz colonies of the south (Bolgrad and its colonies) "
+     "were run by the Guardianship Committee for Foreign Settlers of Southern Russia, whose papers are in Odesa."),
+    (1857, 1878, True, "Principality of Moldavia (1857–1859), then the United Principalities / Romania",
+     "counties of Cahul and Ismail, from the 1860s also Bolgrad", "",
+     "Ceded by the Treaty of Paris (1856), handed over in 1857, returned to Russia by the Treaty of Berlin (1878; taken over "
+     "in October 1878). The churches came under the Moldavian church, from 1864 the Diocese of the Lower Danube (seat in "
+     "Ismail, after 1878 in Galați); civil registration by the town halls began with the Romanian Civil Code (December 1865). "
+     "Registers of these years are usually not in the Kishinev consistory's fond: look in the archives of the territory "
+     "(Chișinău, Izmail) and in the Romanian National Archives."),
+    (1857, 1917, False, "Russian Empire", "", "Bessarabia oblast, from 1873 Bessarabia governorate",
+     "Orthodox registers: the second copies in the Kishinev consistory's fond."),
+    (1878, 1917, True, "Russian Empire", "Izmail uezd of Bessarabia governorate (Cahul and Bolgrad were in it)", "",
+     "Orthodox registers: the second copies in the Kishinev consistory's fond; the first copies stayed in the churches."),
+    (1918, 1940, False, "Romania", "counties of Cahul and Ismail (Bolgrad in Ismail county)", "Romanian counties (județe) of Bessarabia",
+     "Romanian civil registration (stare civilă) at the town halls, in Romanian; the churches kept registers too. Part of "
+     "the archives was evacuated to Romania in 1940 and 1944."),
+    (1940, 1941, False, "USSR (from 28 June 1940)",
+     "Cahul: Moldavian SSR; Izmail and Bolgrad: Akkerman oblast, renamed Izmail oblast in December 1940 (Ukrainian SSR)",
+     "Moldavian SSR; the north (Khotin) and the south (Akkerman, Izmail): Ukrainian SSR",
+     "Soviet civil registration (ZAGS); the deportations of June 1941."),
+    (1941, 1944, False, "Romania", "counties of Cahul and Ismail (Governorate of Bessarabia)", "Governorate of Bessarabia (Romanian counties)",
+     "Romanian civil registration again; for war losses look in Romanian as well as Soviet military records."),
+    (1944, 1991, False, "USSR", "Cahul: Moldavian SSR; Izmail and Bolgrad: Izmail oblast (to 1954), then Odesa oblast (Ukrainian SSR)",
+     "Moldavian SSR; the north and the south: Ukrainian SSR", "Soviet civil registration (ZAGS); the deportations of 1949 and 1951."),
+    (1992, 2100, False, "Moldova / Ukraine", "Cahul: Republic of Moldova; Izmail and Bolgrad: Odesa region of Ukraine",
+     "Republic of Moldova; the north and the south: Ukraine", ""),
+]
+BORDER_YEARS = {1856: "the Treaty of Paris (30 March 1856); the handover came in 1857",
+                1857: "the south was handed over to Moldavia during 1857",
+                1878: "the Treaty of Berlin (13 July 1878); Russia took the south over in October 1878",
+                1918: "union with Romania (spring 1918)", 1940: "the Soviet annexation on 28 June 1940",
+                1941: "Romanian rule again from July 1941", 1944: "the Soviet army returned in spring–summer 1944"}
+
+
+def _plain(s):
+    s = str(s or "").lower().replace("ё", "е")
+    for a, b in (("ă", "a"), ("â", "a"), ("î", "i"), ("ș", "s"), ("ş", "s"), ("ț", "t"), ("ţ", "t")):
+        s = s.replace(a, b)
+    return s
+
+
+def south_district(*texts):
+    """'Болград', 'Izmail district', 'Кагульский уезд' → 'bolgrad' / 'ismail' / 'cahul' (or None)."""
+    words = re.findall(r"\w+", " ".join(_plain(t) for t in texts))
+    for key, (names, *_rest) in SOUTH.items():
+        for n in names.split("|"):
+            name = _plain(n).split()[0]
+            stem = name[:-1] if len(name) >= 6 else name
+            if any(w.startswith(stem) and len(w) <= len(name) + 7 for w in words):
+                return key
+    return None
+
+
+def bessarabia_in(year, district=None):
+    """Whose land a place of Bessarabia was in a year, its unit then, and the archives to look in now."""
+    y = int(year)
+    if y < 1812:
+        return {"year": y, "state": "Principality of Moldavia (the Budjak in the south: Ottoman)",
+                "note": "Before 1812: Moldavian and Ottoman administration; the earliest name lists are the Moldavian "
+                        "censuses of 1772–1774 (find_sources: dmitriev_1772)."}
+    south = district in SOUTH
+    rows = [r for r in PERIODS if r[0] <= y <= r[1]]
+    special = [r for r in rows if r[2]]
+    general = [r for r in rows if not r[2]]
+    r = special[0] if south and special else general[-1]
+    out = {"year": y, "state": r[3], "unit": r[4] if south else r[5], "note": r[6]}
+    if y in BORDER_YEARS and (south or y not in (1856, 1857, 1878)):
+        out["border_year"] = (f"{y} is a border year — {BORDER_YEARS[y]}. Check in the record itself which authority, "
+                              "language and calendar it uses.")
+    if south:
+        names, country, now, archives = SOUTH[district]
+        arch = list(archives)
+        if 1857 <= y <= 1878:
+            arch.append(RO_ARCH)
+        if 1918 <= y <= 1944:
+            arch.append("Arhivele Naționale ale României (records evacuated in 1940 and 1944)")
+        if y >= 1920:
+            arch.append(CIVIL_MD if country == "MD" else CIVIL_UA)
+        out.update({"district": names.split("|")[0], "now": now, "archives": arch})
+    elif 1918 <= y <= 1944:
+        out["archives"] = [ANRM, "Arhivele Naționale ale României (records evacuated in 1940 and 1944)"]
+    return out
+
+
+# ---------------------------------------------------------------- which church kept a village's books
+# Only attachments with a source. A village without its own church was recorded in a neighbouring village's church,
+# and the attachment changed when churches were built or parishes reorganised: always give the years and the source.
+PARISHES = [
+    {"village": ["Porumbești", "Porumbeşti", "Porumbesti", "Порумбешть"], "church_village": "Leca", "church_village_ru": "Лека",
+     "years": None, "region": "Bessarabia",
+     "source": "Registers of the church of Leca record Porumbești (found in research for genealogy-mcp issue #8)",
+     "note": "Years not established: check the clergy registers and the consistory inventory for the period you need."},
+    {"village": ["Sadâc", "Sadîc", "Sadac", "Садык"], "church_village": "Capaclia Nouă", "church_village_ru": "Капаклия-Ноуэ",
+     "years": None, "region": "Bessarabia",
+     "source": "Registers of the church of Capaclia Nouă record Sadâc (found in research for genealogy-mcp issue #8)",
+     "note": "Years not established: check the clergy registers and the consistory inventory for the period you need."},
+]
+
+
+def parish_of(village, year=None):
+    """Recorded attachments of a village to a church (with years and source)."""
+    q = _plain(village).strip()
+    q = re.sub(r"^(с\.|село|д\.|деревня|satul|village of)\s+", "", q)
+    q = q.split(",")[0].split()[0] if q else ""
+    out = []
+    for e in PARISHES:
+        if any(_plain(n) == q for n in e["village"]):
+            y = e.get("years")
+            if year and y and not (y[0] <= int(year) <= y[1]):
+                continue
+            out.append(e)
+    return out
+
+
+def parish_guide(lang="en"):
+    if lang == "ru":
+        return [
+            "Метрики ведёт церковь, а не село: в селе без своего храма записи — в книгах церкви соседнего села (приписное село), "
+            "и приписка менялась, когда строили церкви или перекраивали приходы. Ищите приход на нужный год.",
+            "Клировые ведомости: за каждый год — церковь и все приписанные к ней сёла.",
+            "Описи фонда духовной консистории (для Бессарабии — Национальный архив Молдовы, ф. 211, описи по уездам): книги "
+            "по церквям с перечнем сёл.",
+            "Справочники: «Списки населённых мест», епархиальные справочники и «Кишинёвские епархиальные ведомости», "
+            "работы И. Н. Халиппы о сёлах Бессарабии.",
+            "Сама книга: в итоговой ведомости в конце года и в каждой записи названо село родителей — читайте записи "
+            "приписного села в книге соседней церкви.",
+            "Запишите приписку с годами и источником (project_coverage: поле villages у книги прихода).",
+        ]
+    return [
+        "Registers were kept by the church, not the village: a village without its own church was recorded in the books of a "
+        "neighbouring village's church, and the attachment changed as churches were built and parishes reorganised. Find the "
+        "parish for the year you need.",
+        "Clergy registers (клировые ведомости) list, year by year, each church and the villages attached to it.",
+        "Inventories of the consistory fond (for Bessarabia: National Archives of Moldova, f. 211, inventories by uezd) list "
+        "the books by church with their villages.",
+        "Gazetteers: lists of settlements (Списки населённых мест), diocesan reference books and the Kishinev diocesan gazette, "
+        "I. N. Halippa's works on the villages of Bessarabia.",
+        "The book itself: the end-of-year summary and every entry name the parents' village — read the attached village's "
+        "entries in the neighbouring church's book.",
+        "Record the attachment with its years and source (project_coverage: the villages field of the parish's book).",
+    ]

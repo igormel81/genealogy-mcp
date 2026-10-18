@@ -212,10 +212,10 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 | `plan_research` | A step-by-step plan for a country and period: which records exist, guides, sources in order |
 | `find_sources` | Sources by country/region (`europe`, `latin_america`, `russian_empire`…), years and record kind |
 | `source_details` | One source: coverage, access, how to search |
-| `where_are_records` | Which archives now hold the records of a historical province (Russian Empire, Poland, Galicia, Bukovina, East Prussia, the Baltics, the Caucasus) |
+| `where_are_records` | Which archives now hold the records of a historical province (Russian Empire, Poland, Galicia, Bukovina, East Prussia, the Baltics, the Caucasus); with a year, whose land it was then (southern Bessarabia: Moldavia/Romania 1857–1878, Romania 1918–1944); with a village, which church kept its books |
 | `search_links` | Ready search URLs for a name and its variants |
 | `search_online` | Live search: Internet Archive full text, Chronicling America, WikiTree, Open Archives, Open List |
-| `place_history` | Wikidata: what a village belonged to over the years, coordinates, Wikipedia article |
+| `place_history` | Wikidata: what a village belonged to over the years, coordinates, Wikipedia article; the church it was attached to, where known |
 | `name_variants` | Spelling, old orthography, gendered forms, transliterations, Daitch–Mokotoff codes, given-name equivalents (incl. Yiddish and Hebrew), patronymics |
 | `normalize_date` | "около 1899", "9 de octubre de 1899" → `ABT 1899`, `9 OCT 1899` |
 | `convert_calendar` | Julian ↔ Gregorian, Hebrew, French Republican |

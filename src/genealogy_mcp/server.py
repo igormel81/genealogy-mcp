@@ -15,7 +15,8 @@ from . import project as proj
 INSTRUCTIONS = """You help people research their family history. Work like a careful genealogist:
 1. Start from what the person knows; ask about the oldest relatives, places (village, district, province), dates, documents at home.
 2. Pin down the place as it was then (province/district/parish: place_history) and where its records are now
-   (where_are_records) — records are arranged by place, not by name.
+   (where_are_records, with the year of the record where borders moved and the village to find its church) — records
+   are arranged by place, not by name, and a small village's books are often in a neighbouring village's church.
 3. Make name variants (name_variants) and search with all of them: spelling, old orthography, gendered forms, transliterations.
 4. Use find_sources / plan_research to pick sources for the country and period; search the open databases yourself
    (search_online) and give the user direct links for the rest (search_links).
@@ -123,14 +124,23 @@ def search_links(
 
 @server.tool(annotations=RO)
 def where_are_records(
-    place: Annotated[str, Field(description="A historical province or a modern region: «Тульская губерния», 'Volhynia', 'Бессарабия', 'Galicia', «Брянская область», 'Kyiv'")],
+    place: Annotated[str, Field(description="A historical province or a modern region: «Тульская губерния», 'Volhynia', 'Бессарабия', 'Galicia', «Брянская область», 'Kyiv'; for southern Bessarabia also a district: 'Cahul', «Измаильский уезд», 'Bolgrad'")],
+    year: Annotated[int | None, Field(description="The year of the record: where borders moved (southern Bessarabia 1857–1878, Bessarabia 1918–1944) it decides the country, county and archive")] = None,
+    village: Annotated[str, Field(description="The village: tells which church kept its registers, where that is known, and how to find out")] = "",
     lang: Lang = "en",
 ) -> dict[str, Any]:
     """Which archives now hold the records (parish registers, revision lists, confession lists, civil records) of a
     province of the Russian Empire, the Kingdom of Poland, Galicia, Bukovina, East Prussia, the Baltics or the Caucasus —
     borders moved, so this is often not the archive of today's region. Also works from a modern region back to the
-    historical provinces it was part of."""
+    historical provinces it was part of. With a year, says whose land it was then (southern Bessarabia — Cahul, Ismail,
+    Bolgrad — was Moldavian/Romanian in 1857–1878, all Bessarabia Romanian in 1918–1940 and 1941–1944); with a village,
+    which church kept its books (a village without a church was recorded in a neighbouring one)."""
+    ru = lang == "ru"
+    district = places.south_district(place, village)
     found = places.find(place)
+    attached = places.parish_of(village, year) if village else []
+    if not found and (district or any(a.get("region") == "Bessarabia" for a in attached)):
+        found = [e for e in places.P if e["id"] == "bessarabia"]
     if not found:
         return {"error": "not found", "tip": ("Find the village's uezd and province first (Wikipedia, «Списки населённых мест», "
                                               "etomesto.ru maps), then ask again with the province."),
@@ -141,15 +151,27 @@ def where_are_records(
         fs = [s for s in sources.catalogue() if s["id"] == "familysearch_catalog"]
         srcs = fs + [s for s in sources.find(",".join(codes), include_worldwide=False)
                      if set(s["records"]) & {"church", "revision", "confession", "vital", "catalogs"} and s["url"]]
-        out.append({"province": e["names"][0], "other_names": e["names"][1:], "then": e["then"],
-                    "now": [f"{x['region']} ({x['country']})" for x in e["now"]], "archives": e["archives"], "note": e["note"],
-                    "online": [{"id": s["id"], "name": s["name"], "url": s["url"]} for s in srcs[:8]]})
-    tip = ("Номер фонда ищите в путеводителе архива (guides.rusarchives.ru, archives.gov.ua, archives.gov.by) или в каталоге "
-           "FamilySearch по месту; метрики — фонд духовной консистории, ревизские сказки — казённой палаты."
-           if lang == "ru" else
-           "Find the fond number in the archive's guide (guides.rusarchives.ru, archives.gov.ua, archives.gov.by) or in the "
-           "FamilySearch catalogue by place: parish registers are in the consistory's fond, revision lists in the treasury chamber's.")
-    return {"matches": out, "tip": tip}
+        m = {"province": e["names"][0], "other_names": e["names"][1:], "then": e["then"],
+             "now": [f"{x['region']} ({x['country']})" for x in e["now"]], "archives": e["archives"], "note": e["note"],
+             "online": [{"id": s["id"], "name": s["name"], "url": s["url"]} for s in srcs[:8]]}
+        if e["id"] == "bessarabia":
+            if year:
+                m["in_year"] = places.bessarabia_in(year, district)
+            elif district:
+                m["periods"] = [{"years": f"{r[0]}–{r[1]}" if r[1] < 2100 else f"{r[0]}–", "state": r[3], "unit": r[4]}
+                                for r in places.PERIODS if r[4]]
+                m["periods_tip"] = ("Give the year of the record: the country, county and archive depend on it."
+                                    if not ru else "Укажите год записи: от него зависят страна, уезд и архив.")
+        out.append(m)
+    res = {"matches": out}
+    if village:
+        res["parish"] = {"village": village, "attached_to": attached or None, "how_to_find": places.parish_guide(lang)}
+    res["tip"] = ("Номер фонда ищите в путеводителе архива (guides.rusarchives.ru, archives.gov.ua, archives.gov.by) или в каталоге "
+                  "FamilySearch по месту; метрики — фонд духовной консистории, ревизские сказки — казённой палаты."
+                  if ru else
+                  "Find the fond number in the archive's guide (guides.rusarchives.ru, archives.gov.ua, archives.gov.by) or in the "
+                  "FamilySearch catalogue by place: parish registers are in the consistory's fond, revision lists in the treasury chamber's.")
+    return res
 
 
 NET = ToolAnnotations(readOnlyHint=True, openWorldHint=True)
@@ -175,11 +197,20 @@ def search_online(
 @server.tool(annotations=NET)
 def place_history(name: Annotated[str, Field(description="A village, town or district, as precise as possible: «Сынково Тульская область»")], lang: Lang = "ru") -> dict[str, Any]:
     """Look a place up in Wikidata: what administrative units it was part of (with years where known), coordinates and the
-    Wikipedia article — a first step to the uezd, province and parish of a village. Sends the name to Wikidata."""
+    Wikipedia article — a first step to the uezd, province and parish of a village — and the church its books were kept
+    in, where that attachment is known. Sends the name to Wikidata."""
     try:
-        return online.place_history(name, lang)
+        out = online.place_history(name, lang)
     except Exception as e:   # noqa: BLE001 — network or format problems become a message for the assistant
-        return {"error": f"Wikidata did not answer: {e}"}
+        out = {"error": f"Wikidata did not answer: {e}"}
+    attached = places.parish_of(name)
+    if attached:
+        out["parish_attachment"] = attached
+    out["parish_tip"] = ("Какая церковь вела книги села и в какие годы: where_are_records с village=… (приписные сёла записаны "
+                         "в церкви соседнего села)." if lang == "ru" else
+                         "Which church kept the village's books, and when: where_are_records with village=… (a village "
+                         "without a church was recorded in a neighbouring one).")
+    return out
 
 
 @server.tool(annotations=RO)
