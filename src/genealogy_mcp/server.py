@@ -8,7 +8,7 @@ from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
-from . import __version__, audit, calendars, coverage, dates, dna, evidence, guides, kinship, letters, names, numerals, online, places, plan, soundex, sources
+from . import __version__, audit, calendars, coverage, dates, dna, estimate, evidence, guides, kinship, letters, names, numerals, online, places, plan, soundex, sources
 from . import films as film_plan
 from . import project as proj
 
@@ -24,7 +24,8 @@ INSTRUCTIONS = """You help people research their family history. Work like a car
 5. A name is not a person: before linking a found record, run check_match — two independent facts beyond the name.
 6. Cite the original (archive, fond, opis, delo, folio, or film and image), not an index; keep conflicting versions.
 7. Old dates: Julian calendar in Russia until 1918 (convert_calendar), dates by church feasts (feast_date), letters as
-   numbers (cyrillic_numerals); ages in records drift (birth_year_from_age). DNA: dna_match, then documents.
+   numbers (cyrillic_numerals); ages in records drift (birth_year_from_age); with no record of birth, estimate it from
+   relatives (estimate_birth_year) and say it is an estimate. DNA: dna_match, then documents.
 8. Keep the work in a project (project_view / project_save / project_log): save sources with full citations, people and
    families citing them, open leads, and every search with its result — next time start from project_view.
    If the family has a gene-archive site, pass the path of its folder as the project: you read the archive itself and
@@ -371,6 +372,29 @@ def dna_match(
 def birth_year_from_age(age: float, record_date: Annotated[str, Field(description="Date or year of the record that gives the age")]) -> dict[str, Any]:
     """The birth-year range implied by an age in a record (census, confession list, death record), exact and loose."""
     return dates.birth_year_from_age(age, record_date)
+
+
+@server.tool(annotations=RO)
+def estimate_birth_year(
+    sex: Literal["M", "F", "U"] = "U",
+    eldest_child_birth: Annotated[str | None, Field(description="Year of birth of the eldest known child (the person was about 27, 18–45)")] = None,
+    spouse_birth: Annotated[str | None, Field(description="Spouse's year of birth (±8; husbands usually a few years older)")] = None,
+    siblings_births: Annotated[list[str] | None, Field(description="Brothers' and sisters' years of birth (±8 each)")] = None,
+    father_birth: Annotated[str | None, Field(description="Father's year of birth (the person born 18–45 years later)")] = None,
+    mother_birth: Annotated[str | None, Field(description="Mother's year of birth (the person born 18–45 years later)")] = None,
+    first_marriage: Annotated[str | None, Field(description="Year of the person's first marriage (about 22, 16–35)")] = None,
+    ages: Annotated[list[dict[str, Any]] | None, Field(description="Ages in records: [{age, date (or year), source}] — also checked against each other")] = None,
+    lang: Lang = "en",
+) -> dict[str, Any]:
+    """A birth year estimated from relatives (eldest child −27, spouse and siblings ±8, parents +18…+45, first marriage
+    at about 22) and ages in records: a GEDCOM date (BET … AND … or ABT …), the most likely year and a ready explanation
+    to save with it. Also checks the ages against each other: 7 in 1850 and 22 in 1882 cannot be one person — likely two
+    namesakes."""
+    try:
+        return estimate.estimate(sex, eldest_child_birth, spouse_birth, siblings_births, father_birth, mother_birth,
+                                 first_marriage, ages, lang)
+    except ValueError as e:
+        return {"error": str(e)}
 
 
 @server.tool(annotations=RO, name="kinship")

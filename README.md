@@ -27,7 +27,7 @@ repression files, emigration records — and every trap we fell into along the w
 
 - **124 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
   archive holds the records of a historical province today (borders moved; the answer is often not the obvious one).
-- **26 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
+- **27 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
   Julian, Hebrew and French Republican calendars, dates by church feasts, Church Slavonic numerals, kinship in three
   languages, DNA, evidence checks, a tree audit, live search in open databases, archive request drafts.
 - **It works on your tree, not beside it.** Point it at the `.ged` file from MyHeritage, Ancestry, Gramps or RootsMagic
@@ -222,6 +222,7 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 | `feast_date` | «на Покров», «после Петрова поста», Easter, Wielkanoc… → the date in a given year |
 | `cyrillic_numerals` | ҂аѡ҃п ↔ 1880 |
 | `birth_year_from_age` | The birth-year range from an age in a record |
+| `estimate_birth_year` | A birth year from relatives (eldest child −27, spouse and siblings ±8, parents +18…+45) and ages: `BET … AND …` / `ABT …` with a ready explanation; ages that cannot be one person flagged as likely namesakes |
 | `kinship` | The name of a relation in ru/en/ro, with the expected DNA share |
 | `dna_match` | Shared cM → the relationships it fits (Shared cM Project 4.0) |
 | `check_match` | Is a found record our person? A verdict with every fact compared (Hispanic double surnames too) |

@@ -111,6 +111,10 @@
       "description": "The birth-year range implied by an age in a record (census, confession list, death record), exact and loose."
     },
     {
+      "name": "estimate_birth_year",
+      "description": "A birth year estimated from relatives (eldest child −27, spouse and siblings ±8, parents +18…+45, first marriage at about 22) and ages in records: a GEDCOM date (BET … AND … or ABT …), the most likely year and a ready explanation to save with it."
+    },
+    {
       "name": "kinship",
       "description": "What B is to A, named in Russian, English and Romanian (троюродный брат / second cousin / văr de gradul 2, двоюродный дед / great-uncle), with the expected share of DNA."
     },

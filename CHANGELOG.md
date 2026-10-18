@@ -32,6 +32,10 @@
   split and flagged as a possible second surname; clerks' contractions (Калгаран) and recognition errors (Калугамян)
   are given as hints only, with a warning about look-alikes that are another family (Плеско / Попеско). `check_match`
   and `search_links` use the Romanian and Russian forms (#9).
+- **`estimate_birth_year`** — a birth year from relatives (eldest child −27, spouse and siblings ±8, parents
+  +18…+45, first marriage at about 22) and ages in records: a GEDCOM date (`BET … AND …`, or `ABT …` when the range
+  is wide), the most likely year and a ready explanation sentence in English or Russian. Ages are checked against
+  each other: 7 in 1850 and 22 in 1882 are flagged as likely two namesakes (#10).
 
 ## 0.5.1
 
