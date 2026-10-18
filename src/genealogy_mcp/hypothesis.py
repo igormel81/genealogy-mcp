@@ -4,7 +4,7 @@ patronymic, place and dates, lists the arguments for and against, says which rec
 namesakes from a neighbouring village. The result is always a hypothesis, never a link in the tree."""
 import re
 
-from . import evidence, names
+from . import evidence
 
 PATRONYMIC = re.compile(r"(?i)(ович|евич|овна|евна|ична|инична|ич)(?:а|у|ем)?$")
 

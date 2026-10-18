@@ -12,7 +12,6 @@ import datetime
 import hashlib
 import json
 import re
-from pathlib import Path
 
 from . import gedfile
 from . import project as proj
