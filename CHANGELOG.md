@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.0
 
 - Catalogue: 124 sources. New for Russia: NashiPredki (indexes of registers, revision and confession lists),
   metricabook.ru (register scans), Rodovod, Road of Memory and Immortal Regiment (WWII). New for Bessarabia, Moldova

@@ -249,11 +249,11 @@ def bessarabia_in(year, district=None):
 PARISHES = [
     {"village": ["Porumbești", "Porumbeşti", "Porumbesti", "Порумбешть"], "church_village": "Leca", "church_village_ru": "Лека",
      "years": None, "region": "Bessarabia",
-     "source": "Registers of the church of Leca record Porumbești (found in research for genealogy-mcp issue #8)",
+     "source": "Registers of the church of Leca record Porumbești (reported from family research; not yet checked against an inventory or clergy register)",
      "note": "Years not established: check the clergy registers and the consistory inventory for the period you need."},
     {"village": ["Sadâc", "Sadîc", "Sadac", "Садык"], "church_village": "Capaclia Nouă", "church_village_ru": "Капаклия-Ноуэ",
      "years": None, "region": "Bessarabia",
-     "source": "Registers of the church of Capaclia Nouă record Sadâc (found in research for genealogy-mcp issue #8)",
+     "source": "Registers of the church of Capaclia Nouă record Sadâc (reported from family research; not yet checked against an inventory or clergy register)",
      "note": "Years not established: check the clergy registers and the consistory inventory for the period you need."},
 ]
 
