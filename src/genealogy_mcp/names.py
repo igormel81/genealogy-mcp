@@ -192,11 +192,20 @@ def patronymic_forms(p):
     return [x for x in dict.fromkeys(out) if x.strip() and x != p]
 
 
-def variants(name, kind="surname"):
-    """Everything to search for: {"spelling", "old_orthography", "gendered", "latin": {system: form}, "equivalents"}."""
+def variants(name, kind="surname", origin="auto"):
+    """Everything to search for: {"spelling", "old_orthography", "gendered", "latin": {system: form}, "equivalents"};
+    for Moldovan and Bessarabian surnames also "moldovan" (Romanian and Russian renderings, a second surname)."""
+    from . import moldovan
     name = name.strip()
+    mold = None
+    if kind == "surname" and (origin == "moldovan" or moldovan.looks_moldovan(name)):
+        mold = moldovan.variants(name)
+        if "alias" in mold:   # «Мокану, он же Плеш»: the forms are made for the first surname, both are listed
+            name = mold["alias"]["surnames"][0]
     words = name.split()
     out = {"input": name}
+    if mold:
+        out["moldovan"] = mold
     if kind == "given":
         out["equivalents"] = given_equivalents(name)
     elif kind == "patronymic":
@@ -217,10 +226,18 @@ def variants(name, kind="surname"):
     return out
 
 
-def all_forms(name, kind="surname", limit=30):
-    """A flat list for search engines."""
-    v = variants(name, kind)
-    out = [name]
+def _moldovan_forms(m):
+    if "alias" in m:
+        return [f for part in m["each"].values() for f in _moldovan_forms(part)]
+    return m.get("romanian", []) + m.get("russian", []) + ([m["soviet_moldavian"]] if m.get("soviet_moldavian") else [])
+
+
+def all_forms(name, kind="surname", limit=30, origin="auto"):
+    """A flat list for search engines (Moldovan renderings included; recognition hints and contractions are not)."""
+    v = variants(name, kind, origin)
+    out = [v["input"]]
+    if v.get("moldovan"):
+        out += _moldovan_forms(v["moldovan"])
     for k in ("gendered", "spelling", "equivalents", "forms"):
         out += v.get(k, [])
     if v.get("old_orthography"):

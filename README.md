@@ -216,7 +216,7 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 | `search_links` | Ready search URLs for a name and its variants |
 | `search_online` | Live search: Internet Archive full text, Chronicling America, WikiTree, Open Archives, Open List |
 | `place_history` | Wikidata: what a village belonged to over the years, coordinates, Wikipedia article; the church it was attached to, where known |
-| `name_variants` | Spelling, old orthography, gendered forms, transliterations, Daitch–Mokotoff codes, given-name equivalents (incl. Yiddish and Hebrew), patronymics |
+| `name_variants` | Spelling, old orthography, gendered forms, transliterations, Daitch–Mokotoff codes, given-name equivalents (incl. Yiddish and Hebrew), patronymics; Moldovan surnames in Romanian, Russian and Soviet Moldavian forms, a second surname («Мокану, он же Плеш») flagged |
 | `normalize_date` | "около 1899", "9 de octubre de 1899" → `ABT 1899`, `9 OCT 1899` |
 | `convert_calendar` | Julian ↔ Gregorian, Hebrew, French Republican |
 | `feast_date` | «на Покров», «после Петрова поста», Easter, Wielkanoc… → the date in a given year |

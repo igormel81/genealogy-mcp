@@ -100,6 +100,10 @@ def search_links(
         v = names.variants(surname)
         for g in v.get("gendered", [])[:1]:
             forms.append(("original", g, ""))   # the wife or daughter: any given name
+        mold = v.get("moldovan", {})
+        if cyr and mold.get("romanian"):   # Moldovan surname: the Romanian form, as Romanian and Western indexes have it
+            plain = next((x for x in mold["romanian"] if x.isascii()), mold["romanian"][0])
+            forms.append(("latin", plain, names.translit(given, "romanian")))
         if cyr:
             for system in ("passport", "german", "polish"):
                 forms.append(("latin", names.translit(surname, system), names.translit(given, system)))
@@ -255,15 +259,20 @@ def film_reading_plan(
 
 @server.tool(annotations=RO)
 def name_variants(
-    name: str,
+    name: Annotated[str, Field(description="The name as found; for a surname also a pair from a register: «Мокану, он же Плеш», 'Mocanu zis Pleș'")],
     kind: Annotated[Literal["surname", "given", "patronymic"], Field(description="What the name is")] = "surname",
+    origin: Annotated[Literal["auto", "moldovan"], Field(description="moldovan: a surname from Moldova, Bessarabia or Romania (found by itself for Romanian letters and endings like -eanu, -escu, -ян, -яну)")] = "auto",
 ) -> dict[str, Any]:
     """All the forms a name can take in records (and its Daitch–Mokotoff Soundex codes): spelling variants, pre-1918 orthography, male/female surname forms
     (Колодин/Колодина, Kowalski/Kowalska, Kazlauskas/Kazlauskienė), transliterations (passport, BGN, German, French,
-    Polish, Romanian, Spanish, Ukrainian, scholarly) and given-name equivalents across languages (Иван = Іоаннъ = Jan = Johann = Juan)."""
-    v = names.variants(name, kind)
-    v["all_forms"] = names.all_forms(name, kind)
+    Polish, Romanian, Spanish, Ukrainian, scholarly) and given-name equivalents across languages (Иван = Іоаннъ = Jan = Johann = Juan).
+    Moldovan and Bessarabian surnames: Romanian and Russian renderings (Călugăreanu = Калугарян = Калугаряну = Кэлугэряну,
+    Pleș = Плешъ = Плешу), a second surname flagged («Мокану, он же Плеш»), clerk and recognition distortions as hints,
+    and look-alikes that are another family."""
+    v = names.variants(name, kind, origin)
+    v["all_forms"] = names.all_forms(name, kind, origin=origin)
     if kind == "surname":
+        name = v["input"]
         v["daitch_mokotoff"] = soundex.codes_for(name)
         v["daitch_mokotoff_tip"] = ("Use these codes in JewishGen and stevemorse.org 'sounds like' searches: they find spellings "
                                     "no variant list foresees.")

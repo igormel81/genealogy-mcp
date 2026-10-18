@@ -25,6 +25,13 @@
   the village's books (a village without a church was recorded in a neighbouring one), with years and source, and how
   to find it out — clergy registers, consistory inventories, gazetteers, the book's own summary. Only sourced
   attachments are listed (#8).
+- **Moldovan and Bessarabian surnames** in `name_variants` (found by Romanian letters and endings, or with
+  `origin="moldovan"`): Romanian forms and endings (-eanu/-ean, -anu/-an, ș/ş, ț/ţ, without diacritics), Russian
+  renderings (Călugăreanu = Калугаряну = Калугарян = Калугоряну), Soviet Moldavian Cyrillic (Кэлугэряну), pre-1918
+  hard sign (Плешъ) and -u forms (Плешу, Pleșu); a pair from a register («Мокану, он же Плеш», "Mocanu zis Pleș") is
+  split and flagged as a possible second surname; clerks' contractions (Калгаран) and recognition errors (Калугамян)
+  are given as hints only, with a warning about look-alikes that are another family (Плеско / Попеско). `check_match`
+  and `search_links` use the Romanian and Russian forms (#9).
 
 ## 0.5.1
 
