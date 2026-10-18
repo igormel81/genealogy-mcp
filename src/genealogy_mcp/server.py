@@ -59,7 +59,7 @@ def find_sources(
     lang: Lang = "en",
     limit: int = 25,
 ) -> dict[str, Any]:
-    """Find genealogy databases and archives for a country (or region), period and kind of records — 114 sources across
+    """Find genealogy databases and archives for a country (or region), period and kind of records — 124 sources across
     Russia and the former USSR, the Caucasus and Central Asia, Eastern, Western and Northern Europe, Germany, the British
     Isles, the Americas, Australia and New Zealand,
     each with what it holds and how to search it well."""

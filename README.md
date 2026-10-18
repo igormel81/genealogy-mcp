@@ -11,7 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 An [MCP](https://modelcontextprotocol.io) server that turns Claude, ChatGPT, Cursor or any MCP-capable assistant into a
-careful genealogist. It knows **where** the records of your ancestors are (114 archives and databases across Russia and
+careful genealogist. It knows **where** the records of your ancestors are (124 archives and databases across Russia and
 the former USSR, Europe, the British Isles, the USA and Latin America), **how** to search them (name variants,
 transliterations, old spelling, the Julian calendar), and **when a find really is your person** — so the assistant gives
 you working links and a plan instead of confident guesses.
@@ -25,7 +25,7 @@ repression files, emigration records — and every trap we fell into along the w
 
 ## At a glance
 
-- **114 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
+- **124 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
   archive holds the records of a historical province today (borders moved; the answer is often not the obvious one).
 - **24 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
   Julian, Hebrew and French Republican calendars, dates by church feasts, Church Slavonic numerals, kinship in three
@@ -109,7 +109,7 @@ your program (Family Historian and webtrees work on GEDCOM directly). Files not 
 
 | Without it | With genealogy-mcp |
 |---|---|
-| The assistant names two or three famous websites | 114 sources chosen by country, years and kind of record, each with "how to search it well" |
+| The assistant names two or three famous websites | 124 sources chosen by country, years and kind of record, each with "how to search it well" |
 | Searches one spelling | Spelling variants, pre-1918 orthography, male/female forms, 9 transliteration systems, given-name equivalents (Иван = Іоаннъ = Jan = Johann = Juan) |
 | Invented or broken URLs | Ready search links built from tested URL templates; a weekly job checks every site |
 | "This is probably your ancestor" | An explicit evidence rule: a namesake is not a relative |
@@ -134,9 +134,11 @@ Everything runs on your computer. The server goes online only when the assistant
 - **Worldwide:** FamilySearch (records and the catalogue of unindexed images), Internet Archive full text, MyHeritage,
   Geni, WikiTree, Find a Grave, BillionGraves, Arolsen Archives, Yad Vashem, JewishGen, Matricula, Geneanet, Wikipedia.
 - **Russia and the USSR:** Yandex Archive, archive guides, VGD forum, Pamyat Naroda, OBD Memorial, gwar.mil.ru,
-  Open List, Immortal Barrack, Returned Names, PSTGU martyrs, Presidential and National Electronic Libraries,
-  historical libraries, old maps, church history, RIA-1914, regional archives, ZAGS, TsAMO, RGVIA, RGIA, GARF.
+  Road of Memory, Immortal Regiment, Open List, Immortal Barrack, Returned Names, PSTGU martyrs, NashiPredki,
+  metricabook.ru, Rodovod, Presidential and National Electronic Libraries, historical libraries, old maps, church
+  history, RIA-1914, regional archives, ZAGS, TsAMO, RGVIA, RGIA, GARF.
 - **Ukraine, Belarus, Moldova, Romania, Poland, the Baltics:** national archive portals and catalogues, TsDIAK,
+  genealogica.ro, Genealogy of Bessarabia, deportari.org, Cartea Memoriei, the Moldavian censuses of 1772–1774,
   Geneteka, Szukajwarchiwach, epaveldas, Raduraksti, the Estonian archives.
 - **Europe:** ICRC WWI prisoners, CWGC, Volksbund, ScotlandsPeople, FreeBMD, Irish civil and census records, Archion,
   GenWiki, FranceArchives, Mémoire des hommes, Antenati, PARES, Digitarq, Open Archives (NL), Belgian State Archives,

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Catalogue: 124 sources. New for Russia: NashiPredki (indexes of registers, revision and confession lists),
+  metricabook.ru (register scans), Rodovod, Road of Memory and Immortal Regiment (WWII). New for Bessarabia, Moldova
+  and Romania: genealogica.ro (with the exact-match, county and year settings and its hourly limit), Genealogy of
+  Bessarabia, deportari.org, Cartea Memoriei and Dmitriev's 1772–1774 Moldavian censuses with their gaps (#5).
+
 ## 0.5.1
 
 - `place_history` finds a village given together with its region («Сынково Тульская область», «Каменка Черкасская

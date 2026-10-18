@@ -31,7 +31,7 @@ def manifest():
         "name": "genealogy-mcp",
         "display_name": "Genealogy research toolkit",
         "version": __version__,
-        "description": "Find your family history with Claude: 114 archives and databases, name variants, old calendars, kinship, DNA, evidence checks, a research project that remembers, edits to your own GEDCOM tree.",
+        "description": "Find your family history with Claude: 124 archives and databases, name variants, old calendars, kinship, DNA, evidence checks, a research project that remembers, edits to your own GEDCOM tree.",
         "long_description": (ROOT / "mcpb" / "long_description.md").read_text(encoding="utf-8"),
         "author": {"name": "Igor Melnikov", "url": "https://github.com/igormel81"},
         "repository": {"type": "git", "url": "https://github.com/igormel81/genealogy-mcp"},

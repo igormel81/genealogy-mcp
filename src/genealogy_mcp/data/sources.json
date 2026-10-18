@@ -510,6 +510,123 @@
   "how_ru": "Проверяйте вместе с «Открытым списком»: базы пересекаются, но не совпадают."
  },
  {
+  "id": "nashipredki",
+  "name": "NashiPredki (Наши предки)",
+  "url": "https://nashipredki.com",
+  "countries": [
+   "RU",
+   "UA",
+   "BY"
+  ],
+  "years": [
+   1700,
+   1930
+  ],
+  "records": [
+   "church",
+   "revision",
+   "confession",
+   "places",
+   "trees"
+  ],
+  "access": "mixed",
+  "about": "Volunteer indexes of parish registers, revision lists and confession lists, with pages for persons and villages that gather what has been indexed.",
+  "about_ru": "Индексы метрических книг, ревизских сказок и исповедных ведомостей, сделанные добровольцами; страницы персон и сёл собирают то, что уже проиндексировано.",
+  "how": "Search the village page as well as the name: it shows which books and years are indexed (and so which are not). An index line is a pointer — open the scan and cite archive, fond, opis, delo and folio.",
+  "how_ru": "Смотрите не только поиск по имени, но и страницу села: на ней видно, какие книги и годы проиндексированы (а значит, какие нет). Строка индекса — наводка: откройте скан и ссылайтесь на архив, фонд, опись, дело, лист."
+ },
+ {
+  "id": "metricabook",
+  "name": "Archive of metric books of Russia (metricabook.ru)",
+  "url": "https://metricabook.ru",
+  "countries": [
+   "RU"
+  ],
+  "years": [
+   1855,
+   1911
+  ],
+  "records": [
+   "church"
+  ],
+  "access": "free",
+  "about": "Scans of parish registers arranged by region, district and church, mostly from the second half of the 19th century to the 1910s.",
+  "about_ru": "Сканы метрических книг по регионам, уездам и церквям, в основном второй половины XIX — 1910-х годов.",
+  "how": "There is no name index: find the church of the village first (the parish, not the village, is the unit), then read the years page by page. Note the archive citation printed with the scan.",
+  "how_ru": "Поиска по именам нет: сначала найдите церковь села (единица — приход, а не село), затем читайте годы постранично. Записывайте архивный шифр, указанный при скане."
+ },
+ {
+  "id": "rodovod",
+  "name": "Rodovod",
+  "url": "https://rodovod.org",
+  "countries": [
+   "*",
+   "RU",
+   "UA",
+   "BY"
+  ],
+  "years": [
+   1500,
+   2025
+  ],
+  "records": [
+   "trees"
+  ],
+  "access": "free",
+  "about": "A free Russian-language shared family tree with pages per person and per surname.",
+  "about_ru": "Бесплатное русскоязычное общее семейное древо со страницами персон и фамилий.",
+  "how": "Use it to find other researchers of the same family and their leads; many profiles cite no document — treat them as hints, never as proof.",
+  "how_ru": "Помогает найти других исследователей того же рода и их наводки; у многих профилей нет ссылок на документы — это подсказки, а не доказательства."
+ },
+ {
+  "id": "doroga_pamyati",
+  "name": "Road of Memory (Doroga Pamyati)",
+  "url": "https://1418museum.ru",
+  "countries": [
+   "RU",
+   "UA",
+   "BY",
+   "MD",
+   "*"
+  ],
+  "years": [
+   1941,
+   1945
+  ],
+  "records": [
+   "military"
+  ],
+  "access": "free",
+  "about": "The Russian Ministry of Defence's memorial database of participants of the Second World War: photographs and cards with data from the war databases, filled in by relatives.",
+  "about_ru": "Мемориальная база Минобороны России об участниках Великой Отечественной войны: фотографии и карточки с данными из военных баз, их дополняют родственники.",
+  "how": "The cards repeat Pamyat Naroda and OBD Memorial data and add family photographs: a photo or a home village found here leads back to the original documents there.",
+  "how_ru": "Карточки повторяют данные «Памяти народа» и ОБД «Мемориал» и добавляют семейные фото: найденные здесь снимок или родное село ведут обратно к подлинным документам там."
+ },
+ {
+  "id": "moypolk",
+  "name": "Immortal Regiment (Bessmertny Polk)",
+  "url": "https://www.moypolk.ru",
+  "countries": [
+   "RU",
+   "UA",
+   "BY",
+   "MD",
+   "*"
+  ],
+  "years": [
+   1941,
+   1945
+  ],
+  "records": [
+   "military"
+  ],
+  "access": "free",
+  "about": "Stories and photographs of Second World War soldiers and home-front workers posted by their families.",
+  "about_ru": "Истории и фотографии фронтовиков и тружеников тыла, которые публикуют их семьи.",
+  "how": "Written from family memory, not from documents: dates and units may be wrong. Check every fact in Pamyat Naroda and OBD Memorial; the author of a story may be a relative to contact.",
+  "how_ru": "Написано по семейной памяти, а не по документам: даты и части могут быть неточны. Проверяйте каждый факт в «Памяти народа» и ОБД «Мемориал»; автор рассказа — возможно, родственник, с которым стоит связаться."
+ },
+ {
   "id": "vozvrashchennye_imena",
   "name": "Returned Names",
   "url": "https://visz.nlr.ru",
@@ -919,6 +1036,117 @@
   "about_ru": "Записи актов и церковные книги Румынии по уездным управлениям.",
   "how": "Write to the county directorate; many registers are also on FamilySearch ('Romania, Church Books').",
   "how_ru": "Пишите в уездное управление; многое есть и на FamilySearch («Romania, Church Books»)."
+ },
+ {
+  "id": "genealogica_ro",
+  "name": "genealogica.ro",
+  "url": "https://genealogica.ro",
+  "countries": [
+   "RO"
+  ],
+  "years": [
+   1800,
+   1945
+  ],
+  "records": [
+   "church",
+   "vital",
+   "census"
+  ],
+  "access": "mixed",
+  "about": "An index of parish and civil registers and censuses of the Old Kingdom of Romania.",
+  "about_ru": "Индекс метрических книг, актов гражданского состояния и переписей Старого королевства Румынии.",
+  "how": "The default search is fuzzy and by prefix: for one exact spelling set the search options to exact match (in the result URL numTypos=0&prefixSearch=false), narrow by county (judet) and by years (from/until, up to 1945). Searches are limited per hour — plan the name forms first (name_variants) and log what you ran.",
+  "how_ru": "По умолчанию поиск нечёткий и по началу слова: для одного точного написания включите точное совпадение (в адресе результатов numTypos=0&prefixSearch=false), сузьте по уезду (judet) и годам (from/until, не позже 1945). Число поисков в час ограничено — заранее составьте формы имени (name_variants) и записывайте, что уже искали."
+ },
+ {
+  "id": "bessarabia_genealogy",
+  "name": "Genealogy of Bessarabia (bessarabia.name, bessarabia.ru)",
+  "url": "https://bessarabia.name",
+  "countries": [
+   "MD",
+   "UA"
+  ],
+  "years": [
+   1812,
+   1944
+  ],
+  "records": [
+   "catalogs",
+   "places",
+   "church"
+  ],
+  "access": "free",
+  "about": "Indexes and lists of settlements by uezd of the Bessarabia governorate and a guide to the archives of Moldova; bessarabia.ru is a related site with materials on the region.",
+  "about_ru": "Указатели и списки селений по уездам Бессарабской губернии, путеводитель по архивам Молдовы; bessarabia.ru — родственный сайт с материалами по краю.",
+  "how": "Start here to learn which uezd and parish a village belonged to and which fond holds its books; then read the books themselves (FamilySearch catalogue, National Archives of Moldova).",
+  "how_ru": "Начинайте здесь, чтобы узнать уезд и приход села и фонд, где лежат его книги; затем читайте сами книги (каталог FamilySearch, Национальный архив Молдовы)."
+ },
+ {
+  "id": "deportari_md",
+  "name": "Deportations from Bessarabia (deportari.org)",
+  "url": "https://deportari.org",
+  "countries": [
+   "MD",
+   "UA"
+  ],
+  "years": [
+   1940,
+   1956
+  ],
+  "records": [
+   "deportation",
+   "repression"
+  ],
+  "access": "free",
+  "about": "Lists of people deported from Bessarabia and the Moldavian SSR in 1941–1951 (the waves of June 1941, July 1949 and April 1951), arranged by village.",
+  "about_ru": "Списки депортированных из Бессарабии и Молдавской ССР в 1941–1951 годах (волны июня 1941, июля 1949 и апреля 1951), по сёлам.",
+  "how": "Browse the list of the village, not only the name: whole families were deported together, and names are in Russian and Romanian forms (name_variants). The personal file is in the National Archives of Moldova or the archive of the Information and Security Service.",
+  "how_ru": "Смотрите список села, а не только поиск по имени: депортировали целыми семьями, а имена записаны в русском и румынском виде (name_variants). Личное дело — в Национальном архиве Молдовы или архиве Службы информации и безопасности."
+ },
+ {
+  "id": "cartea_memoriei_md",
+  "name": "Cartea Memoriei (Moldova): catalogue of the victims of communist totalitarianism",
+  "url": "",
+  "countries": [
+   "MD"
+  ],
+  "years": [
+   1937,
+   1991
+  ],
+  "records": [
+   "repression",
+   "deportation"
+  ],
+  "access": "request",
+  "about": "A printed catalogue in four volumes (Chișinău, 1999–2005, coordinated by Elena Postică) of people from Moldova deported, arrested or killed by the Soviet regime, grouped by place.",
+  "about_ru": "Печатный каталог в четырёх томах (Кишинёв, 1999–2005, координатор Елена Постикэ) жителей Молдовы, депортированных, арестованных или погибших при советской власти, по местам.",
+  "how": "Look up the village: an entry gives the year, the kind of repression and often the place of exile. Libraries in Moldova and Romania hold it; JewishGen has an index of the Jewish victims from it.",
+  "how_ru": "Ищите по селу: запись даёт год, вид репрессии и часто место ссылки. Есть в библиотеках Молдовы и Румынии; на JewishGen — указатель еврейских жертв по нему."
+ },
+ {
+  "id": "dmitriev_1772",
+  "name": "Moldavian censuses of 1772–1774 (Dmitriev, «Молдавия в эпоху феодализма», vol. VII)",
+  "url": "",
+  "countries": [
+   "MD",
+   "RO",
+   "UA"
+  ],
+  "years": [
+   1772,
+   1774
+  ],
+  "records": [
+   "census",
+   "books"
+  ],
+  "access": "request",
+  "about": "P. G. Dmitriev (comp.), «Молдавия в эпоху феодализма», vol. VII, in two parts (Kishinev: Shtiintsa, 1975): the Russian-administered censuses of the Principality of Moldavia of 1772–1773 and 1774, household by household with the heads of households by name, from the originals in RGADA (fond 293).",
+  "about_ru": "П. Г. Дмитриев (сост.), «Молдавия в эпоху феодализма», т. VII, в двух частях (Кишинёв: Штиинца, 1975): переписи Молдавского княжества 1772–1773 и 1774 годов, проведённые русской администрацией, — подворно, с именами глав дворов, по подлинникам РГАДА (ф. 293).",
+  "how": "The earliest name list for most Moldavian and Bessarabian villages, but with gaps: the 1774 census of Codru ținut has not survived, and for Fălciu only the number of households is given. Villages appear under the ținut of the time; the head of household is often named by a given name and a nickname or father's name rather than a fixed surname.",
+  "how_ru": "Самый ранний поимённый список для большинства сёл Молдавии и Бессарабии, но с пробелами: перепись 1774 года по Кодру не сохранилась, а по Фэлчиу дано только число дворов. Сёла — по тогдашним цинутам; глава двора часто назван по имени и прозвищу или имени отца, а не постоянной фамилией."
  },
  {
   "id": "geneteka",

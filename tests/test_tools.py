@@ -28,6 +28,18 @@ class Sources(unittest.TestCase):
             if s.get("search"):
                 self.assertTrue(set(re.findall(r"\{(\w+)\}", s["search"])) <= {"q", "given", "surname", "year_from", "year_to", "place"}, s["id"])
 
+    def test_bessarabia_and_russia_sources(self):
+        cat = {s["id"]: s for s in sources.catalogue()}
+        for sid in ("nashipredki", "metricabook", "rodovod", "doroga_pamyati", "moypolk", "genealogica_ro",
+                    "bessarabia_genealogy", "deportari_md", "cartea_memoriei_md", "dmitriev_1772"):
+            self.assertIn(sid, cat)
+        self.assertIn("numTypos=0&prefixSearch=false", cat["genealogica_ro"]["how"])
+        self.assertIn("Codru", cat["dmitriev_1772"]["how"])
+        self.assertIn("Фэлчиу", cat["dmitriev_1772"]["how_ru"])
+        md = {s["id"] for s in sources.find("Moldova", 1772, 1774)}
+        self.assertIn("dmitriev_1772", md)
+        self.assertIn("deportari_md", {s["id"] for s in sources.find("Молдова", 1949, 1949, ["deportation"])})
+
     def test_regions(self):
         self.assertEqual(sources.countries("Украина"), {"UA"})
         self.assertIn("BR", sources.countries("Латинская Америка"))

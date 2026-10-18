@@ -139,6 +139,31 @@ add("bessmertny_barak", "Immortal Barrack", "https://bessmertnybarak.ru", "RU *"
     "Жертвы репрессий с биографиями, фотографиями и документами от родственников.",
     "Check alongside Open List: the bases overlap but are not the same.",
     "Проверяйте вместе с «Открытым списком»: базы пересекаются, но не совпадают.")
+add("nashipredki", "NashiPredki (Наши предки)", "https://nashipredki.com", "RU UA BY", (1700, 1930), "church revision confession places trees", "mixed",
+    "Volunteer indexes of parish registers, revision lists and confession lists, with pages for persons and villages that gather what has been indexed.",
+    "Индексы метрических книг, ревизских сказок и исповедных ведомостей, сделанные добровольцами; страницы персон и сёл собирают то, что уже проиндексировано.",
+    "Search the village page as well as the name: it shows which books and years are indexed (and so which are not). An index line is a pointer — open the scan and cite archive, fond, opis, delo and folio.",
+    "Смотрите не только поиск по имени, но и страницу села: на ней видно, какие книги и годы проиндексированы (а значит, какие нет). Строка индекса — наводка: откройте скан и ссылайтесь на архив, фонд, опись, дело, лист.")
+add("metricabook", "Archive of metric books of Russia (metricabook.ru)", "https://metricabook.ru", "RU", (1855, 1911), "church", "free",
+    "Scans of parish registers arranged by region, district and church, mostly from the second half of the 19th century to the 1910s.",
+    "Сканы метрических книг по регионам, уездам и церквям, в основном второй половины XIX — 1910-х годов.",
+    "There is no name index: find the church of the village first (the parish, not the village, is the unit), then read the years page by page. Note the archive citation printed with the scan.",
+    "Поиска по именам нет: сначала найдите церковь села (единица — приход, а не село), затем читайте годы постранично. Записывайте архивный шифр, указанный при скане.")
+add("rodovod", "Rodovod", "https://rodovod.org", "* RU UA BY", (1500, 2025), "trees", "free",
+    "A free Russian-language shared family tree with pages per person and per surname.",
+    "Бесплатное русскоязычное общее семейное древо со страницами персон и фамилий.",
+    "Use it to find other researchers of the same family and their leads; many profiles cite no document — treat them as hints, never as proof.",
+    "Помогает найти других исследователей того же рода и их наводки; у многих профилей нет ссылок на документы — это подсказки, а не доказательства.")
+add("doroga_pamyati", "Road of Memory (Doroga Pamyati)", "https://1418museum.ru", "RU UA BY MD *", (1941, 1945), "military", "free",
+    "The Russian Ministry of Defence's memorial database of participants of the Second World War: photographs and cards with data from the war databases, filled in by relatives.",
+    "Мемориальная база Минобороны России об участниках Великой Отечественной войны: фотографии и карточки с данными из военных баз, их дополняют родственники.",
+    "The cards repeat Pamyat Naroda and OBD Memorial data and add family photographs: a photo or a home village found here leads back to the original documents there.",
+    "Карточки повторяют данные «Памяти народа» и ОБД «Мемориал» и добавляют семейные фото: найденные здесь снимок или родное село ведут обратно к подлинным документам там.")
+add("moypolk", "Immortal Regiment (Bessmertny Polk)", "https://www.moypolk.ru", "RU UA BY MD *", (1941, 1945), "military", "free",
+    "Stories and photographs of Second World War soldiers and home-front workers posted by their families.",
+    "Истории и фотографии фронтовиков и тружеников тыла, которые публикуют их семьи.",
+    "Written from family memory, not from documents: dates and units may be wrong. Check every fact in Pamyat Naroda and OBD Memorial; the author of a story may be a relative to contact.",
+    "Написано по семейной памяти, а не по документам: даты и части могут быть неточны. Проверяйте каждый факт в «Памяти народа» и ОБД «Мемориал»; автор рассказа — возможно, родственник, с которым стоит связаться.")
 add("vozvrashchennye_imena", "Returned Names", "https://visz.nlr.ru", "RU", (1917, 1991), "repression", "free",
     "Books of memory of victims of political repression collected by the National Library of Russia.",
     "Книги памяти жертв политических репрессий, собранные Российской национальной библиотекой.",
@@ -237,6 +262,31 @@ add("arhive_ro", "National Archives of Romania", "http://arhivelenationale.ro", 
     "Записи актов и церковные книги Румынии по уездным управлениям.",
     "Write to the county directorate; many registers are also on FamilySearch ('Romania, Church Books').",
     "Пишите в уездное управление; многое есть и на FamilySearch («Romania, Church Books»).")
+add("genealogica_ro", "genealogica.ro", "https://genealogica.ro", "RO", (1800, 1945), "church vital census", "mixed",
+    "An index of parish and civil registers and censuses of the Old Kingdom of Romania.",
+    "Индекс метрических книг, актов гражданского состояния и переписей Старого королевства Румынии.",
+    "The default search is fuzzy and by prefix: for one exact spelling set the search options to exact match (in the result URL numTypos=0&prefixSearch=false), narrow by county (judet) and by years (from/until, up to 1945). Searches are limited per hour — plan the name forms first (name_variants) and log what you ran.",
+    "По умолчанию поиск нечёткий и по началу слова: для одного точного написания включите точное совпадение (в адресе результатов numTypos=0&prefixSearch=false), сузьте по уезду (judet) и годам (from/until, не позже 1945). Число поисков в час ограничено — заранее составьте формы имени (name_variants) и записывайте, что уже искали.")
+add("bessarabia_genealogy", "Genealogy of Bessarabia (bessarabia.name, bessarabia.ru)", "https://bessarabia.name", "MD UA", (1812, 1944), "catalogs places church", "free",
+    "Indexes and lists of settlements by uezd of the Bessarabia governorate and a guide to the archives of Moldova; bessarabia.ru is a related site with materials on the region.",
+    "Указатели и списки селений по уездам Бессарабской губернии, путеводитель по архивам Молдовы; bessarabia.ru — родственный сайт с материалами по краю.",
+    "Start here to learn which uezd and parish a village belonged to and which fond holds its books; then read the books themselves (FamilySearch catalogue, National Archives of Moldova).",
+    "Начинайте здесь, чтобы узнать уезд и приход села и фонд, где лежат его книги; затем читайте сами книги (каталог FamilySearch, Национальный архив Молдовы).")
+add("deportari_md", "Deportations from Bessarabia (deportari.org)", "https://deportari.org", "MD UA", (1940, 1956), "deportation repression", "free",
+    "Lists of people deported from Bessarabia and the Moldavian SSR in 1941–1951 (the waves of June 1941, July 1949 and April 1951), arranged by village.",
+    "Списки депортированных из Бессарабии и Молдавской ССР в 1941–1951 годах (волны июня 1941, июля 1949 и апреля 1951), по сёлам.",
+    "Browse the list of the village, not only the name: whole families were deported together, and names are in Russian and Romanian forms (name_variants). The personal file is in the National Archives of Moldova or the archive of the Information and Security Service.",
+    "Смотрите список села, а не только поиск по имени: депортировали целыми семьями, а имена записаны в русском и румынском виде (name_variants). Личное дело — в Национальном архиве Молдовы или архиве Службы информации и безопасности.")
+add("cartea_memoriei_md", "Cartea Memoriei (Moldova): catalogue of the victims of communist totalitarianism", "", "MD", (1937, 1991), "repression deportation", "request",
+    "A printed catalogue in four volumes (Chișinău, 1999–2005, coordinated by Elena Postică) of people from Moldova deported, arrested or killed by the Soviet regime, grouped by place.",
+    "Печатный каталог в четырёх томах (Кишинёв, 1999–2005, координатор Елена Постикэ) жителей Молдовы, депортированных, арестованных или погибших при советской власти, по местам.",
+    "Look up the village: an entry gives the year, the kind of repression and often the place of exile. Libraries in Moldova and Romania hold it; JewishGen has an index of the Jewish victims from it.",
+    "Ищите по селу: запись даёт год, вид репрессии и часто место ссылки. Есть в библиотеках Молдовы и Румынии; на JewishGen — указатель еврейских жертв по нему.")
+add("dmitriev_1772", "Moldavian censuses of 1772–1774 (Dmitriev, «Молдавия в эпоху феодализма», vol. VII)", "", "MD RO UA", (1772, 1774), "census books", "request",
+    "P. G. Dmitriev (comp.), «Молдавия в эпоху феодализма», vol. VII, in two parts (Kishinev: Shtiintsa, 1975): the Russian-administered censuses of the Principality of Moldavia of 1772–1773 and 1774, household by household with the heads of households by name, from the originals in RGADA (fond 293).",
+    "П. Г. Дмитриев (сост.), «Молдавия в эпоху феодализма», т. VII, в двух частях (Кишинёв: Штиинца, 1975): переписи Молдавского княжества 1772–1773 и 1774 годов, проведённые русской администрацией, — подворно, с именами глав дворов, по подлинникам РГАДА (ф. 293).",
+    "The earliest name list for most Moldavian and Bessarabian villages, but with gaps: the 1774 census of Codru ținut has not survived, and for Fălciu only the number of households is given. Villages appear under the ținut of the time; the head of household is often named by a given name and a nickname or father's name rather than a fixed surname.",
+    "Самый ранний поимённый список для большинства сёл Молдавии и Бессарабии, но с пробелами: перепись 1774 года по Кодру не сохранилась, а по Фэлчиу дано только число дворов. Сёла — по тогдашним цинутам; глава двора часто назван по имени и прозвищу или имени отца, а не постоянной фамилией.")
 add("geneteka", "Geneteka", "https://geneteka.genealodzy.pl", "PL UA BY LT", (1600, 1950), "church vital", "free",
     "A volunteer index of millions of Polish parish and civil records, including former western provinces of the Russian Empire.",
     "Добровольный индекс миллионов польских метрик, включая бывшие западные губернии Российской империи.",
