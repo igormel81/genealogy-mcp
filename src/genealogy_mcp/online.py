@@ -158,7 +158,7 @@ def search(source, **kw):
                     "Give the user the link from search_links to open in a browser.")
         return {"source": source, "error": msg}
     except (urllib.error.URLError, TimeoutError, OSError) as e:
-        return {"source": source, "error": f"the site did not answer: {getattr(e, 'reason', e)}"}
+        return {"source": source, "error": f"the site did not answer: {getattr(e, 'reason', e)}", "error_kind": "network"}
     except (ValueError, KeyError, IndexError, AttributeError) as e:
         return {"source": source, "error": f"unexpected answer: {e}"}
 
