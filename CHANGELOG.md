@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Gallica OCR document search via SRU and `search_book_pages` via ContentSearch: page
+  links, excerpts, publication-year filters, pagination, bounded responses, request pacing
+  and an in-memory cache. Access failures are incomplete checks, never empty results.
+- Read-only `project_evidence`: event-specific references, broken references and missing
+  locators, prioritized by ancestor generation. A reference is not a verified fact.
+
 - Fix false `check_match` confirmations for different given names, different villages
   sharing a province, and double-counting the same birth/residence place.
 - Research order: family/registry actions, complete extraction of existing documents,

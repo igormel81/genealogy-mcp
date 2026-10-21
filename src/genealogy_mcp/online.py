@@ -11,7 +11,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from . import __version__
+from . import __version__, books
 
 UA = f"genealogy-mcp/{__version__} (+https://github.com/igormel81/genealogy-mcp)"
 TIMEOUT = 25
@@ -133,7 +133,12 @@ def open_list(surname="", given="", year_from=None, year_to=None, place="", quer
     return out
 
 
+def gallica(surname="", given="", year_from=None, year_to=None, place="", query="", limit=15, start=1):
+    return books.search(query or _q(given, surname, place), year_from, year_to, start=start, limit=limit)
+
+
 SOURCES = {
+    "gallica": (gallica, "Gallica — OCR document search (BnF); search_book_pages gives page excerpts"),
     "internet_archive": (internet_archive, "Internet Archive — full text of digitised books, worldwide"),
     "chronicling_america": (chronicling_america, "Chronicling America — US newspapers 1756–1963"),
     "wikitree": (wikitree, "WikiTree — collaborative world tree"),
@@ -143,6 +148,15 @@ SOURCES = {
 
 
 def search(source, **kw):
+    if source not in SOURCES:
+        return {'source': source, 'error': 'unknown source'}
+    if source == 'gallica':
+        return gallica(**kw)
+    start = kw.pop('start', 1)
+    if start != 1:
+        return {'source': source, 'error': 'start pagination is currently supported only for Gallica'}
+    if type(kw.get('limit', 15)) is not int or not 1 <= kw.get('limit', 15) <= 50:
+        return {'source': source, 'error': 'limit: integer 1–50 required'}
     fn = SOURCES[source][0]
     try:
         hits = fn(**kw)

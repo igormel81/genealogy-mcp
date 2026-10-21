@@ -97,3 +97,12 @@ a reason to repeat work in irrelevant countries.
   are explicitly unspecified, with access caveats and primary verification references.
 
 The backlog above is not claimed to be implemented by these changes.
+
+
+## Follow-up: books and event references
+
+The first follow-up implements Gallica SRU/ContentSearch and the read-only
+`project_evidence` report. See [interface details and verification limits](books-and-event-evidence.md).
+Gallica is not a connector for the other library entries. Event-reference coverage does
+not yet implement field-level assertions, parentage proof or automatic contradiction
+resolution. The remaining priorities above are still backlog.

@@ -1,7 +1,7 @@
 # Research workflow and project policy
 
 The catalogue recommends sources; it is not a connector to every archive. `search_online`
-has five providers; `place_history` uses Wikidata. Other sources need the user's browser
+has six providers; `place_history` uses Wikidata. Other sources need the user's browser
 or supplied documents. A login barrier, 403, 429 or 503 is **unavailable**, never proof
 that no record exists. Follow access restrictions; do not bypass them.
 
@@ -184,5 +184,5 @@ Excluded from active recommendations:
   Keep the failed attempts in local source checks until the correct provider is known.
 - Software infrastructure and one-off files are not extra genealogy databases.
 
-No automated live-search adapters were added for these catalogue entries. A useful next
+Most of these entries remain catalogue references. The later Gallica adapter uses the documented SRU/ContentSearch APIs; see docs/books-and-event-evidence.md for limits and live-check status. A useful next
 step is [the MCP comparison and prioritized backlog](mcp-comparison-2026-10-21.md).

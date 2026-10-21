@@ -71,6 +71,10 @@
       "description": "Search an open database live and get the matching records back (title, date, place, link, snippet)."
     },
     {
+      "name": "search_book_pages",
+      "description": "Find OCR excerpts inside one Gallica book using its ARK/document_id from search_online source='gallica'."
+    },
+    {
       "name": "place_history",
       "description": "Look a place up in Wikidata: what administrative units it was part of (with years where known), coordinates and the Wikipedia article — a first step to the uezd, province and parish of a village — and the church its books were kept in, where that attachment is known."
     },
@@ -149,6 +153,10 @@
     {
       "name": "project_save",
       "description": "Add or change a person, family, source or research lead in the project."
+    },
+    {
+      "name": "project_evidence",
+      "description": "Review source references for individual birth/death/burial/residence and marriage events, read-only."
     },
     {
       "name": "project_policy",

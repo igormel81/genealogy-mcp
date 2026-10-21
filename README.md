@@ -27,7 +27,7 @@ repression files, emigration records — and every trap we fell into along the w
 
 - **171 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
   archive holds the records of a historical province today (borders moved; the answer is often not the obvious one).
-- **29 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
+- **31 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
   Julian, Hebrew and French Republican calendars, dates by church feasts, Church Slavonic numerals, kinship in three
   languages, DNA, evidence checks, a tree audit, live search in open databases, archive request drafts.
 - **It works on your tree, not beside it.** Point it at the `.ged` file from MyHeritage, Ancestry, Gramps or RootsMagic
@@ -127,7 +127,7 @@ method around them — where to look, how to search, how to read and weigh what 
 file too. It runs happily next to a server for a service you use, such as a FamilySearch client.
 
 Everything runs on your computer. The server goes online only when the assistant runs a live search
-(`search_online`, `place_history`), and then sends that query to that one site.
+(`search_online`, `search_book_pages`, `place_history`), and then sends that query to that one site.
 
 ## Coverage
 
@@ -214,9 +214,10 @@ per project. Leads have a next step; source checks distinguish no hits from an i
 site. Custom archive folders without `site.json` are readable without converting or
 changing them. See [workflow, policy and source checks](docs/research-workflow.md).
 
-The 171 catalogue entries are recommendations, not 171 live connectors. Five services
+The 171 catalogue entries are recommendations, not 171 live connectors. Six services
 support `search_online`; Wikidata supplies place history. Other sources need a browser
-or documents supplied by the user.
+or documents supplied by the user. Gallica page search and event evidence are described in
+[books and event citations](docs/books-and-event-evidence.md).
 
 ## Tools
 
@@ -227,7 +228,7 @@ or documents supplied by the user.
 | `source_details` | One source: coverage, access, how to search |
 | `where_are_records` | Which archives now hold the records of a historical province (Russian Empire, Poland, Galicia, Bukovina, East Prussia, the Baltics, the Caucasus); with a year, whose land it was then (southern Bessarabia: Moldavia/Romania 1857–1878, Romania 1918–1944); with a village, which church kept its books |
 | `search_links` | Ready search URLs for a name and its variants |
-| `search_online` | Live search: Internet Archive full text, Chronicling America, WikiTree, Open Archives, Open List |
+| `search_online` | Live search: Internet Archive full text, Chronicling America, WikiTree, Open Archives, Open List, Gallica OCR document search |
 | `place_history` | Wikidata: what a village belonged to over the years, coordinates, Wikipedia article; the church it was attached to, where known |
 | `name_variants` | Spelling, old orthography, gendered forms, transliterations, Daitch–Mokotoff codes, given-name equivalents (incl. Yiddish and Hebrew), patronymics; Moldovan surnames in Romanian, Russian and Soviet Moldavian forms, a second surname («Мокану, он же Плеш») flagged |
 | `normalize_date` | "около 1899", "9 de octubre de 1899" → `ABT 1899`, `9 OCT 1899` |
@@ -242,6 +243,8 @@ or documents supplied by the user.
 | `parent_hypothesis` | A parent hypothesis from a patronymic: candidates ranked by name, village and age, arguments for and against (grandson's name, godparents, sureties), a warning for namesakes from another village, the record that would settle it — a lead, never a link |
 | `audit_tree` | Impossible facts, duplicates and gaps in a GEDCOM or `family_tree.json` |
 | `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export — or a gene-archive site folder, written through its checks and logs, or your own `.ged` file, changed in place |
+| `search_book_pages` | OCR excerpts within a Gallica book, scan sequence numbers and stable page links |
+| `project_evidence` | Event-by-event citation coverage, broken references and missing locators, prioritized by generation |
 | `project_policy` | Policy for this project: active-question limit, archive drafts, living-person research and owner tasks |
 | `project_coverage` | What has been read: parish → year → part → film and frames → complete / partial up to No. … / not found; what is still unread for these villages and years |
 | `film_reading_plan` | Reading an unindexed FamilySearch film page by page: which films in which order, thumbnails vs full frames, a request budget under the rate limit, what to log |
@@ -255,7 +258,7 @@ or documents supplied by the user.
 
 ## Privacy and honesty
 
-- The server sends nothing anywhere by itself. A live search (`search_online`, `place_history`) sends the query — names,
+- The server sends nothing anywhere by itself. A live search (`search_online`, `search_book_pages`, `place_history`) sends the query — names,
   years, place — to the one site searched. Research projects are files on your computer
   (`~/Documents/genealogy-mcp` or `GENEALOGY_MCP_HOME`); on a shared HTTP server they are switched off.
 - The assistant you use is a separate service with its own privacy policy — think before pasting details about living

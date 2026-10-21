@@ -8,7 +8,7 @@ from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 from pydantic import Field
 
-from . import __version__, audit, calendars, coverage, dates, dna, estimate, evidence, guides, hypothesis, kinship, letters, names, numerals, online, places, plan, soundex, sources
+from . import __version__, audit, books, calendars, coverage, dates, dna, estimate, event_evidence, evidence, guides, hypothesis, kinship, letters, names, numerals, online, places, plan, soundex, sources
 from . import films as film_plan
 from . import project as proj
 
@@ -34,7 +34,9 @@ INSTRUCTIONS = """You help people research their family history. Work like a car
 5. A name is not a person: before linking a found record, run check_match — two independent facts beyond the name.
    A patronymic gives the father's name, not the father: weigh candidates with parent_hypothesis and keep the result
    as a lead or 'probably' until a record names him.
-6. Cite the original (archive, fond, opis, delo, folio, or film and image), not an index; keep conflicting versions.
+6. Use project_evidence to check citations for each event; a general person source does not prove all their facts.
+   For Gallica books use search_online then search_book_pages, and inspect the linked scan, not just OCR.
+   Cite the original (archive, fond, opis, delo, folio, or film and image), not an index; keep conflicting versions.
 7. Old dates: Julian calendar in Russia until 1918 (convert_calendar), dates by church feasts (feast_date), letters as
    numbers (cyrillic_numerals); ages in records drift (birth_year_from_age); with no record of birth, estimate it from
    relatives (estimate_birth_year) and say it is an estimate. DNA: dna_match, then documents.
@@ -205,7 +207,7 @@ NET = ToolAnnotations(readOnlyHint=True, openWorldHint=True)
 
 @server.tool(annotations=NET)
 def search_online(
-    source: Annotated[Literal["internet_archive", "chronicling_america", "wikitree", "open_archives", "open_list"],
+    source: Annotated[Literal["internet_archive", "chronicling_america", "wikitree", "open_archives", "open_list", "gallica"],
                       Field(description="; ".join(f"{k}: {v[1]}" for k, v in online.SOURCES.items()))],
     surname: str = "",
     given: str = "",
@@ -213,11 +215,23 @@ def search_online(
     year_to: int | None = None,
     place: str = "",
     query: Annotated[str, Field(description="Free text instead of the name fields (e.g. a phrase for the full-text search)")] = "",
+    start: Annotated[int, Field(ge=1, description="Gallica only: one-based record offset; other providers require 1")] = 1,
+    limit: Annotated[int, Field(ge=1, le=50)] = 15,
 ) -> dict[str, Any]:
     """Search an open database live and get the matching records back (title, date, place, link, snippet).
     Sends the query to that one site only. Run it for each name form from name_variants; for FamilySearch, Geneteka,
     Find a Grave and other sites without an open API use search_links."""
-    return online.search(source, surname=surname, given=given, year_from=year_from, year_to=year_to, place=place, query=query)
+    return online.search(source, surname=surname, given=given, year_from=year_from, year_to=year_to, place=place, query=query, start=start, limit=limit)
+
+
+@server.tool(annotations=NET)
+def search_book_pages(document_id: str, query: str, start: int = 0, limit: int = 10) -> dict[str, Any]:
+    """Find OCR excerpts inside one Gallica book using its ARK/document_id from search_online source='gallica'.
+    Returns scan sequence numbers and stable page URLs, not verified facts or printed page numbers.
+    Sends the query only to Gallica's documented ContentSearch API. start is a zero-based result offset.
+    Access errors are incomplete checks, never no hits; no OCR hit does not prove absence from the scans.
+    """
+    return books.pages(document_id, query, start, limit)
 
 
 @server.tool(annotations=NET)
@@ -587,6 +601,18 @@ Pass "id" to update an existing record (a field set to null is removed).""")],
     return _safe(proj.upsert, project, kind, record, reason, source_ids, delete, dry_run)
 
 
+@server.tool(annotations=RO)
+def project_evidence(project: str, root_person_id: str = "", generations: int = 4, limit: int = 100) -> dict[str, Any]:
+    """Review source references for individual birth/death/burial/residence and marriage events, read-only.
+    Uses the project root (or root_person_id), follows ancestors up to 10 generations and prioritizes closer ones.
+    Distinguishes missing/broken references, missing locators and reference presence. A person's general sources do
+    not prove every event; even a located citation still needs inspection. Does not verify parentage or change data.
+    """
+    def check():
+        return event_evidence.report(proj.load(project), root_person_id, generations, limit)
+    return _safe(check)
+
+
 @server.tool(annotations=WRITE)
 def project_policy(project: str, changes: dict[str, Any], dry_run: bool = True) -> dict[str, Any]:
     """Configure this project's policy only (dry_run by default; save within the owner's authorization).
@@ -668,6 +694,12 @@ def res_sources() -> str:
                  description="How to research a family history, step by step (lang: en or ru)")
 def res_research_guide(lang: str) -> str:
     return _doc("research-guide.ru" if lang == "ru" else "research-guide")
+
+
+@server.resource("genealogy://guide/books-evidence", mime_type="text/markdown",
+                 description="Gallica page search, access limits, and event-specific citation coverage")
+def res_books_evidence() -> str:
+    return _res.files("genealogy_mcp").joinpath("data/docs/books-and-event-evidence.md").read_text(encoding="utf-8")
 
 
 @server.resource("genealogy://guide/workflow", mime_type="text/markdown",
