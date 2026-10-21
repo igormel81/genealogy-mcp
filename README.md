@@ -11,7 +11,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 An [MCP](https://modelcontextprotocol.io) server that turns Claude, ChatGPT, Cursor or any MCP-capable assistant into a
-careful genealogist. It knows **where** the records of your ancestors are (124 archives and databases across Russia and
+careful genealogist. It knows **where** the records of your ancestors are (171 archives and databases across Russia and
 the former USSR, Europe, the British Isles, the USA and Latin America), **how** to search them (name variants,
 transliterations, old spelling, the Julian calendar), and **when a find really is your person** — so the assistant gives
 you working links and a plan instead of confident guesses.
@@ -25,9 +25,9 @@ repression files, emigration records — and every trap we fell into along the w
 
 ## At a glance
 
-- **124 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
+- **171 archives and databases in 55 countries**, each with what it holds and *how to search it well* — and which
   archive holds the records of a historical province today (borders moved; the answer is often not the obvious one).
-- **28 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
+- **29 tools** for the real work of a genealogist: name variants and 9 transliteration systems, Daitch–Mokotoff,
   Julian, Hebrew and French Republican calendars, dates by church feasts, Church Slavonic numerals, kinship in three
   languages, DNA, evidence checks, a tree audit, live search in open databases, archive request drafts.
 - **It works on your tree, not beside it.** Point it at the `.ged` file from MyHeritage, Ancestry, Gramps or RootsMagic
@@ -109,7 +109,7 @@ your program (Family Historian and webtrees work on GEDCOM directly). Files not 
 
 | Without it | With genealogy-mcp |
 |---|---|
-| The assistant names two or three famous websites | 124 sources chosen by country, years and kind of record, each with "how to search it well" |
+| The assistant names two or three famous websites | 171 sources chosen by country, years and kind of record, each with "how to search it well" |
 | Searches one spelling | Spelling variants, pre-1918 orthography, male/female forms, 9 transliteration systems, given-name equivalents (Иван = Іоаннъ = Jan = Johann = Juan) |
 | Invented or broken URLs | Ready search links built from tested URL templates; a weekly job checks every site |
 | "This is probably your ancestor" | An explicit evidence rule: a namesake is not a relative |
@@ -205,6 +205,19 @@ In HTTP mode `audit_tree` takes the GEDCOM text only, never a file path.
 
 The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [official MCP Registry](https://registry.modelcontextprotocol.io) (`io.github.igormel81/genealogy-mcp`): `uvx genealogy-mcp` installs and runs it.
 
+## Research workflow
+
+Start from `project_view`: policy, local sources, active questions and owner tasks. Work
+from family documents and the civil registry through existing records to primary sources,
+then secondary leads. `project_policy` configures limits and archive-request preferences
+per project. Leads have a next step; source checks distinguish no hits from an inaccessible
+site. Custom archive folders without `site.json` are readable without converting or
+changing them. See [workflow, policy and source checks](docs/research-workflow.md).
+
+The 171 catalogue entries are recommendations, not 171 live connectors. Five services
+support `search_online`; Wikidata supplies place history. Other sources need a browser
+or documents supplied by the user.
+
 ## Tools
 
 | Tool | What it does |
@@ -229,6 +242,7 @@ The package is on [PyPI](https://pypi.org/project/genealogy-mcp/) and in the [of
 | `parent_hypothesis` | A parent hypothesis from a patronymic: candidates ranked by name, village and age, arguments for and against (grandson's name, godparents, sureties), a warning for namesakes from another village, the record that would settle it — a lead, never a link |
 | `audit_tree` | Impossible facts, duplicates and gaps in a GEDCOM or `family_tree.json` |
 | `project_view`, `project_save`, `project_log`, `project_transfer` | The research project between conversations: people, families, sources, leads, the search log, GEDCOM import/export — or a gene-archive site folder, written through its checks and logs, or your own `.ged` file, changed in place |
+| `project_policy` | Policy for this project: active-question limit, archive drafts, living-person research and owner tasks |
 | `project_coverage` | What has been read: parish → year → part → film and frames → complete / partial up to No. … / not found; what is still unread for these villages and years |
 | `film_reading_plan` | Reading an unindexed FamilySearch film page by page: which films in which order, thumbnails vs full frames, a request budget under the rate limit, what to log |
 | `draft_archive_request` | A request letter to a registry office or archive |

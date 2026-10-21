@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- Fix false `check_match` confirmations for different given names, different villages
+  sharing a province, and double-counting the same birth/residence place.
+- Research order: family/registry actions, complete extraction of existing documents,
+  primary records for the whole household, then secondary leads; Moldova revision routing.
+- Per-project policy, active-question limits, required next steps, waiting/reading-room
+  leads and structured source checks. Unavailable websites do not count as negative searches.
+- Read custom archive folders without converting or writing them; expose local resources
+  and project instructions. Log existing-record edits in both corrections and research logs.
+- Catalogue: 171 sources, including direct regional archive catalogues, libraries and
+  supporting reference works. Split the two Bessarabian websites; show unspecified date
+  coverage explicitly. See docs/research-workflow.md for source references and limitations.
+
 ## 0.6.0
 
 - Catalogue: 124 sources. New for Russia: NashiPredki (indexes of registers, revision and confession lists),

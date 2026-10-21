@@ -137,10 +137,13 @@ def describe(s, lang="en"):
     ru = lang == "ru"
     kinds = ", ".join(RECORD_KINDS.get(k, (k, k))[1 if ru else 0] for k in s["records"])
     access = ACCESS.get(s["access"], (s["access"], s["access"]))[1 if ru else 0]
-    years = f"{s['years'][0]}–{s['years'][1]}"
+    years = (f"{s['years'][0]}–{s['years'][1]}" if s.get('coverage_known', True) else
+             "годы не установлены: проверьте опись" if ru else "date coverage unspecified: check the inventory")
     where = ", ".join("весь мир" if c == "*" and ru else "worldwide" if c == "*" else c for c in s["countries"])
     lines = [f"**{s['name']}** — {s['url'] or ('без сайта' if ru else 'no website')}",
              f"{'Что' if ru else 'What'}: {s['about_ru' if ru else 'about']}",
              f"{'Записи' if ru else 'Records'}: {kinds}; {years}; {where}; {access}.",
              f"{'Как искать' if ru else 'How to search'}: {s['how_ru' if ru else 'how']}"]
+    if s.get('availability_note'):
+        lines.append(s['availability_note_ru' if ru else 'availability_note'])
     return "\n".join(lines)

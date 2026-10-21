@@ -178,7 +178,7 @@ class Texts(unittest.TestCase):
         self.assertIn("шурин", guides.glossary("брат жены", "ru") or guides.glossary("шурин", "ru"))
         p = plan.plan("Россия", 1850, 1945, lang="ru")
         self.assertIn("metric_book", p["guides"])
-        self.assertEqual(p["sources"][0]["id"], "familysearch_catalog")
+        self.assertIn(p["sources"][0]["id"], {s["id"] for s in sources.find("RU", include_worldwide=False)})
         p = plan.plan("Brazil", 1880, 1950)
         self.assertIn("latin_america", p["guides"])
         self.assertNotIn("metric_book", p["guides"])

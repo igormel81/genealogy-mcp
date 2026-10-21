@@ -61,13 +61,23 @@ def _year(v):
 def _place_match(a, b):
     if not a or not b:
         return None
-    wa, wb = set(_norm(a).split()), set(_norm(b).split())
-    stop = {"village", "село", "деревня", "д", "с", "уезд", "губерния", "uezd", "gubernia", "province", "district", "parish", "приход"}
-    wa, wb = wa - stop, wb - stop
+    qualifier = r"\b(\w+)\s+(губерния|область|уезд|район|province|district|gubernia|uezd)\b"
+    qa = {kind: name for name, kind in re.findall(qualifier, _norm(a))}
+    qb = {kind: name for name, kind in re.findall(qualifier, _norm(b))}
+    if any(qa[k] != qb[k] for k in qa.keys() & qb.keys()):
+        return False
+
+    def words(value):
+        text = _norm(value)
+        # A shared province is not a shared village. Remove labelled administrative
+        # qualifiers, but keep settlement names; never match just a five-letter prefix.
+        text = re.sub(r"\b\w+\s+(?:губерния|область|уезд|район|province|district|gubernia|uezd)\b", " ", text)
+        stop = {"village", "село", "деревня", "д", "с", "город", "г", "town", "city", "parish", "приход"}
+        return set(text.split()) - stop
+    wa, wb = words(a), words(b)
     if not wa or not wb:
         return None
-    # one shared distinctive word (a village name) is a match; also allow prefix matches for case endings
-    return any(x == y or (len(x) > 4 and len(y) > 4 and (x.startswith(y[:5]) or y.startswith(x[:5]))) for x in wa for y in wb)
+    return wa <= wb or wb <= wa
 
 
 def check_match(known, found, year_tolerance=3, lang="en"):
@@ -98,7 +108,7 @@ def check_match(known, found, year_tolerance=3, lang="en"):
             ok = _place_match(a, b)
             if ok is None:
                 continue
-            res = "match" if ok else "differs"
+            res = "match" if ok else "conflict"
         elif field == "children":
             ka = [x for x in (a if isinstance(a, list) else re.split(r"[,;]", a)) if x.strip()]
             kb = [x for x in (b if isinstance(b, list) else re.split(r"[,;]", b)) if x.strip()]
@@ -123,9 +133,18 @@ def check_match(known, found, year_tolerance=3, lang="en"):
     independent = set(matches)
     if {"patronymic", "father_given"} <= independent:
         independent.discard("patronymic")
+    if {"birth_place", "residence"} <= independent and all(
+        _place_match(row.get("birth_place"), row.get("residence")) is True for row in (known, found)
+    ):
+        independent.discard("residence")
     if name_ok is False:
         verdict = "different_person"
         why = ("Фамилия не сходится ни в одном из вариантов написания." if ru else "The surname does not match in any spelling variant.")
+    elif given_ok is False:
+        verdict = "conflict"
+        conflicts.append("given")
+        why = ("Имена различаются; без документа, объясняющего смену имени или прозвище, совпадение не подтверждено."
+               if ru else "Given names differ; a record explaining the name change or alias is needed before linking them.")
     elif conflicts:
         verdict = "conflict"
         why = ((f"Противоречие: {', '.join(INDEPENDENT[c][1] for c in conflicts)}. Скорее всего, другой человек — или ошибка писаря; "

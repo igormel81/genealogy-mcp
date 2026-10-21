@@ -11,7 +11,8 @@ S = []
 
 
 def add(id, name, url, countries, years, records, access, about, about_ru, how, how_ru, search=None):
-    S.append({"id": id, "name": name, "url": url, "countries": countries.split(), "years": list(years),
+    S.append({"id": id, "name": name, "url": url, "countries": countries.split(), "years": list(years) if years else [0, 9999],
+              **({"coverage_known": False} if years is None else {}),
               "records": records.split(), "access": access, "about": about, "about_ru": about_ru,
               "how": how, "how_ru": how_ru, **({"search": search} if search else {})})
 
@@ -267,9 +268,9 @@ add("genealogica_ro", "genealogica.ro", "https://genealogica.ro", "RO", (1800, 1
     "Индекс метрических книг, актов гражданского состояния и переписей Старого королевства Румынии.",
     "The default search is fuzzy and by prefix: for one exact spelling set the search options to exact match (in the result URL numTypos=0&prefixSearch=false), narrow by county (judet) and by years (from/until, up to 1945). Searches are limited per hour — plan the name forms first (name_variants) and log what you ran.",
     "По умолчанию поиск нечёткий и по началу слова: для одного точного написания включите точное совпадение (в адресе результатов numTypos=0&prefixSearch=false), сузьте по уезду (judet) и годам (from/until, не позже 1945). Число поисков в час ограничено — заранее составьте формы имени (name_variants) и записывайте, что уже искали.")
-add("bessarabia_genealogy", "Genealogy of Bessarabia (bessarabia.name, bessarabia.ru)", "https://bessarabia.name", "MD UA", (1812, 1944), "catalogs places church", "free",
-    "Indexes and lists of settlements by uezd of the Bessarabia governorate and a guide to the archives of Moldova; bessarabia.ru is a related site with materials on the region.",
-    "Указатели и списки селений по уездам Бессарабской губернии, путеводитель по архивам Молдовы; bessarabia.ru — родственный сайт с материалами по краю.",
+add("bessarabia_genealogy", "Genealogy of Bessarabia (bessarabia.name)", "https://bessarabia.name", "MD UA", (1812, 1944), "catalogs places church", "free",
+    "A private project with indexed parish registers and revision lists, family trees and a separate document collection. Indexing covers selected books, not all of Bessarabia.",
+    "Частный проект: индексированные метрики и ревизские сказки, деревья и отдельная коллекция документов. Проиндексированы отдельные книги, а не вся Бессарабия.",
     "Start here to learn which uezd and parish a village belonged to and which fond holds its books; then read the books themselves (FamilySearch catalogue, National Archives of Moldova).",
     "Начинайте здесь, чтобы узнать уезд и приход села и фонд, где лежат его книги; затем читайте сами книги (каталог FamilySearch, Национальный архив Молдовы).")
 add("deportari_md", "Deportations from Bessarabia (deportari.org)", "https://deportari.org", "MD UA", (1940, 1956), "deportation repression", "free",
@@ -670,6 +671,224 @@ add("turkmenistan_archives", "Main Archival Administration of Turkmenistan", "ht
     "Официальный справочник Центрального государственного и региональных архивов Туркменистана. Акты гражданского состояния в управление и подведомственные архивы не поступают.",
     "Identify the custodian through the official archive directory; ask about historical holdings and access. Request civil-registration records from the civil registry, not these archives.",
     "По официальному справочнику уточните держателя, состав исторических фондов и доступ. За актами гражданского состояния обращайтесь в ЗАГС, а не в эти архивы.")
+
+
+# ---------- Direct catalogues and supporting sources used in practical research
+# None means the full date span has not been established. [0, 9999] is a routing
+# sentinel, not a claim about holdings; source_details displays "check the inventory".
+ARCHIVE_SITES = [
+    ("gato", "State Archive of Tula Region (ГАТО)", "https://gato.tularegion.ru", "RU", "church confession revision household catalogs", "Государственный архив Тульской области: сайт и справочный аппарат."),
+    ("gaio", "State Archive of Ivanovo Region (ГАИО)", "https://af.ivarh.ru", "RU", "church confession revision catalogs", "Государственный архив Ивановской области: архивный фонд и справочный аппарат."),
+    ("gako", "State Archive of Kostroma Region (ГАКО)", "https://kosarchive.ru", "RU", "church revision confession catalogs", "Государственный архив Костромской области: фонды, описи и публикации."),
+    ("gavo_voronezh", "State Archive of Voronezh Region (ГАВО)", "https://gavo.arsvo.ru", "RU", "church confession revision catalogs", "Государственный архив Воронежской области: официальный сайт и каталоги."),
+    ("ganiko", "Archive of Contemporary History of Kostroma Region (ГАНИКО)", "https://ganiko.org", "RU", "catalogs repression", "Государственный архив новейшей истории Костромской области: поиск фондов учреждений и организаций."),
+    ("chekhov_archive", "Chekhov municipal archive (official municipal portal)", "https://agoch.ru", "RU", "household catalogs", "Архив муниципального округа Чехов: разделы и контакты архива на официальном портале муниципалитета."),
+    ("niab_grodno", "National Historical Archives of Belarus in Grodno: inventories", "https://niab-grodno.by/science/", "BY PL", "church revision catalogs", "НИАБ в Гродно: электронные описи, сгруппированные по номерам фондов."),
+    ("kyiv_city_archive", "State Archives of Kyiv City: fonds", "https://archive.kyivcity.gov.ua/funds", "UA", "catalogs", "Государственный архив города Киева: поиск фондов по названию, номеру и датам; в том числе фонды учебных заведений."),
+    ("khmelnytsky_archive", "State Archives of Khmelnytskyi Region", "https://dahmo.gov.ua", "UA", "church catalogs", "Государственный архив Хмельницкой области: справочный аппарат и каталоги метрических книг."),
+    ("gavo_volgograd", "State Archive of Volgograd Region: fonds", "https://gavo.volgograd.ru/fonds/", "RU", "church catalogs repression", "Государственный архив Волгоградской области: указатель фондов и описи."),
+]
+for sid, name, url, countries, kinds, about_ru in ARCHIVE_SITES:
+    add(sid, name, url, countries, None, kinds, "mixed",
+        "Direct archive or municipal portal: find the relevant fond and inventory; dates and online image access depend on the collection.", about_ru,
+        "Search by historical parish, district or institution, then fond, inventory and file. A catalogue entry does not prove that images are online. Check access before a visit; do not send a request unless project policy and the owner allow it.",
+        "Ищите по прежнему приходу, уезду или учреждению, затем по фонду, описи и делу. Наличие описи не означает наличия сканов. Проверяйте доступ; запросы — только если разрешают политика проекта и владелец.")
+
+add("petrovy", "Petrovy: family and local history materials", "https://petrovy.su", "RU", None, "books revision places", "free",
+    "A private family-history site with local-history material. Use relevant transcriptions as pointers to original records, not as a complete district index.",
+    "Частный сайт семейной истории и краеведческих материалов. Подходящие расшифровки — наводки к оригиналам, а не полный указатель уезда.",
+    "Browse the materials by village and topic; check the original archive reference and image before attaching a person.",
+    "Просматривайте материалы по селу и теме; перед привязкой человека проверьте архивный шифр и оригинальную запись.")
+add("soldat", "Soldat.ru: military reference works", "https://www.soldat.ru", "RU", None, "military directories", "free",
+    "Military reference works, documents and search guidance; not a complete personal service-record database.",
+    "Военные справочники, документы и методика поиска; это не полная база личных дел военнослужащих.",
+    "Use the reference and documents sections to interpret units and abbreviations, then corroborate with the original military record.",
+    "Справочники и документы помогают разобрать части и сокращения; биографические выводы подтверждайте первичным военным документом.")
+add("pomnim", "Pomnim.online: burial database", "https://pomnim.online", "RU", None, "graves", "mixed",
+    "Burial and cemetery search with separate paid services. Coverage depends on contributions and cemetery data.",
+    "Поиск захоронений и кладбищ; отдельно предлагаются платные услуги. Полнота зависит от внесённых сведений.",
+    "Search the surname and cemetery; verify the photograph, dates and identity. Do not order paid services automatically.",
+    "Ищите по фамилии и кладбищу; проверяйте фото, даты и личность. Не заказывайте платные услуги автоматически.")
+add("warheroes", "Heroes of the Country (Герои страны)", "https://warheroes.ru", "RU", None, "military books", "free",
+    "Biographies and bibliographic references about decorated people; a secondary source, not proof of kinship.",
+    "Биографии награждённых и библиографические ссылки; вторичный источник, не доказательство родства.",
+    "Search by name and use cited books and award records to locate originals; distinguish namesakes.",
+    "Ищите по имени, переходите к указанным книгам и наградным документам; различайте однофамильцев.")
+add("ionb", "Ivanovo regional digital library", "https://elib.ionb.ru", "RU", None, "books directories newspapers", "mixed",
+    "The regional digital library: local publications and reference books; access depends on the item.",
+    "Электронная библиотека Ивановской области: краеведческие издания и справочники; доступ зависит от издания.",
+    "Search the publication title, place and historical spelling; cite the edition and page, not just a search hit.",
+    "Ищите по названию издания, месту и старому написанию; указывайте издание и страницу, а не только результат поиска.")
+add("nbuv", "Vernadsky National Library of Ukraine: library portal", "https://irbis-nbuv.gov.ua", "UA", None, "books directories newspapers", "mixed",
+    "Vernadsky Library / NAS library portal and catalogues. A bibliographic entry does not guarantee an online full text.",
+    "Библиотечный портал и каталоги НБУВ/НАН Украины. Библиографическая запись не гарантирует доступ к полному тексту.",
+    "Search author, title and place; follow the item link to establish image/text availability and cite the original page.",
+    "Ищите по автору, заглавию и месту; по ссылке издания проверяйте доступ к тексту или сканам и цитируйте страницу оригинала.")
+add("goskatalog", "State Catalogue of the Museum Fund of Russia", "https://goskatalog.ru", "RU", None, "catalogs books", "free",
+    "Museum object catalogue: photographs, manuscripts, documents and other collection objects, not a comprehensive population register.",
+    "Каталог музейных предметов: фотографии, рукописи, документы и другие предметы; не сплошной реестр населения.",
+    "Search the name, place and object description; record the museum and inventory number. Check rights separately before reuse.",
+    "Ищите по имени, месту и описанию предмета; запишите музей и инвентарный номер. Права на публикацию проверяйте отдельно.")
+add("kounb", "Kostroma regional library: electronic local collection", "https://kounb.ru/index.php/knizhnye-pamyatniki/item/170-elektronnaya-kollektsiya-kraya", "RU", None, "books directories newspapers", "mixed",
+    "The library's electronic local collection of Kostroma publications and book monuments.",
+    "Электронная коллекция края Костромской областной библиотеки: местные издания и книжные памятники.",
+    "Choose the period and title, then read the scan; OCR or a catalogue title alone does not establish a person's identity.",
+    "Выберите период и заглавие, затем читайте скан; одно OCR-совпадение или название каталога не устанавливает личность.")
+add("familio", "Familio: knowledge base and settlement reference works", "https://familio.org/knowledge-base", "RU UA BY MD", None, "places directories trees", "mixed",
+    "Settlement reference works and family trees; basic reference access and optional paid features are separate.",
+    "Справочники населённых мест и деревья; базовый доступ к справочникам и дополнительные платные возможности различаются.",
+    "Use historical place entries to find parish and administrative names. User trees are leads: follow their documents.",
+    "По историческим населённым пунктам уточняйте приход и административное деление. Чужие деревья — наводки: переходите к документам.")
+add("genway", "Genway: user-contributed trees", "https://genway.ru", "RU UA BY", None, "trees", "mixed",
+    "User-contributed genealogy service. Visibility and availability must be checked; a surname or tree owner is only a lead.",
+    "Пользовательский генеалогический сервис. Доступность и видимость данных нужно проверять; фамилия или хранитель древа — только наводка.",
+    "Check whether the service opens and what is visible without an account. Do not infer kinship from a surname match or investigate living people's current lives.",
+    "Сначала проверьте доступность и что видно без входа. Не выводите родство из совпадения фамилии и не исследуйте нынешнюю жизнь живых людей.")
+add("bessarabia_ru", "Bessarabia.ru: historical reference materials", "http://www.bessarabia.ru", "MD UA RO", None, "directories places books catalogs", "mixed",
+    "Historical Bessarabian reference materials and archive guides; a different website from bessarabia.name.",
+    "Исторические справочники Бессарабии и архивные путеводители; отдельный сайт, не bessarabia.name.",
+    "Check availability and each publication's scope and date. Use institutional and settlement references to locate originals, not as a complete parish index.",
+    "Проверяйте доступность, состав и дату каждого издания. Сведения об учреждениях и селениях помогают найти оригиналы, но не заменяют полный указатель метрик.")
+add("familysearch_tree", "FamilySearch Family Tree", "https://www.familysearch.org/en/tree/find", "*", None, "trees", "free_account",
+    "The collaborative family tree, distinct from the historical-record index and image catalogue.",
+    "Общее древо пользователей, отдельное от индекса исторических записей и каталога сканов.",
+    "Search the tree for leads; inspect attached sources and independently verify every relationship in the original record.",
+    "Ищите в древе наводки; изучайте прикреплённые источники и независимо проверяйте каждую связь по оригинальной записи.")
+
+# ---------- additional public resources encountered in recent research
+add('hathitrust', 'HathiTrust Digital Library', 'https://www.hathitrust.org', '*', None, 'books directories newspapers', 'mixed',
+    'Digitised research-library books and full-text discovery; reading and download rights vary by item.',
+    'Оцифрованные библиотечные книги и полнотекстовый поиск; чтение и скачивание зависят от прав на издание.',
+    'Search historical spellings and titles; distinguish a catalogue/full-text hit from an accessible page.',
+    'Ищите старые написания и заглавия; различайте результат поиска и доступную страницу.')
+add('google_books', 'Google Books', 'https://books.google.com', '*', None, 'books directories newspapers', 'mixed',
+    'Book discovery with full views, previews or snippets depending on rights.',
+    'Поиск книг с полным просмотром, фрагментами или сниппетами в зависимости от прав.',
+    'Verify the edition and page in the scan. A snippet or API quota error is not a completed search of the book.',
+    'Проверяйте издание и страницу по скану. Сниппет или ошибка квоты API не означает выполненный поиск по книге.')
+add('gallica', 'Gallica — Bibliothèque nationale de France', 'https://gallica.bnf.fr', 'FR', None, 'books newspapers directories', 'free',
+    'BnF digital library of books, periodicals and other heritage collections.',
+    'Цифровая библиотека BnF: книги, периодика и другие исторические коллекции.',
+    'Search name variants and dates; compare OCR with the page image and cite its persistent identifier.',
+    'Ищите варианты имени и даты; сверяйте OCR со сканом и указывайте постоянный идентификатор страницы.')
+add('limedia', 'Limédia — Lorraine digital collections and Kiosque', 'https://limedia.fr', 'FR', None, 'newspapers books directories', 'mixed',
+    'Lorraine heritage collections; Kiosque provides free access to historical newspapers.',
+    'Исторические коллекции Лотарингии; Kiosque даёт бесплатный доступ к старым газетам.',
+    'Choose Kiosque for press, then title and date; access rules differ between Limédia services.',
+    'Для газет выберите Kiosque, затем издание и дату; условия доступа у сервисов Limédia различаются.')
+add('retronews', 'RetroNews — BnF historical press', 'https://www.retronews.fr', 'FR', None, 'newspapers', 'mixed',
+    'Historical French press. BnF describes free archive consultation and subscription-based advanced features and editorial content.',
+    'Историческая французская пресса. По данным BnF, архивы доступны бесплатно, расширенные функции и часть редакционных материалов — по подписке.',
+    'Check title and issue dates; distinguish free archive pages from subscription-only search and editorial features.',
+    'Уточняйте издание и дату номера; отличайте бесплатные архивные страницы от платных функций поиска и редакционных материалов.')
+add('matchid', 'matchID — INSEE deceased-person files', 'https://deces.matchid.io', 'FR', None, 'vital', 'free',
+    'Search of INSEE deceased-person files from 1970, including registered deaths in France and abroad.',
+    'Поиск по файлам умерших INSEE с 1970 года, включая зарегистрированные смерти во Франции и за рубежом.',
+    'Compare birth details and spelling variants. No match does not prove that a person did not die in France.',
+    'Сверяйте сведения о рождении и варианты написания. Отсутствие совпадения не доказывает, что человек не умер во Франции.')
+add('iverieli', 'Iverieli — National Parliamentary Library of Georgia', 'https://dspace.nplg.gov.ge', 'GE', None, 'books newspapers directories', 'mixed',
+    'Digital collections of the National Parliamentary Library of Georgia.',
+    'Цифровые коллекции Национальной парламентской библиотеки Грузии.',
+    'Search titles and historical spellings; some collections are restricted to the library network. Inspect the page image.',
+    'Ищите по заглавию и старому написанию; часть коллекций доступна только в сети библиотеки. Проверяйте скан страницы.')
+add('polona', 'Polona — National Library of Poland', 'https://polona.pl', 'PL', None, 'books newspapers directories', 'mixed',
+    'Digital books, periodicals and other collections of the National Library of Poland and partners.',
+    'Оцифрованные книги, периодика и другие коллекции Национальной библиотеки Польши и партнёров.',
+    'Check OCR against the scan, record the edition and page; item access may depend on rights.',
+    'Сверяйте OCR со сканом, записывайте издание и страницу; доступ к предмету может зависеть от прав.')
+add('spb_archives', 'Archives of Saint Petersburg', 'https://spbarchives.ru', 'RU', None, 'catalogs church vital directories', 'mixed',
+    'Official portal of Saint Petersburg archives, fonds and archival reference services.',
+    'Официальный портал архивов Санкт-Петербурга, фондов и архивных справочных сервисов.',
+    'Identify the archive, fond, inventory and file. A catalogue entry does not guarantee free online images.',
+    'Уточните архив, фонд, опись и дело. Каталожная запись не гарантирует бесплатные сканы онлайн.')
+add('don_archives', 'Archives of the Don — Rostov region', 'https://donarch.ru', 'RU', None, 'catalogs church vital revision', 'mixed',
+    'Official Rostov-region archival portal with fonds, register references and a virtual reading room.',
+    'Официальный архивный портал Ростовской области: фонды, сведения о метриках и виртуальный читальный зал.',
+    'Check the holding archive and inventory before opening scans; do not assume all Don records are digitised.',
+    'Проверьте архив-держатель и опись перед просмотром; не считайте все документы Дона оцифрованными.')
+add('dspl', 'Don State Public Library — digital library', 'https://elib.dspl.ru', 'RU', None, 'books newspapers directories', 'mixed',
+    'Digital local-history books and periodicals of the Don State Public Library.',
+    'Электронные краеведческие книги и периодика Донской государственной публичной библиотеки.',
+    'Use the catalogue and its Vivaldi viewer; a book without searchable OCR still needs page-by-page inspection.',
+    'Используйте каталог и связанный просмотрщик Vivaldi; книгу без поиска по OCR нужно просматривать постранично.')
+add('pubmed', 'PubMed — biomedical bibliography', 'https://pubmed.ncbi.nlm.nih.gov', '*', None, 'books', 'free',
+    'Biomedical bibliographic search, useful for historical physicians and authors; full texts are not always included.',
+    'Библиографический поиск медицинских публикаций, полезный для исторических врачей и авторов; полные тексты есть не всегда.',
+    'Disambiguate authors by dates, institution and coauthors. A namesake publication does not establish kinship.',
+    'Различайте авторов по датам, учреждению и соавторам. Публикация однофамильца не устанавливает родство.')
+add('cyberleninka', 'CyberLeninka — open scholarly articles', 'https://cyberleninka.ru', 'RU', None, 'books places', 'free',
+    'Open-access scholarly articles, including local history and historical research.',
+    'Научные статьи открытого доступа, в том числе по краеведению и истории.',
+    'Use references to find originals; separate the author’s interpretation from a transcribed archival record.',
+    'По ссылкам ищите оригиналы; отделяйте интерпретацию автора от выписки из архивного документа.')
+add('rsl', 'Russian State Library — search catalogue', 'https://search.rsl.ru', 'RU', None, 'catalogs books directories newspapers', 'mixed',
+    'RSL bibliographic catalogue; an entry may link to a digital copy with its own access conditions.',
+    'Библиографический каталог РГБ; запись может вести к цифровой копии со своими условиями доступа.',
+    'Search title, author and historical place; distinguish the shelfmark, catalogue description and full-text availability.',
+    'Ищите по заглавию, автору и историческому месту; различайте шифр хранения, описание и доступ к полному тексту.')
+add('wayback', 'Wayback Machine — archived web pages', 'https://web.archive.org', '*', None, 'catalogs books places', 'free',
+    'Historical snapshots of websites, distinct from Internet Archive book full-text search.',
+    'Исторические снимки сайтов, отдельные от полнотекстового поиска по книгам Internet Archive.',
+    'Use the original URL and snapshot date. An archived page documents what was published then, not current availability.',
+    'Указывайте исходный URL и дату снимка. Архивная страница показывает прежнюю публикацию, а не нынешнюю доступность.')
+add('ukrfamily', 'UkrFamily — public archive references', 'https://ukrfamily.com.ua', 'UA', None, 'catalogs church revision', 'mixed',
+    'Public archive inventories and genealogy reference pages alongside private research services.',
+    'Публичные описи и генеалогические справочные страницы наряду с частными исследовательскими услугами.',
+    'Verify archive, fond, opis and file against the official archive; viewing a public index does not authorise ordering services.',
+    'Сверяйте архив, фонд, опис и справу с официальным архивом; просмотр индекса не разрешает заказ услуг.')
+add('uk_wikisource', 'Ukrainian Wikisource', 'https://uk.wikisource.org', 'UA', None, 'books directories catalogs', 'free',
+    'Volunteer transcriptions and digitised historical publications, sometimes linked to page scans.',
+    'Волонтёрские расшифровки и исторические издания, иногда со связанными сканами страниц.',
+    'Verify transcription against the scan and cite the original publication, volume and page.',
+    'Сверяйте расшифровку со сканом, указывайте исходное издание, том и страницу.')
+add('digibuc', 'DigiBuc — Bucharest Metropolitan Library', 'https://www.digibuc.ro', 'RO', None, 'newspapers books directories', 'mixed',
+    'Bucharest Metropolitan Library digital collections; the portal redirects to its DigiTool service.',
+    'Цифровые коллекции Столичной библиотеки Бухареста; портал перенаправляет в DigiTool.',
+    'Check the title and issue, try Romanian diacritics and OCR variants. A timeout on the legacy portal is not a negative record search.',
+    'Уточняйте издание и номер, пробуйте румынские диакритические знаки и варианты OCR. Тайм-аут старого портала не равен отрицательному поиску.')
+add('bcu_cluj', 'Lucian Blaga Central University Library Cluj — digital library', 'https://dspace.bcucluj.ro', 'RO', None, 'books newspapers directories', 'mixed',
+    'Digital books and periodicals of the Cluj university library.',
+    'Электронные книги и периодика университетской библиотеки Клужа.',
+    'Search titles and name variants; verify that the requested newspaper and year actually belong to this collection.',
+    'Ищите заглавия и варианты имени; проверяйте, есть ли нужная газета и год именно в этой коллекции.')
+add('moldavica', 'Moldavica — National Library of Moldova', 'https://moldavica.bnrm.md', 'MD', None, 'books newspapers directories', 'mixed',
+    'National Library of Moldova digital heritage collections.',
+    'Цифровые исторические коллекции Национальной библиотеки Молдовы.',
+    'Inspect scanned issues if OCR is absent; label any locally generated OCR as a derivative, not the original text.',
+    'При отсутствии OCR просматривайте сканы номеров; локальное распознавание помечайте как производный текст, а не оригинал.')
+add('arcanum', 'Arcanum Digitheca', 'https://adt.arcanum.com', 'HU RO', None, 'newspapers books directories', 'mixed',
+    'Digitised periodicals and books; access depends on the collection and subscription.',
+    'Оцифрованные периодические издания и книги; доступ зависит от коллекции и подписки.',
+    'Check the publication and access conditions. A blocked request or paywall is not evidence that a name is absent.',
+    'Проверьте издание и условия доступа. Блокировка запроса или платный доступ не доказывает отсутствие имени.')
+add('asp_moldova', 'Moldova ASP — civil-status services', 'https://www.asp.gov.md/ro/servicii/persoane-fizice/stare-civila', 'MD', None, 'vital', 'request',
+    'Official civil-status service information of Moldova’s Public Services Agency; not a public person-search database.',
+    'Официальные услуги гражданского состояния Агентства государственных услуг Молдовы; не публичная база поиска людей.',
+    'Check eligibility and required documents. Record an owner task for restricted certificates; do not submit an application automatically.',
+    'Проверьте право на получение и нужные документы. Для закрытых актов ставьте задачу владельцу; заявление автоматически не отправляйте.')
+add('patronim', 'Patronim — genealogy website directory', 'https://patronim.ru', 'RU', None, 'catalogs', 'free',
+    'Directory of genealogy and local-history websites, not an indexed person database.',
+    'Каталог генеалогических и краеведческих сайтов, а не индекс людей.',
+    'Use it to discover resources; verify each destination and do not treat directory search as a surname search in records.',
+    'Используйте для поиска ресурсов; проверяйте каждый сайт и не считайте поиск по каталогу поиском фамилии в документах.')
+add('famiry', 'Famiry — user family trees', 'https://famiry.ru', 'RU', None, 'trees', 'mixed',
+    'Family-tree service with account-dependent access; public surname articles are not individual records.',
+    'Сервис семейных деревьев с доступом через учётную запись; публичные статьи о фамилии не являются записями о человеке.',
+    'Inspect attached documents after authorised login; a blocked tree is an incomplete check, not a no-hit result.',
+    'После разрешённого входа изучайте документы; недоступное древо — незавершённая проверка, а не отсутствие совпадений.')
+add('familyspace', 'FamilySpace — genealogy community and trees', 'https://familyspace.ru', 'RU', None, 'trees', 'mixed',
+    'User-contributed genealogy service; availability and visibility require checking.',
+    'Пользовательский генеалогический сервис; доступность и видимость данных нужно проверять.',
+    'Use public material only as leads; account requirements or an unavailable site must be logged separately from no matches.',
+    'Публичные материалы используйте только как наводки; требование входа и недоступность записывайте отдельно от отсутствия находок.')
+
+for entry in S:
+    if entry['id'] == 'khmelnytsky_archive':
+        entry['availability_note'] = '2026-10-21: the former PDF URL /pdf/mbv8-b1.pdf returned a hosting suspension page. Recheck the official archive directory; this is not a completed record search.'
+        entry['availability_note_ru'] = '21.10.2026: прежний PDF /pdf/mbv8-b1.pdf вернул заглушку хостинга. Перепроверьте адрес в официальном справочнике архивов; это не выполненный поиск документов.'
+    if entry['id'] == 'wikipedia':
+        entry['how'] += ' For images use https://commons.wikimedia.org and check the license on the individual file page.'
+        entry['how_ru'] += ' Иллюстрации ищите на https://commons.wikimedia.org; лицензию проверяйте на странице конкретного файла.'
 
 out = Path(__file__).resolve().parent.parent / "src" / "genealogy_mcp" / "data" / "sources.json"
 ids = [s["id"] for s in S]

@@ -176,7 +176,7 @@ def hypothesis(child, candidates=None, lang="en"):
         who = " ".join(x for x in (c.get("given"), c.get("surname")) if x) or c.get("id", "?")
         out["lead"] = {"title": (f"Is {who} the father of {child.get('given', '')} {child.get('surname', '')}? (hypothesis: {best['level']})"
                                  if not ru else f"{who} — отец {child.get('given', '')} {child.get('surname', '')}? (гипотеза: {best['level']})").replace("  ", " "),
-                       "record": settle[0], "status": "open",
+                       "record": settle[0], "next": settle[0], "checked": None, "status": "open",
                        **({"person_id": child["id"]} if child.get("id") else {})}
     if notes:
         out["notes"] = notes

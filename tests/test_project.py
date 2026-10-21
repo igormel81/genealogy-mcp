@@ -35,7 +35,7 @@ class Project(unittest.TestCase):
         self.assertEqual((s["people"], s["families"], s["sources"]), (2, 1, 1))
         self.assertEqual(s["recent_log"][-1]["result"], "ничего")
         self.assertTrue(any("Пётр" in c["text"] for c in s["checks"]))
-        self.assertEqual(len(project.view("t", "search", query="крещ")["hits"]), 0)
+        self.assertTrue(any(x.get("result") == "запись о крещении" for x in project.view("t", "search", query="крещ")["hits"]))
         self.assertEqual(project.view("t", "search", query="Сынково")["hits"][0]["id"], "I1")
         with self.assertRaises(ValueError):
             project.upsert("t", "family", {"partners": ["I9"]})

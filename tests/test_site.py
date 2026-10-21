@@ -69,6 +69,19 @@ class SiteFolder(unittest.TestCase):
         with self.assertRaises(ValueError):
             project.import_gedcom(site, "0 HEAD\n0 TRLR\n")
 
+    def test_policy_and_structured_checks_use_site_log(self):
+        site = str(self.site)
+        project.configure(site, {'allow_archive_requests': False})
+        r = project.upsert(site, 'lead', {'title': 'Question', 'next': 'Read certificate',
+                                        'status': 'active', 'expected_sources': ['familysearch']})['saved']
+        project.log(site, 'FamilySearch search', 'No matching record', lead_id=r['id'],
+                    source_id='familysearch', outcome='checked')
+        ctx = project.view(site, 'workflow')
+        self.assertFalse(ctx['policy']['allow_archive_requests'])
+        self.assertEqual(ctx['source_checks'][-1]['source_id'], 'familysearch')
+        project.upsert(site, 'lead', {'id': r['id'], 'stage': 'civil_registry',
+                                     'checked': '2026-10-21', 'stage_result': 'family documents examined'})
+
     def test_listed_from_env(self):
         os.environ["GENEALOGY_MCP_SITES"] = str(self.site)
         self.assertIn(str(self.site.resolve()), project.list_projects())

@@ -436,7 +436,7 @@ class GedFile:
 
 # ---------------------------------------------------------------- the project around the file
 
-LOG_KEYS = ("title", "root_person_id", "research_leads", "research_log", "corrections", "coverage")
+LOG_KEYS = ("title", "root_person_id", "research_leads", "research_log", "corrections", "coverage", "policy", "research_resources")
 
 
 def load(path):
@@ -447,7 +447,8 @@ def load(path):
     data.update({"title": extra.get("title") or g.path.stem, "created": extra.get("created", ""),
                  "root_person_id": extra.get("root_person_id") or (data["people"][0]["id"] if data["people"] else None),
                  "research_leads": extra.get("research_leads", []), "research_log": extra.get("research_log", []),
-                 "corrections": extra.get("corrections", []), "coverage": extra.get("coverage", []), "_xrefs": sorted(g.xrefs())})
+                 "corrections": extra.get("corrections", []), "coverage": extra.get("coverage", []), "policy": extra.get("policy", {}),
+                 "research_resources": extra.get("research_resources", []), "_xrefs": sorted(g.xrefs())})
     if g.readonly:
         data["_readonly"] = g.readonly
     return data
