@@ -149,7 +149,7 @@ add("metricabook", "Archive of metric books of Russia (metricabook.ru)", "https:
     "Сканы метрических книг по регионам, уездам и церквям, в основном второй половины XIX — 1910-х годов.",
     "There is no name index: find the church of the village first (the parish, not the village, is the unit), then read the years page by page. Note the archive citation printed with the scan.",
     "Поиска по именам нет: сначала найдите церковь села (единица — приход, а не село), затем читайте годы постранично. Записывайте архивный шифр, указанный при скане.")
-add("rodovod", "Rodovod", "https://rodovod.org", "* RU UA BY", (1500, 2025), "trees", "free",
+add("rodovod", "Rodovid (Родовід)", "https://ru.rodovid.org", "* RU UA BY", (1500, 2025), "trees", "free",
     "A free Russian-language shared family tree with pages per person and per surname.",
     "Бесплатное русскоязычное общее семейное древо со страницами персон и фамилий.",
     "Use it to find other researchers of the same family and their leads; many profiles cite no document — treat them as hints, never as proof.",
