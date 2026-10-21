@@ -1,10 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.7.0
 
 - Gallica OCR document search via SRU and `search_book_pages` via ContentSearch: page
   links, excerpts, publication-year filters, pagination, bounded responses, request pacing
   and an in-memory cache. Access failures are incomplete checks, never empty results.
+- Gallica live availability is unverified: the documented examples returned HTTP 403
+  locally and on GitHub. Contract tests pass; blocked live checks emit explicit warnings.
 - Read-only `project_evidence`: event-specific references, broken references and missing
   locators, prioritized by ancestor generation. A reference is not a verified fact.
 
