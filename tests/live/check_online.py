@@ -1,6 +1,7 @@
 """Live checks of the open APIs (needs the internet). Run by .github/workflows/live.yml weekly and on demand:
     python tests/live/check_online.py
-Prints a sample of every answer; exit 1 when a source returns an error or nothing for a query that must have hits."""
+Prints a sample of every answer; exit 1 when a source returns an error or nothing for a query that must have hits.
+Known runner-restricted sources report network failures as explicit warnings after the API retry is exhausted."""
 import json
 import sys
 
@@ -19,8 +20,9 @@ bad = 0
 for source, kw in CASES:
     r = online.search(source, **kw)
     ok = not r.get("error") and r.get("count", 0) > 0
-    if not ok and source in MAY_BLOCK and "may refuse" in str(r.get("error")):
+    if not ok and source in MAY_BLOCK and (r.get("error_kind") == "network" or "may refuse" in str(r.get("error"))):
         print(f"SKIP {source}: {r['error'][:60]}")
+        print(f"::warning::{source} could not be checked from this network: {r['error']}")
         continue
     bad += not ok
     print(f"{'OK  ' if ok else 'FAIL'} {source} {kw} → {r.get('error') or r.get('count')}")
