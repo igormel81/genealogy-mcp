@@ -2,12 +2,13 @@
 
     python3 tools/check_links.py [--json report.json]
 
-Exit code 1 when a site is gone (404/410, DNS failure). Timeouts and 403 from bot protection are reported
+Exit code 1 when a site is gone (404/410, DNS failure), confirmed by a second request. Timeouts and 403 from bot protection are reported
 as warnings: many archive sites refuse robots but work in a browser.
 """
 import json
 import socket
 import sys
+import time
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
@@ -19,17 +20,21 @@ UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 
 def check(url):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html,*/*"})
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return "ok", r.status
-    except urllib.error.HTTPError as e:
-        return ("dead" if e.code in (404, 410) else "warn"), e.code
-    except urllib.error.URLError as e:
-        if isinstance(e.reason, socket.gaierror):
-            return "dead", "dns"
-        return "warn", str(e.reason)[:80]
-    except (TimeoutError, OSError) as e:
-        return "warn", str(e)[:80]
+    for attempt in range(2):
+        retry = True
+        try:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return "ok", r.status
+        except urllib.error.HTTPError as e:
+            result = ("dead" if e.code in (404, 410) else "warn"), e.code
+            retry = e.code in (404, 410, 408, 429, 500, 502, 503, 504)
+        except urllib.error.URLError as e:
+            result = ("dead", "dns") if isinstance(e.reason, socket.gaierror) else ("warn", str(e.reason)[:80])
+        except (TimeoutError, OSError) as e:
+            result = "warn", str(e)[:80]
+        if attempt or not retry:
+            return result
+        time.sleep(1)
 
 
 def _filled(tpl):

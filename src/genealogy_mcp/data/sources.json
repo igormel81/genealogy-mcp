@@ -557,8 +557,8 @@
  },
  {
   "id": "rodovod",
-  "name": "Rodovod",
-  "url": "https://rodovod.org",
+  "name": "Rodovid (Родовід)",
+  "url": "https://ru.rodovid.org",
   "countries": [
    "*",
    "RU",

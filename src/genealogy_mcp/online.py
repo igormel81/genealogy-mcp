@@ -6,6 +6,7 @@ access): for them the server builds links (search_links) and the user searches i
 """
 import json
 import re
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -21,8 +22,16 @@ def _get(url, params=None, data=None):
         url += ("&" if "?" in url else "?") + urllib.parse.urlencode({k: v for k, v in params.items() if v not in (None, "")}, doseq=True)
     body = urllib.parse.urlencode(data).encode() if data else None
     req = urllib.request.Request(url, data=body, headers={"User-Agent": UA, "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
-        return json.loads(r.read().decode("utf-8", errors="replace"))
+    # These are read-only search queries. Retry one transient network failure;
+    # missing endpoints and malformed responses must still reach the caller.
+    for attempt in range(2):
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+                return json.loads(r.read().decode("utf-8", errors="replace"))
+        except (urllib.error.URLError, TimeoutError, OSError) as error:
+            if attempt or (isinstance(error, urllib.error.HTTPError) and error.code not in (408, 429, 500, 502, 503, 504)):
+                raise
+            time.sleep(1)
 
 
 def _q(*parts):
