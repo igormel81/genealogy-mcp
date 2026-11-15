@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.igormel81/genealogy-mcp",
   "title": "Genealogy research toolkit",
-  "description": "Family history: 171 sources, book search, calendars, kinship, event evidence and research projects",
+  "description": "Family history: 179 sources, book search, calendars, kinship, event evidence and research projects",
   "websiteUrl": "https://github.com/igormel81/genealogy-mcp",
   "repository": {
     "url": "https://github.com/igormel81/genealogy-mcp",

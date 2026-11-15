@@ -127,8 +127,8 @@ add("obd_memorial", "OBD Memorial", "https://obd-memorial.ru", "RU UA BY MD *", 
 add("gwar", "Heroes of the Great War 1914–1918", "https://gwar.mil.ru", "RU UA BY PL LT", (1914, 1918), "military", "free",
     "First World War records of the Russian army: casualty lists, hospitals, prisoners of war, awards.",
     "Первая мировая: списки потерь, госпитали, военнопленные, награды русской армии.",
-    "Search is capricious: try without the patronymic, by year and by province; the home volost in the card is the best clue.",
-    "Поиск капризен: пробуйте без отчества, по году и губернии; волость в карточке — лучшая зацепка.")
+    "Search is capricious: try without the patronymic, by year and by province; the home volost in the card is the best clue. The site uses the Russian Trusted Root CA (Ministry of Digital Development): give scripts that bundle, never disable TLS checks. Scans (/cdn/imagesfww/…) load with the same request the card page makes (with its cookies); HTTP 503 'technical works' means unavailable, not 'not found'. In casualty lists check the column header after the rank: it is often the company number, not the age.",
+    "Поиск капризен: пробуйте без отчества, по году и губернии; волость в карточке — лучшая зацепка. Сайт использует сертификат Минцифры (Russian Trusted Root CA): для скриптов — его бандл, проверку TLS не отключать. Сканы (/cdn/imagesfww/…) отдаются тем же запросом, что делает страница карточки (с её cookie); HTTP 503 «технические работы» — недоступно, а не «не найдено». В списках потерь у графы после звания проверяйте заголовок: это часто «№ роты», а не возраст.")
 add("openlist", "Open List", "https://ru.openlist.wiki", "RU UA BY *", (1917, 1991), "repression", "free",
     "An open wiki of victims of political repression in the USSR, compiled from regional books of memory.",
     "Открытая вики-база жертв политических репрессий в СССР, собранная из региональных книг памяти.",
@@ -236,6 +236,43 @@ add("garf", "State Archive of the Russian Federation (GARF)", "https://statearch
     "Документы эмиграции, советских учреждений и полиции Российской империи.",
     "Useful for emigrants after 1917 and for political cases before 1917.",
     "Полезен для эмигрантов после 1917 г. и политических дел до 1917 г.")
+add("gato_tver", "Tver regional archives portal (GATO) — paid image access", "https://archives.tverreg.ru", "RU", (1700, 1920),
+    "church revision confession census catalogs", "paid",
+    "Catalogue of the Tver archives with paid daily access to scans: parish registers (f. 160, op. 15) and revision lists (f. 312, op. 6) of Tver province.",
+    "Каталог архивов Тверской области с платным суточным доступом к сканам: метрические книги (ф. 160, оп. 15) и ревизские сказки (ф. 312, оп. 6) Тверской губернии.",
+    "The list of digitised files (paid_access/gato_documents) shows only files with images. Access is paid per archive per day; frame numbers differ from folio numbers. If the viewer is blank or says 'no access' while the account shows paid time, it is a portal fault — record it as unavailable.",
+    "Перечень оцифрованного (paid_access/gato_documents) показывает только дела с образами. Доступ оплачивается по архиву за сутки; номера кадров и листов различаются. Если просмотрщик пуст или пишет «Нет доступа», а в кабинете доступ оплачен — это сбой портала: записать «недоступно».")
+add("krasarh", "State Archive of Krasnoyarsk Krai — catalogue and remote access", "https://catalog.krasarh.ru", "RU", (1800, 1991),
+    "church revision catalogs deportation", "paid",
+    "Catalogue of the Krasnoyarsk archive (Yenisei province) with a remote-access system: scans through a personal account.",
+    "Каталог Государственного архива Красноярского края (Енисейская губерния) с системой удалённого доступа: образы через личный кабинет.",
+    "Metric books are in f. 60, registry books of churches 1871–1931 in f. R-2453. Long result lists may be cut at 100 rows — split by years or title words.",
+    "Метрические книги — ф. 60, книги церквей в фонде ЗАГС 1871–1931 — ф. Р-2453. Длинная выдача обрезается примерно на 100 строках — дробите по годам или словам заголовка.")
+add("kuban_archives", "Krasnodar Krai State Archive (GAKK) — KAISA catalogue and remote viewing", "https://krdar.kaisa.ru", "RU", (1790, 1991),
+    "church revision military catalogs", "paid",
+    "Catalogue of the Krasnodar archive with name indexes to parish registers; scans are viewed remotely through kubanarchives.ru (paid by 3-hour periods).",
+    "Каталог Крайгосархива Краснодарского края с именными указателями к метрическим книгам; образы смотрят удалённо через kubanarchives.ru (платно, периодами по 3 часа).",
+    "Parish registers of the Kuban are f. 801 (by church and year); look the file up in the inventory first, then open it remotely or order a copy.",
+    "Метрические книги Кубани — ф. 801 (по церквям и годам); сначала найдите дело в описи, потом откройте удалённо или закажите копию.")
+add("kubangenealogy", "Kuban Genealogy — databases (A. Gorbonosov)", "https://kubangenealogy.ucoz.ru/index/bazy_dannykh/0-23", "RU", (1790, 1940),
+    "military directories emigration catalogs", "free",
+    "Free Excel databases compiled from GAKK files: residents of Kuban and the Black Sea province (400 000+ rows), settlers enrolled into the Kuban Cossack Host, residents of Yekaterinodar, Temryuk, Yeysk, Anapa, Maykop, Novorossiysk, conscripts, service records.",
+    "Бесплатные Excel-базы по документам ГАКК: жители Кубанской области и Черноморской губернии (более 400 тыс. строк), переселенцы в Кубанское войско, жители Екатеринодара, Темрюка, Ейска, Анапы, Майкопа, Новороссийска, призывники, послужные списки.",
+    "Rows give surname, name, place and year of the document only; the file reference is given by the compiler on request. Search the surname column only (the place column is also a stanitsa name, e.g. Gubskaya). A row is a lead to a file, not a fact.",
+    "В строке только фамилия, имя, место и год документа; шифр дела составитель сообщает по запросу. Ищите только по столбцу фамилии (в столбце места тоже фамилии станиц, например Губская). Строка — наводка на дело, а не факт.")
+add("kursk_archive", "State Archive of Kursk Region — EAIS", "https://archive.rkursk.ru", "RU", (1700, 1991),
+    "church revision vital catalogs", "mixed",
+    "Kursk regional archive: published inventories of pre-revolutionary fonds (f. 184 revision lists, f. 217 parish registers) and an electronic system (kga.rkursk.ru) with remote access to some files.",
+    "Госархив Курской области: опубликованные описи дореволюционных фондов (ф. 184 — ревизские сказки, ф. 217 — метрики) и электронная система (kga.rkursk.ru) с удалённым доступом к части дел.",
+    "Find the volost or village in the inventory titles first; files are arranged by district and estate, not by name.",
+    "Сначала найдите волость или село в заголовках описи; дела разложены по уездам и сословиям, а не по фамилиям.")
+add("belarchive", "State Archive of Belgorod Region (GABO)", "https://belarchive.ru", "RU", (1718, 1925),
+    "church revision catalogs", "request",
+    "Parish registers of the Belgorod area (parts of Kursk and Voronezh provinces), 1753–1925; inventories of church fonds as PDF.",
+    "Метрические книги белгородских земель (части Курской и Воронежской губерний) 1753–1925; описи церковных фондов в PDF.",
+    "Images are viewed only in the reading room (Elar system); remotely — by request with name, place and year.",
+    "Образы — только в читальном зале (АИС «Элар»); удалённо — запросом с ФИО, местом и годом.")
+
 # ---------- Ukraine, Belarus, Moldova, Romania, Poland, Baltics
 add("archives_ua", "State Archival Service of Ukraine", "https://archives.gov.ua", "UA", (1700, 1991), "church census catalogs", "mixed",
     "Portal of Ukrainian state archives; many regional archives publish scans of parish registers and revision lists.",
@@ -314,6 +351,19 @@ add("ra_ee", "National Archives of Estonia", "https://www.ra.ee", "EE", (1700, 1
     "Оцифрованные церковные книги, ревизии и другие документы Эстонии.",
     "Use the archive's information system to browse by parish.",
     "Листайте по приходам в информационной системе архива.")
+add("dapo_poltava", "State Archive of Poltava Region (DAPO) — e-resource and FamilySearch tables", "https://e-resource.poltava.archives.gov.ua", "UA", (1740, 2023),
+    "church vital census revision catalogs", "mixed",
+    "Catalogue of the Poltava archive; its parish registers (f. 1011) are filmed by FamilySearch, and the archive publishes Excel tables matching film numbers (DGS) to fond-opis-file.",
+    "Каталог Госархива Полтавской области; метрики (ф. 1011) сняты FamilySearch, а архив публикует Excel-таблицы соответствия номеров плёнок (DGS) шифрам фонд-опись-дело.",
+    "Find the parish in the archive's 2019 catalogue of metric books, take its file number, map it to a DGS through the tables and read the film; later inventories (f. 1011, op. 6–17) are not in the catalogue — read file covers. Civil registers: f. R-9126, partly on Wikisource/Commons.",
+    "Найдите приход в каталоге метрических книг ДАПО 2019 г., возьмите номер дела, по таблицам найдите DGS и читайте плёнку; поздних описей (ф. 1011, оп. 6–17) в каталоге нет — смотрите обложки дел. Книги ЗАГС: ф. Р-9126, частично на Вікіджерелах/Commons.")
+add("daso_sumy", "State Archive of Sumy Region (DASO) — e-archive of metric books", "https://daso.archives.gov.ua", "UA", (1740, 1920),
+    "church confession catalogs", "free",
+    "Metric books and confession lists of Sumy region, including parishes of the former Poltava province (Romny spiritual board, f. 960).",
+    "Метрические книги и исповедные ведомости Сумщины, в том числе приходов бывшей Полтавской губернии (Роменское духовное правление, ф. 960).",
+    "Section 'Документи on-line' → 'Е-архів' → 'Метричні книги'. May answer HTTP 403 from abroad or to scripts — then unavailable, not empty.",
+    "Раздел «Документи on-line» → «Е-архів» → «Метричні книги». Из-за рубежа или скрипту может отвечать 403 — тогда «недоступно», а не «пусто».")
+
 # ---------- Ireland, UK, USA, Germany
 add("nli_registers", "Catholic parish registers of Ireland (NLI)", "https://registers.nli.ie", "IE GB", (1740, 1880), "church", "free",
     "Microfilmed Catholic baptism and marriage registers, mostly up to 1880, by parish.",
