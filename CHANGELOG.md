@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.1
 
 - Catalogue: 8 new sources — Tver archives portal (GATO, paid image access), Krasnoyarsk archive remote access,
   Krasnodar archive (KAISA name indexes, remote viewing), Kuban Genealogy free databases, Kursk archive EAIS,
