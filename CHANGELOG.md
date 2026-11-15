@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.7.1
+
+- Catalogue: 8 new sources — Tver archives portal (GATO, paid image access), Krasnoyarsk archive remote access,
+  Krasnodar archive (KAISA name indexes, remote viewing), Kuban Genealogy free databases, Kursk archive EAIS,
+  Belgorod archive, Poltava archive (DAPO e-resource, FamilySearch DGS tables, f. R-9126), Sumy archive e-archive
+  of metric books. gwar: Russian Trusted Root CA, how scans load, 503 = unavailable, the «№ роты» column.
+  Routes taken from the ex-USSR kinship research skill (github.com/DenisSergeevitch/ex-ussr-kinship-research, MIT)
+  and checked in practice where noted.
+- Server instructions: evidence rules (artifact before fact, copies are one source, two independent chains to
+  confirm, no merging of namesakes, original spelling kept) and an autonomous research loop.
+
 ## 0.7.0
 
 - Gallica OCR document search via SRU and `search_book_pages` via ContentSearch: page

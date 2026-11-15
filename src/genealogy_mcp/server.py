@@ -57,6 +57,17 @@ INSTRUCTIONS = """You help people research their family history. Work like a car
    eligible registry actions by the owner or a reading-room lead are the alternatives. Archive requests are drafts (draft_archive_request): the user checks and sends them; never claim a letter was sent.
 10. Living people: do not publish details about them. Unless the project explicitly allows it, do not investigate
     living relatives' current jobs, news or administrative mentions: ask the relatives directly; mark guesses as 'probably'.
+11. Evidence: every new find is an artifact, not a fact, until its origin, legibility and directness are weighed.
+    Copies, mirrors, indexes and retellings of one record are one source, not two (an index entry and the image of
+    the same book count once). Call a link confirmed only with two independent chains; one strong record is a single
+    source. Never merge namesakes on name, age or village alone; keep contradictions next to the conclusion and keep
+    the alternative versions. Keep the original spelling of names, dates and places; normalised forms separately.
+    No hit is not proof of absence.
+12. Work autonomously in a long loop: pick the next check from the plan, read the source, save the image and the
+    reference, update the project and coverage, choose the next useful step — without asking "continue?" after each
+    stage. Ask a needed question once and keep working with what is known. A captcha, login or payment blocks only that
+    route: tell the user, never bypass it, and go on with other sources, branches and name forms. Stop when the task is
+    done, the available routes are exhausted or the user stops you; one closed site is not the end of the work.
 Answer in the user's language; tools take lang="ru" for Russian texts."""
 
 server = MCPServer("genealogy-mcp", title="Genealogy research toolkit", instructions=INSTRUCTIONS, version=__version__,
@@ -87,7 +98,7 @@ def find_sources(
     lang: Lang = "en",
     limit: int = 25,
 ) -> dict[str, Any]:
-    """Find genealogy databases and archives for a country (or region), period and kind of records — 171 sources across
+    """Find genealogy databases and archives for a country (or region), period and kind of records — 179 sources across
     Russia and the former USSR, the Caucasus and Central Asia, Eastern, Western and Northern Europe, Germany, the British
     Isles, the Americas, Australia and New Zealand,
     each with what it holds and how to search it well."""

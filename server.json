@@ -2,19 +2,19 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.igormel81/genealogy-mcp",
   "title": "Genealogy research toolkit",
-  "description": "Family history: 171 sources, book search, calendars, kinship, event evidence and research projects",
+  "description": "Family history: 179 sources, book search, calendars, kinship, event evidence and research projects",
   "websiteUrl": "https://github.com/igormel81/genealogy-mcp",
   "repository": {
     "url": "https://github.com/igormel81/genealogy-mcp",
     "source": "github"
   },
-  "version": "0.7.0",
+  "version": "0.7.1",
   "packages": [
     {
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "genealogy-mcp",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "runtimeHint": "uvx",
       "transport": {
         "type": "stdio"
